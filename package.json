@@ -1,0 +1,46 @@
+{
+  "name": "priniti-foods-website",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Priniti Foods WordPress/WooCommerce theme, companion plugin and catalog import tools. The design source of truth lives in reference/nextjs.",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "npm run build:icons && npm run build:fonts && npm run build:css && npm run build:js",
+    "build:css": "tailwindcss -i theme/priniti/assets/src/css/app.css -o theme/priniti/assets/dist/app.css --minify",
+    "build:js": "vite build",
+    "build:icons": "node scripts/build-icons.mjs",
+    "build:fonts": "node scripts/build-fonts.mjs",
+    "watch:css": "tailwindcss -i theme/priniti/assets/src/css/app.css -o theme/priniti/assets/dist/app.css --watch",
+    "watch:js": "vite build --watch",
+    "typecheck": "tsc --noEmit",
+    "lint:php": "node scripts/lint-php.mjs",
+    "package": "node scripts/package.mjs",
+    "verify": "npm run typecheck && npm run lint:php && npm run build",
+    "export:data": "tsx scripts/export-reference-data.ts",
+    "import:plan": "NODE_USE_ENV_PROXY=1 tsx tools/import/src/cli.ts plan",
+    "import:apply": "NODE_USE_ENV_PROXY=1 tsx tools/import/src/cli.ts apply"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.469.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.3.0",
+    "zustand": "^5.0.0"
+  },
+  "devDependencies": {
+    "@fontsource/inter": "^5.2.0",
+    "@fontsource/poppins": "^5.2.0",
+    "@tailwindcss/cli": "^4.1.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "lucide-static": "^0.469.0",
+    "tailwindcss": "^4.1.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vite": "^7.0.0"
+  }
+}

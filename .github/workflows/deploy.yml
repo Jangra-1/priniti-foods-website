@@ -1,0 +1,57 @@
+name: Build deploy branches
+
+# Builds the theme and plugin and publishes them, ready to run, to two branches that Hostinger's Git
+# deployment pulls from (see docs/DEPLOYMENT.md):
+#   deploy/theme-priniti        -> wp-content/themes/priniti
+#   deploy/plugin-priniti-core  -> wp-content/plugins/priniti-core
+# These branches contain built files only (no sources, no credentials). This workflow never contacts
+# WordPress or Hostinger; whether and when the live site pulls a branch is configured in hPanel.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-branches
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          coverage: none
+      - run: npm ci
+      - run: npm run verify
+      - run: npm run package
+      - name: Publish deploy branches
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          publish() {
+            local dir="$1" branch="$2"
+            (
+              cd "$dir"
+              git init -q
+              git checkout -q -b "$branch"
+              git add -A
+              git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+                commit -q -m "Build of ${GITHUB_SHA::7} from ${GITHUB_REF_NAME}"
+              git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$branch"
+            )
+            echo "Published $dir -> $branch"
+          }
+          publish build/theme/priniti deploy/theme-priniti
+          publish build/plugin/priniti-core deploy/plugin-priniti-core
