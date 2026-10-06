@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+/*
+ * DESIGN TOKENS
+ * Components only use these semantic names, so this block is the only place to change colours.
+ */
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+
+  /* Priniti brand colours, sampled from the original logo (CorelDRAW file). Confirm CMYK/Pantone with the brand team. */
+  --color-brand: #e30016; /* Priniti red */
+  --color-brand-dark: #ae0b14;
+  --color-brand-tint: #fdeaec;
+  --color-navy: #102a83; /* Priniti navy */
+  --color-navy-dark: #0b1d5e;
+  --color-navy-tint: #eaeefa;
+  --color-leaf: #009035; /* supporting green */
+  --color-leaf-tint: #e3f4ea;
+  --color-lime: #b1c900; /* supporting lime */
+  --color-lime-tint: #f3f8d2;
+  --color-canvas: #f7f8fb;
+  --color-surface: #ffffff;
+  --color-ink: #151a2e;
+  --color-ink-soft: #4f566b;
+  --color-line: #e2e5ee;
+  --color-blush: #fff5f3; /* warm tint used behind packs and hero/newsletter */
+
+  --radius-card: 1.25rem;
+  --shadow-card: 0 1px 2px rgb(21 26 46 / 0.05), 0 10px 24px -14px rgb(21 26 46 / 0.18);
+  --shadow-soft: 0 1px 2px rgb(21 26 46 / 0.04), 0 10px 30px -12px rgb(21 26 46 / 0.16);
+  --shadow-lift: 0 2px 4px rgb(21 26 46 / 0.06), 0 18px 36px -16px rgb(21 26 46 / 0.28);
+
+  --animate-drawer-right: drawer-right 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-drawer-left: drawer-left 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-sheet-up: sheet-up 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-pop: pop 200ms ease-out;
+  --animate-toast-in: toast-in 220ms ease-out;
+  --animate-rise: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes drawer-right { from { transform: translateX(100%); } to { transform: none; } }
+  @keyframes drawer-left { from { transform: translateX(-100%); } to { transform: none; } }
+  @keyframes sheet-up { from { transform: translateY(100%); } to { transform: none; } }
+  @keyframes pop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { overflow-x: clip; background: var(--color-canvas); color: var(--color-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.01em; }
+  :focus-visible { outline: 2px solid var(--color-brand); outline-offset: 2px; }
+  body:has(dialog[open]) { overflow: hidden; }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

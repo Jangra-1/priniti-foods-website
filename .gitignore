@@ -1,0 +1,22 @@
+# Dependencies and build output
+node_modules/
+theme/priniti/assets/dist/
+build/
+*.zip
+
+# Local environment and credentials: NEVER commit these
+.env
+.env.*
+!.env.example
+auth.json
+*.pem
+*.key
+
+# Local WordPress preview (tools/dev)
+.wp-local/
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.log
