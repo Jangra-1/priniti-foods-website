@@ -18,6 +18,6 @@
       "@/*": ["./reference/nextjs/*"]
     }
   },
-  "include": ["theme/priniti/assets/src/js/**/*", "tools/import/src/**/*", "vite.config.ts"],
+  "include": ["theme/priniti/assets/src/js/**/*", "tools/import/src/**/*", "scripts/**/*.ts", "vite.config.ts"],
   "exclude": ["node_modules", "reference"]
 }

@@ -12,12 +12,89 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Joins truthy class names (clsx equivalent).
+ * Conflict group of one Tailwind class (a small subset of tailwind-merge's rules, enough for this design system).
+ */
+function priniti_tw_group( string $token ): string {
+	$depth   = 0;
+	$cut     = -1;
+	$len     = strlen( $token );
+	for ( $i = 0; $i < $len; $i++ ) {
+		$c = $token[ $i ];
+		if ( '[' === $c ) {
+			++$depth;
+		} elseif ( ']' === $c ) {
+			--$depth;
+		} elseif ( ':' === $c && 0 === $depth ) {
+			$cut = $i;
+		}
+	}
+	$variant = $cut >= 0 ? substr( $token, 0, $cut + 1 ) : '';
+	$base    = ltrim( substr( $token, $cut + 1 ), '!-' );
+
+	static $display = array( 'block', 'inline-block', 'inline', 'flex', 'inline-flex', 'grid', 'inline-grid', 'hidden', 'contents', 'table' );
+	static $position = array( 'static', 'fixed', 'absolute', 'relative', 'sticky' );
+	if ( in_array( $base, $display, true ) ) {
+		return $variant . 'display';
+	}
+	if ( in_array( $base, $position, true ) ) {
+		return $variant . 'position';
+	}
+
+	$rules = array(
+		'/^text-(xs|sm|base|lg|[0-9]?xl|\\[[0-9.]+(px|rem|em)\\])$/' => 'text-size',
+		'/^text-(left|center|right|justify|start|end)$/'               => 'text-align',
+		'/^text-(balance|pretty|wrap|nowrap)$/'                        => 'text-wrap',
+		'/^text-/'                                                     => 'text-color',
+		'/^bg-(linear|radial|conic|none|gradient)/'                    => 'bg-image',
+		'/^bg-(fixed|local|scroll|clip|origin|repeat|no-repeat|cover|contain|center|top|bottom)/' => 'bg-misc-' . $base,
+		'/^bg-/'                                                       => 'bg-color',
+		'/^border(-[0-9]+)?$/'                                         => 'border-w',
+		'/^border-(t|b|l|r|x|y)(-[0-9]+)?$/'                           => 'border-w-' . preg_replace( '/^border-([a-z]).*/', '$1', $base ),
+		'/^border-(solid|dashed|dotted|double|none)$/'                 => 'border-style',
+		'/^border-/'                                                   => 'border-color',
+		'/^ring(-[0-9]+)?$/'                                           => 'ring-w',
+		'/^ring-offset/'                                               => 'ring-offset',
+		'/^ring-/'                                                     => 'ring-color',
+		'/^font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black)$/' => 'font-weight',
+		'/^font-/'                                                     => 'font-family',
+		'/^flex-(row|col)/'                                            => 'flex-direction',
+		'/^flex-(wrap|nowrap)/'                                        => 'flex-wrap',
+		'/^flex-/'                                                     => 'flex',
+		'/^shadow/'                                                    => 'shadow',
+		'/^rounded(-[a-z0-9\\[\\].]+)?$/'                                => 'rounded',
+		'/^transition/'                                                => 'transition',
+		'/^outline-(none|hidden)$/'                                    => 'outline-style',
+	);
+	foreach ( $rules as $re => $group ) {
+		if ( preg_match( $re, $base ) ) {
+			return $variant . $group;
+		}
+	}
+
+	static $prefixes = array( 'min-h', 'min-w', 'max-h', 'max-w', 'size', 'h', 'w', 'px', 'py', 'pt', 'pb', 'pl', 'pr', 'p', 'mx', 'my', 'mt', 'mb', 'ml', 'mr', 'm', 'gap-x', 'gap-y', 'gap', 'inset-x', 'inset-y', 'inset', 'top', 'bottom', 'left', 'right', 'z', 'opacity', 'leading', 'tracking', 'items', 'justify', 'self', 'content', 'object', 'overflow-x', 'overflow-y', 'overflow', 'whitespace', 'cursor', 'select', 'decoration', 'underline-offset', 'order', 'col-span', 'grid-cols', 'grid-rows', 'aspect', 'origin', 'duration', 'ease', 'delay', 'animate', 'line-clamp', 'basis', 'grow', 'shrink', 'translate-x', 'translate-y', 'rotate', 'scale', 'accent', 'backdrop-blur', 'drop-shadow', 'outline-offset', 'outline' );
+	foreach ( $prefixes as $prefix ) {
+		if ( $base === $prefix || str_starts_with( $base, $prefix . '-' ) ) {
+			return $variant . $prefix;
+		}
+	}
+	return $variant . $base;
+}
+
+/**
+ * Joins truthy class names and resolves Tailwind conflicts, last one wins (the reference's cn(): clsx + tailwind-merge).
  *
  * @param string|false|null ...$parts Class strings; falsy values are skipped.
  */
 function priniti_cx( ...$parts ): string {
-	return trim( implode( ' ', array_filter( array_map( 'trim', array_filter( $parts, 'is_string' ) ) ) ) );
+	$tokens = preg_split( '/\s+/', trim( implode( ' ', array_filter( $parts, 'is_string' ) ) ) ) ?: array();
+	$keep   = array();
+	foreach ( $tokens as $i => $token ) {
+		if ( '' !== $token ) {
+			$keep[ priniti_tw_group( $token ) ] = array( $i, $token );
+		}
+	}
+	uasort( $keep, static fn ( $a, $b ) => $a[0] <=> $b[0] );
+	return implode( ' ', array_column( $keep, 1 ) );
 }
 
 /**

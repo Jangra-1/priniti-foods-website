@@ -18,3 +18,24 @@ export interface CartLine {
   quantity: number;
   maxQuantity: number;
 }
+
+/** Product data for the quick-view dialog (priniti_product_payload() in inc/components/commerce.php). */
+export interface QuickViewVariant {
+  id: number;
+  label: string;
+  source: string;
+  price: number | null;
+  mrp: number | null;
+  attributes: { attribute: string; value: string }[];
+  purchasable: boolean;
+}
+
+export interface QuickViewProduct {
+  id: number;
+  name: string;
+  href: string;
+  categoryName: string;
+  categoryHref: string;
+  image: { src: string; alt: string; srcset?: string } | null;
+  variants: QuickViewVariant[];
+}

@@ -57,3 +57,21 @@ Recommended: point the Git deployments at a **staging copy** first (hPanel → W
 - The deploy workflow uses GitHub's automatic `GITHUB_TOKEN` (scoped to this repository) to push the deploy branches.
 - The hPanel deploy key is read-only and is added in GitHub's settings, not in the repository.
 - The import tool authenticates through the Claude environment proxy, or through `WP_APP_USER`/`WP_APP_PASSWORD` from a gitignored `.env` when run elsewhere.
+
+## After the files are on the server: activation checklist
+
+Do these in order on staging first, then live. None of them happen automatically.
+
+1. **Activate priniti-core** (Plugins). It requires WooCommerce (already active).
+2. **Activate the priniti theme** (Appearance > Themes). On the first page load the theme registers its routes (/about, /contact, /login, /signup, /track-order, /search, the policy pages, /category/<slug>) and flushes rewrite rules by itself.
+3. **Import the catalog** (from this repository, reviewed first): `npm run import:plan`, then `PRINITI_IMPORT_ALLOW_WRITE=1 npm run import:apply -- --apply --term-meta`. Products arrive without prices ("Price coming soon").
+4. **WooCommerce settings** needed by the design (WooCommerce > Settings):
+   - General: Currency INR, **0 decimals**; store address; selling and shipping location India (priniti-core also enforces India).
+   - Products: weight unit kg.
+   - Accounts: leave guest checkout on; the theme's /signup works independently of WooCommerce's registration setting.
+   - Settings > General: timezone Asia/Kolkata.
+   - Settings > Priniti: enquiry email (defaults to the admin email).
+5. Business setup when ready (not part of this build): prices, GST tax rates (and whether prices include tax), shipping zone for India with rates, a payment gateway (test mode first). The checkout's "Checkout is not live" panel lists exactly which of these are still missing.
+6. Launch: remove the noindex (`add_filter( 'priniti_noindex', '__return_false' );`, plus the host's X-Robots-Tag), then switch the payment gateway to live.
+
+The existing Cart, Checkout and My account pages are used as they are (the theme renders them; their content does not need editing). Twenty Twenty-Five stays installed as a fallback theme.

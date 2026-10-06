@@ -1,10 +1,14 @@
 import { create } from "zustand";
+import type { QuickViewProduct } from "@theme/types";
 
-/** Port of reference/nextjs/store/ui.ts (quick view arrives with the product-card phase). */
+/** Port of reference/nextjs/store/ui.ts. */
 interface UIState {
   cartOpen: boolean;
   mobileNavOpen: boolean;
   searchOpen: boolean;
+  quickViewProduct: QuickViewProduct | null;
+  openQuickView: (product: QuickViewProduct) => void;
+  closeQuickView: () => void;
   openCart: () => void;
   closeCart: () => void;
   openMobileNav: () => void;
@@ -17,6 +21,9 @@ export const useUIStore = create<UIState>()((set) => ({
   cartOpen: false,
   mobileNavOpen: false,
   searchOpen: false,
+  quickViewProduct: null,
+  openQuickView: (product) => set({ quickViewProduct: product }),
+  closeQuickView: () => set({ quickViewProduct: null }),
   openCart: () => set({ cartOpen: true }),
   closeCart: () => set({ cartOpen: false }),
   openMobileNav: () => set({ mobileNavOpen: true }),

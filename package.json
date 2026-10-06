@@ -17,6 +17,7 @@
     "lint:php": "node scripts/lint-php.mjs",
     "package": "node scripts/package.mjs",
     "verify": "npm run typecheck && npm run lint:php && npm run build",
+    "export:data": "tsx scripts/export-reference-data.ts",
     "import:plan": "NODE_USE_ENV_PROXY=1 tsx tools/import/src/cli.ts plan",
     "import:apply": "NODE_USE_ENV_PROXY=1 tsx tools/import/src/cli.ts apply"
   },

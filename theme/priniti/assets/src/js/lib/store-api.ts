@@ -20,6 +20,7 @@ export interface StoreApiCartItem {
 
 export interface StoreApiCart {
   items: StoreApiCartItem[];
+  coupons?: { code: string; totals: { total_discount: string; total_discount_tax: string; currency_minor_unit: number } }[];
   items_count: number;
   totals: { total_items: string; total_items_tax: string; currency_minor_unit: number };
 }
@@ -62,6 +63,8 @@ export const storeApi = {
     request<StoreApiCart>("cart/add-item", { method: "POST", body }),
   updateItem: (key: string, quantity: number) => request<StoreApiCart>("cart/update-item", { method: "POST", body: { key, quantity } }),
   removeItem: (key: string) => request<StoreApiCart>("cart/remove-item", { method: "POST", body: { key } }),
+  applyCoupon: (code: string) => request<StoreApiCart>("cart/apply-coupon", { method: "POST", body: { code } }),
+  removeCoupon: (code: string) => request<StoreApiCart>("cart/remove-coupon", { method: "POST", body: { code } }),
 };
 
 /** Store API returns names and messages HTML-encoded (e.g. "Cream &#8217;n&#8217; Onion"). */

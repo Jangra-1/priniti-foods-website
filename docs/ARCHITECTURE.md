@@ -32,48 +32,69 @@ Server data reaches the islands through `window.PRINITI` (`inc/assets.php`: URLs
 
 ## Component map
 
-Status: ✅ ported in phase 1 · ⏳ later phase · ➖ replaced by WooCommerce
+Every reference component has a counterpart. ✅ ported · ➖ replaced by WooCommerce or intentionally not ported
 
-| Reference | Theme | Status |
-|---|---|---|
-| `app/layout.tsx` | `header.php`, `footer.php` | ✅ |
-| `layout/Header`, `DesktopNav`, `Logo`, `Container`, `AnnouncementBar` | `template-parts/layout/header.php`, `desktop-nav.php`, `logo.php`, `priniti_container_classes()`, `announcement-bar.php` | ✅ |
-| `layout/MobileNavigation`, `SearchModal` | islands `MobileNavigation.tsx`, `SearchModal.tsx` | ✅ |
-| `layout/Footer` | `template-parts/layout/footer.php` | ✅ |
-| `layout/PageHeader`, `Breadcrumbs`, `ui/Eyebrow` | `template-parts/layout/page-header.php`, `breadcrumbs.php`, `template-parts/ui/eyebrow.php` | ✅ |
-| `commerce/CartDrawer`, `CartItem`, `QuantitySelector`, `PriceDisplay`, `ProductImage` | islands (Store API) | ✅ |
-| `ui/Toaster` | island | ✅ |
-| `app/not-found.tsx` | `404.php` | ✅ |
-| `layout/TestPriceBanner`, `commerce/TestPriceBadge`, `data/test-prices.ts` | not ported: WooCommerce prices are real; test prices live on staging only | ➖ |
-| `sections/*` (homepage) | `front-page.php` + `template-parts/sections/*` | ⏳ homepage phase |
-| `catalog/*`, `app/shop`, `app/category/[slug]`, `app/search` | WooCommerce archive templates + URL filters | ⏳ catalog phase |
-| `commerce/ProductCard`, `ProductGrid`, `ProductCarousel`, `QuickView*`, `WishlistButton` | PHP card + islands | ⏳ catalog phase |
-| `app/product/[slug]`, `ProductGallery`, `ProductPurchasePanel`, `PackSizeSelector`, `ProductDetails` | `single-product` templates + islands | ⏳ product phase |
-| `commerce/CartView`, `OrderSummary`, `app/cart` | cart template override | ⏳ cart phase |
-| `checkout/*`, `lib/order.ts`, `types/order.ts` | WooCommerce classic checkout, template overrides | ➖/⏳ checkout phase |
-| `account/*`, `track/*` | my-account templates, login/signup pages, order tracking | ⏳ accounts phase |
-| `about/*`, `contact/*`, `legal/*`, `data/company.ts`, `data/legal.ts` | page templates (+ contact handler in priniti-core) | ⏳ content phase |
-| `components/home/*` | not ported: unused duplicates of `components/sections/*` in the reference | ➖ |
+| Reference | Theme / plugin |
+|---|---|
+| `app/layout.tsx`, `layout/*` (Header, DesktopNav, MobileNavigation, SearchModal, Footer, Logo, AnnouncementBar, PageHeader, Breadcrumbs) | `header.php`, `footer.php`, `template-parts/layout/*`, islands `MobileNavigation`, `SearchModal` ✅ |
+| `ui/*` (Button, IconButton, Badge, Eyebrow, SectionHeading, Input, Select, Textarea, Dialog, Drawer, Modal, Toaster) | `inc/components/ui.php` + islands ✅ |
+| `app/page.tsx`, `sections/*` (Hero, PackFan, CategorySection, FeaturedProducts, WhyPriniti, carousel, PromoBanner, PromoTiles, FeaturedProduct, ReviewsSection, StatsBand, BrandStory, NewsletterSignup, SocialGrid) | `front-page.php`, `inc/components/sections.php` ✅ |
+| `app/shop`, `app/category/[slug]`, `app/search`, `catalog/*` (CatalogView, CatalogToolbar, FilterSidebar, FilterFields, Pagination, CategoryBanner, CategoryCard) | `templates/shop.php`, `category.php`, `search.php`, `inc/components/catalog.php`, `assets/src/js/catalog.ts` ✅ |
+| `commerce/*` (ProductCard, ProductGrid, ProductCarousel, PriceDisplay, RatingStars, ProductImage, WishlistButton, QuickViewButton, AddToCartButton, ReviewCard) | `inc/components/commerce.php`, `assets/src/js/interactions.ts` ✅ |
+| `app/product/[slug]`, ProductGallery, ProductPurchasePanel, PackSizeSelector, QuantitySelector, ProductDetails | `templates/product.php` + `interactions.ts` ✅ |
+| QuickViewModal, CartDrawer, CartItem, CartView, OrderSummary | islands on the WooCommerce Store API ✅ |
+| `app/checkout`, CheckoutView, CheckoutForm, IntegrationStatus | WooCommerce classic checkout with `woocommerce/checkout/*` overrides; readiness panel computed from live settings ✅ |
+| `lib/order.ts`, `types/order.ts`, `store/cart.ts` (localStorage cart) | ➖ WooCommerce cart and orders |
+| `app/login`, `app/signup`, AuthShell, LoginForm, SignupForm, PasswordField, FormNotice | `templates/login.php`, `signup.php` + priniti-core accounts ✅ |
+| My Account (no reference page) | `templates/account.php`, `woocommerce/myaccount/*` in the design's style ✅ |
+| `app/track-order`, TrackOrderForm, OrderJourney, TrackHelp | `templates/track-order.php` + priniti-core tracking ✅ |
+| `app/about`, JourneyTimeline | `templates/about.php` ✅ |
+| `app/contact`, ContactCards, ReachPanel, LocationCards, ContactForm | `templates/contact.php` + priniti-core enquiries ✅ |
+| `app/{privacy-policy,terms,shipping-policy,return-policy}`, PolicyPage | `templates/policy.php` ✅ |
+| `app/not-found.tsx` | `404.php` ✅ |
+| Order received (no reference page) | `woocommerce/checkout/thankyou.php` built from the design's components ✅ |
+| TestPriceBanner, TestPriceBadge, `data/test-prices.ts` | ➖ WooCommerce prices are real |
+| `components/home/*` | ➖ unused duplicates of `components/sections/*` |
+
+## Content and data
+
+- `inc/data/*.php` are generated from `reference/nextjs/data` (`npm run export:data`; CI fails if they drift): company facts, homepage copy, merchandising slugs, legal drafts, checkout integration labels.
+- Catalog data comes from WooCommerce through `inc/catalog.php`, shaped like the reference `Product` type. Filters, sorts, search and capabilities are ported line for line from `lib/catalog.ts` / `lib/api/products.ts`.
+- Class conflicts are resolved by `priniti_cx()`, a small tailwind-merge equivalent, so component overrides behave like the reference's `cn()`.
+
+## priniti-core
+
+| Module | What it does |
+|---|---|
+| `meta-keys.php`, `product-fields.php`, `category-fields.php`, `admin.php` | The design's product fields (highlights, ingredients, nutrition, storage, shipping note, FAQs, pack size and its source, internal notes) with a "Priniti details" tab in the product editor; category flags (hide while empty, cover product); Settings > Priniti (enquiry email). |
+| `cart.php` | "Pack size" on cart lines and orders for single-size products. |
+| `checkout.php` | One "Full name" field (stored as first/last name), Indian mobile and pincode validation, India only, ship to the billing address, no order notes, 10 per line. |
+| `forms.php` | Nonce, honeypot, per-IP rate limits, post/redirect/get messages for the storefront forms. |
+| `accounts.php` | Sign in with email or mobile; sign up (WooCommerce customer with name and mobile). |
+| `contact.php`, `newsletter.php` | Enquiries stored privately and emailed; newsletter subscribers stored, with a hook for an email-marketing integration. |
+| `tracking.php` | Order lookup by order ID + billing email or mobile; Packed / Shipped / Delivered order statuses for the journey. |
 
 ## Routes
 
-The design's routes are kept. Mapping (set in WooCommerce/WordPress settings during the configuration phase, after approval):
+The design's routes are kept. Theme routes and the `/category/` base are registered by the theme itself (rewrite rules flush automatically after a deploy); nothing has to be configured in WordPress for them.
 
 | Route | WordPress |
 |---|---|
 | `/` | static front page (`front-page.php`) |
 | `/shop` | WooCommerce shop page |
-| `/category/<slug>` | `product_cat` archive (category base `category`; the blog category base moves to avoid a clash) |
+| `/category/<slug>` | `product_cat` archive (the theme sets the base to `category`; blog categories move to `/blog-category/`) |
 | `/product/<slug>` | single product (product base `product`) |
-| `/search?q=` | theme route (catalog phase) |
-| `/cart`, `/checkout` | WooCommerce pages (classic shortcodes, for template overrides) |
-| `/login`, `/signup`, `/track-order` | pages using WooCommerce account and order-tracking handlers |
-| `/about`, `/contact`, `/privacy-policy`, `/terms`, `/shipping-policy`, `/return-policy` | pages with dedicated templates |
+| `/search?q=` | theme route |
+| `/cart`, `/checkout`, `/my-account` | WooCommerce's existing pages, rendered by the theme's templates (their page content is not used, so it does not need to change) |
+| `/login`, `/signup`, `/track-order` | theme routes, handled by priniti-core |
+| `/about`, `/contact`, `/privacy-policy`, `/terms`, `/shipping-policy`, `/return-policy` | theme routes (no WordPress pages needed) |
 
 ## Data model (priniti-core)
 
 `plugin/priniti-core/includes/meta-keys.php` lists every field. Product fields mirror `reference/nextjs/types/product.ts`; `_priniti_internal_notes` is stored for the team and never rendered. Pack sizes: one verified size = simple product with `_priniti_pack_size`; two or more = variable product on the global "Pack size" attribute. Category flags (`priniti_hide_when_empty` for Combos, `priniti_origin`, `priniti_cover_product`) mirror `types/category.ts`.
 
-## Local preview
+## Local preview and verification
 
-WooCommerce cannot be downloaded in the cloud sandbox, so `tools/dev/local-preview-mu.php` (a must-use plugin, never deployed) fakes the `product_cat` taxonomy and an in-memory Store API cart. Visual parity is checked with Playwright screenshots of the reference (`next start`) and the theme at 375, 768 and 1280 px.
+WooCommerce cannot be downloaded in the cloud sandbox, so `tools/dev/local-preview-mu.php` (a must-use plugin, never deployed) feeds the reference catalog (`tools/dev/export-catalog.ts`, optionally with the reference TEST prices) through the theme's own data filters, shims the WooCommerce conditionals and provides an in-memory Store API cart. priniti-core runs for real.
+
+Checked with Playwright against the reference app (`next start`) at 375, 768 and 1280 px: every page and the priced flows (card add-to-cart, quick view, pack size and quantity, cart drawer, cart page, mobile filter sheet) match within a few tenths of a percent of pixels, except intentional copy changes where a feature is now real (e.g. the signup terms links). The WooCommerce checkout and My Account templates can only be verified on a site running WooCommerce (staging).

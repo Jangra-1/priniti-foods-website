@@ -44,13 +44,18 @@ interface CartState {
   itemCount: number;
   /** Items subtotal as WooCommerce reports it (tax included only when the store displays prices incl. tax). */
   subtotal: number;
+  /** Applied coupon codes and the discount they give (rupees). */
+  coupons: { code: string; discount: number }[];
   load: () => Promise<void>;
+  applyCoupon: (code: string) => Promise<boolean>;
+  removeCoupon: (code: string) => Promise<void>;
+  clear: () => Promise<void>;
   setQuantity: (key: string, quantity: number) => Promise<void>;
   removeItem: (key: string) => Promise<void>;
   addItem: (input: { id: number; quantity?: number; variation?: { attribute: string; value: string }[]; name?: string }) => Promise<boolean>;
 }
 
-function applyCart(cart: StoreApiCart): Pick<CartState, "status" | "lines" | "itemCount" | "subtotal"> {
+function applyCart(cart: StoreApiCart): Pick<CartState, "status" | "lines" | "itemCount" | "subtotal" | "coupons"> {
   const minor = cart.totals.currency_minor_unit;
   const items = fromMinor(cart.totals.total_items, minor);
   const tax = fromMinor(cart.totals.total_items_tax, minor);
@@ -59,6 +64,10 @@ function applyCart(cart: StoreApiCart): Pick<CartState, "status" | "lines" | "it
     lines: toLines(cart),
     itemCount: cart.items_count,
     subtotal: config.commerce.pricesIncludeTax ? items + tax : items,
+    coupons: (cart.coupons ?? []).map((c) => ({
+      code: c.code,
+      discount: fromMinor(c.totals.total_discount, c.totals.currency_minor_unit) + (config.commerce.pricesIncludeTax ? fromMinor(c.totals.total_discount_tax, c.totals.currency_minor_unit) : 0),
+    })),
   };
 }
 
@@ -69,6 +78,7 @@ export const useCartStore = create<CartState>()((set, get) => ({
   lines: [],
   itemCount: 0,
   subtotal: 0,
+  coupons: [],
 
   load: async () => {
     if (!config.storeApi.enabled) return;
@@ -106,10 +116,42 @@ export const useCartStore = create<CartState>()((set, get) => ({
     }
   },
 
+  applyCoupon: async (code) => {
+    try {
+      set(applyCart(await storeApi.applyCoupon(code)));
+      toast({ title: "Coupon applied", description: code });
+      return true;
+    } catch (error) {
+      fail(error);
+      return false;
+    }
+  },
+
+  removeCoupon: async (code) => {
+    try {
+      set(applyCart(await storeApi.removeCoupon(code)));
+    } catch (error) {
+      fail(error);
+    }
+  },
+
+  clear: async () => {
+    const previous = get().lines;
+    set({ lines: [] });
+    try {
+      let cart: StoreApiCart | null = null;
+      for (const line of previous) cart = await storeApi.removeItem(line.key);
+      if (cart) set(applyCart(cart));
+    } catch (error) {
+      set({ lines: previous });
+      fail(error);
+    }
+  },
+
   addItem: async ({ id, quantity = 1, variation, name }) => {
     try {
       set(applyCart(await storeApi.addItem({ id, quantity, variation })));
-      toast({ title: "Added to cart", description: name });
+      if (name !== undefined) toast({ title: "Added to cart", description: name });
       return true;
     } catch (error) {
       fail(error);

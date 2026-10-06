@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'PRINITI_VERSION', '0.1.0' );
+define( 'PRINITI_VERSION', '0.2.0' );
 define( 'PRINITI_DIR', get_template_directory() );
 define( 'PRINITI_URI', get_template_directory_uri() );
 
@@ -18,6 +18,13 @@ require PRINITI_DIR . '/inc/config.php';
 require PRINITI_DIR . '/inc/helpers.php';
 require PRINITI_DIR . '/inc/setup.php';
 require PRINITI_DIR . '/inc/catalog.php';
+require PRINITI_DIR . '/inc/components/ui.php';
+require PRINITI_DIR . '/inc/components/commerce.php';
+require PRINITI_DIR . '/inc/components/catalog.php';
+require PRINITI_DIR . '/inc/components/sections.php';
+require PRINITI_DIR . '/inc/components/pages.php';
+require PRINITI_DIR . '/inc/routes.php';
+require PRINITI_DIR . '/inc/seo.php';
 require PRINITI_DIR . '/inc/assets.php';
 require PRINITI_DIR . '/inc/rest.php';
 require PRINITI_DIR . '/inc/woocommerce.php';

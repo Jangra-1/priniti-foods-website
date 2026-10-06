@@ -23,6 +23,8 @@ jobs:
           coverage: none
       - run: npm ci
       - run: npm run typecheck
+      # Theme copy is generated from the reference data: fail if someone changed one without the other.
+      - run: npm run export:data && git diff --exit-code -- theme/priniti/inc/data
       - run: npm run lint:php
       - run: npm run build
       - run: npm run package

@@ -89,3 +89,83 @@
     body.admin-bar .priniti-sticky-header { top: 0; }
   }
 }
+
+/*
+ * WooCommerce markup the theme does not template itself (notices, account forms, payment methods, order details).
+ * WooCommerce's own stylesheets are disabled (inc/woocommerce.php); these rules give that markup the design's look.
+ */
+@layer components {
+  /* Notices: the design's FormNotice / alert styles */
+  .woocommerce-notices-wrapper:empty { display: none; }
+  .woocommerce-message, .woocommerce-info, .woocommerce-error, .wc-block-components-notice-banner {
+    @apply mb-4 flex list-none flex-col gap-1 rounded-xl px-4 py-3 text-sm leading-relaxed text-ink;
+  }
+  .woocommerce-message { @apply bg-leaf-tint; }
+  .woocommerce-info { @apply bg-navy-tint; }
+  .woocommerce-error { @apply border border-brand/30 bg-brand-tint; }
+  .woocommerce-message a, .woocommerce-info a, .woocommerce-error a { @apply font-semibold text-brand underline-offset-4 hover:underline; }
+  .woocommerce-message .button, .woocommerce-info .button { @apply order-last mt-1 w-fit; }
+
+  /* Form rows rendered by woocommerce_form_field() */
+  .woocommerce form .form-row { @apply mb-0; }
+  .woocommerce form .form-row label .required, .woocommerce form .form-row label .optional { @apply text-ink-soft no-underline; }
+  .woocommerce form .form-row abbr.required { @apply text-ink no-underline; text-decoration: none; }
+  .woocommerce form .form-row.woocommerce-invalid input.input-text,
+  .woocommerce form .form-row.woocommerce-invalid select { @apply border-brand; }
+  .woocommerce form .form-row .woocommerce-input-wrapper { @apply block; }
+  .woocommerce form .form-row .description { @apply mt-1 text-sm text-ink-soft; }
+  .woocommerce form .form-row input[type="hidden"] + label { display: none; }
+  .woocommerce-invalid-required-field .woocommerce-input-wrapper::after { content: none; }
+  .woocommerce form .password-input { @apply relative block; }
+  .woocommerce form .show-password-input { @apply absolute right-3 top-1/2 size-6 -translate-y-1/2 cursor-pointer; }
+
+  /* Account forms (edit address, account details, lost/reset password) */
+  .woocommerce-MyAccount-content form, .woocommerce-ResetPassword, .woocommerce-form-login {
+    @apply flex flex-col gap-4;
+  }
+  .woocommerce-MyAccount-content fieldset { @apply mt-2 flex flex-col gap-4 rounded-xl bg-canvas p-4; }
+  .woocommerce-MyAccount-content legend { @apply font-display text-base font-bold; }
+  .woocommerce-MyAccount-content h2, .woocommerce-MyAccount-content h3, .woocommerce-column__title, .woocommerce-order-details__title {
+    @apply font-display text-lg font-bold;
+  }
+  .woocommerce-MyAccount-content p { @apply text-sm leading-relaxed text-ink-soft; }
+  .woocommerce-MyAccount-content mark { @apply bg-transparent font-semibold text-ink; }
+  .woocommerce-Addresses { @apply mt-4 grid gap-4 sm:grid-cols-2; }
+  .woocommerce-Address { @apply rounded-xl bg-canvas p-4; }
+  .woocommerce-Address-title { @apply flex items-center justify-between gap-3; }
+  .woocommerce-Address-title a { @apply text-sm font-semibold text-brand; }
+  .woocommerce address { @apply mt-2 text-sm not-italic leading-relaxed text-ink-soft; }
+
+  /* Buttons WooCommerce renders itself */
+  .woocommerce .button, .woocommerce button[type="submit"]:not([class*="bg-"]), .woocommerce-Button {
+    @apply inline-flex h-11 select-none items-center justify-center gap-2 rounded-xl bg-brand px-5 text-sm font-semibold text-white transition duration-200 hover:bg-brand-dark active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  /* Tables: order details, view order */
+  .woocommerce table.shop_table { @apply mt-3 w-full border-collapse text-left text-sm; }
+  .woocommerce table.shop_table th, .woocommerce table.shop_table td { @apply border-b border-line py-2.5 pr-3 align-top; }
+  .woocommerce table.shop_table thead th { @apply font-semibold text-ink; }
+  .woocommerce table.shop_table tfoot th { @apply font-medium text-ink-soft; }
+  .woocommerce .wc-item-meta { @apply mt-1 list-none text-xs text-ink-soft; }
+  .woocommerce .wc-item-meta p { display: inline; }
+  .woocommerce-order-details, .woocommerce-customer-details { @apply mt-6; }
+
+  /* Payment methods on the checkout */
+  .wc_payment_methods { @apply list-none p-0; }
+  .wc_payment_method { @apply rounded-xl border border-line bg-canvas p-3 text-sm; }
+  .wc_payment_method > label { @apply ml-2 cursor-pointer font-semibold; }
+  .wc_payment_method > input { @apply size-4 accent-brand; }
+  .wc_payment_method img { @apply ml-2 inline h-6 w-auto; }
+  .payment_box { @apply mt-2 text-xs leading-relaxed text-ink-soft; }
+  .woocommerce-terms-and-conditions-wrapper { @apply text-xs leading-relaxed text-ink-soft; }
+  .woocommerce-terms-and-conditions-wrapper a { @apply font-semibold text-brand; }
+  .woocommerce-privacy-policy-text p { @apply text-xs text-ink-soft; }
+  .woocommerce-checkout .blockUI.blockOverlay { @apply rounded-card; }
+
+  /* Order-summary shipping row inside the <dl> */
+  .woocommerce-shipping-totals dt { @apply text-ink-soft; }
+  .woocommerce-shipping-totals .amount { @apply font-semibold tabular-nums; }
+
+  /* Screen-reader text WooCommerce uses */
+  .screen-reader-text { @apply sr-only; }
+}

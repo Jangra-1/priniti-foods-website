@@ -30,4 +30,6 @@ No credentials are stored in this repository, ever. In the Claude cloud environm
 
 ## Status
 
-Phase 1 (this commit): repository setup, reference copy, theme shell (header, desktop/mobile navigation, categories menu, search dialog, cart drawer on the WooCommerce Store API, toasts, footer, 404, generic page), plugin structure, import-tool structure, CI and deploy branches. Nothing on the live site has been changed.
+The theme and plugin implement the whole design: homepage, shop, categories, product pages (gallery, pack sizes, quantity, add to cart, buy now), search, quick view, cart drawer and cart page (WooCommerce Store API), checkout (WooCommerce classic checkout in the design), order received, My Account, login and signup (email or mobile), track order (with Packed/Shipped/Delivered statuses), about, contact (stored + emailed enquiries), newsletter, and the four policy pages, responsive from phones to desktops.
+
+Not done here (needs the live/staging site or business decisions): deployment and activation (see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)), catalog import, WooCommerce settings, prices, GST, shipping rates, payment gateway.

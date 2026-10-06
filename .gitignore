@@ -20,3 +20,4 @@ auth.json
 .idea/
 .vscode/
 *.log
+tools/dev/catalog.json

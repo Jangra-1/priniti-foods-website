@@ -50,6 +50,7 @@ function priniti_islands_config(): array {
 			'login'    => priniti_url( '/login' ),
 			'signup'   => priniti_url( '/signup' ),
 			'search'   => priniti_url( '/search' ),
+			'account'  => priniti_account_url(),
 		),
 		'nav'        => array(
 			'mobileShop' => $links( $nav['mobile']['shop'] ),
@@ -75,9 +76,25 @@ function priniti_islands_config(): array {
 			'freeShippingThreshold' => $config['commerce']['free_shipping_threshold'],
 			'maxQuantityPerLine'    => (int) $config['commerce']['max_quantity_per_line'],
 			'pricesIncludeTax'      => $wc && 'incl' === get_option( 'woocommerce_tax_display_cart' ),
+			'couponsEnabled'        => $wc && function_exists( 'wc_coupons_enabled' ) && wc_coupons_enabled() && priniti_has_coupons(),
+			'status'                => array_intersect_key(
+				function_exists( 'priniti_checkout_status' ) && $wc && class_exists( 'WooCommerce' ) ? array_column( priniti_checkout_status(), 'done', 'id' ) : array( 'shipping' => false, 'tax' => false, 'payment' => false ),
+				array_flip( array( 'shipping', 'tax', 'payment' ) )
+			),
 		),
 	);
 }
+
+/** True when at least one published coupon exists (the coupon box is only offered when it can work). */
+function priniti_has_coupons(): bool {
+	$found = get_transient( 'priniti_has_coupons' );
+	if ( false === $found ) {
+		$found = (int) ( new WP_Query( array( 'post_type' => 'shop_coupon', 'post_status' => 'publish', 'posts_per_page' => 1, 'fields' => 'ids', 'no_found_rows' => true ) ) )->post_count;
+		set_transient( 'priniti_has_coupons', $found, HOUR_IN_SECONDS );
+	}
+	return (int) $found > 0;
+}
+add_action( 'save_post_shop_coupon', static fn () => delete_transient( 'priniti_has_coupons' ) );
 
 add_action(
 	'wp_enqueue_scripts',
@@ -93,9 +110,16 @@ add_action(
 			wp_add_inline_script( 'priniti-islands', 'window.PRINITI=' . wp_json_encode( priniti_islands_config() ) . ';', 'before' );
 		}
 
-		// Classic-theme block library CSS is not needed for the storefront's own templates.
-		wp_dequeue_style( 'classic-theme-styles' );
-	}
+		// WordPress/WooCommerce block CSS is unlayered, so it would override Tailwind's layered styles (e.g. its
+		// `figure { margin-bottom: 1em }`). The design's templates never render blocks; only keep that CSS on
+		// generic pages whose content actually contains blocks.
+		if ( ! ( is_singular() && ! priniti_route() && has_blocks( get_queried_object_id() ) ) ) {
+			foreach ( array( 'wp-block-library', 'wp-block-library-theme', 'classic-theme-styles', 'global-styles', 'wc-blocks-style', 'core-block-supports' ) as $handle ) {
+				wp_dequeue_style( $handle );
+			}
+		}
+	},
+	100
 );
 
 /**

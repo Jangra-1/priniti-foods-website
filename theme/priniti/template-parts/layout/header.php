@@ -45,7 +45,7 @@ $nav = priniti_navigation();
 			<button type="button" aria-label="<?php esc_attr_e( 'Search', 'priniti' ); ?>" data-priniti-open="search" class="<?php echo esc_attr( priniti_icon_button_classes( 'size-9', 'lg:hidden' ) ); ?>">
 				<?php priniti_the_icon( 'search', 'size-[18px]' ); ?>
 			</button>
-			<a href="<?php echo esc_url( priniti_url( '/login' ) ); ?>" aria-label="<?php esc_attr_e( 'Account', 'priniti' ); ?>" class="<?php echo esc_attr( priniti_icon_button_classes( 'size-9', 'hidden sm:inline-flex' ) ); ?>">
+			<a href="<?php echo esc_url( priniti_account_url() ); ?>" aria-label="<?php esc_attr_e( 'Account', 'priniti' ); ?>" class="<?php echo esc_attr( priniti_icon_button_classes( 'size-9', 'hidden sm:inline-flex' ) ); ?>">
 				<?php priniti_the_icon( 'user', 'size-[18px]' ); ?>
 			</a>
 			<button type="button" aria-label="<?php esc_attr_e( 'Cart', 'priniti' ); ?>" data-priniti-open="cart" data-priniti-cart-button class="<?php echo esc_attr( priniti_icon_button_classes( 'size-9', '-mr-2 lg:mr-0' ) ); ?>">

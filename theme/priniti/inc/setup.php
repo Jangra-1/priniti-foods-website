@@ -16,9 +16,6 @@ add_action(
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script', 'navigation-widgets' ) );
 		add_theme_support( 'responsive-embeds' );
-
-		// The design's own styles cover blocks used in content; core block CSS is still loaded for safety.
-		add_theme_support( 'wp-block-styles' );
 	}
 );
 
@@ -80,3 +77,8 @@ add_filter(
 		return $classes;
 	}
 );
+
+/** WordPress emoji polyfill: not used by the design (saves a script and an inline style on every page). */
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
+remove_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
