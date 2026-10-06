@@ -1,5 +1,6 @@
 import { importConfig } from "./config.ts";
 import { WpError } from "./http.ts";
+import { runApply } from "./apply.ts";
 import { runPlan } from "./plan.ts";
 
 /**
@@ -8,7 +9,9 @@ import { runPlan } from "./plan.ts";
  *   npm run import:plan                 read-only: build the plan and diff it against the live store
  *   npm run import:plan -- --offline    build the plan without contacting WordPress
  *
- * `apply` is intentionally not available yet: importing requires explicit approval (see README.md).
+ *   npm run import:apply -- --apply [--draft] [--term-meta]
+ *     writes the catalog (owner-approved for the live site). Requires --apply AND PRINITI_IMPORT_ALLOW_WRITE=1.
+ *     --term-meta also writes category flags (needs the priniti-core plugin active).
  */
 const [command, ...flags] = process.argv.slice(2);
 
@@ -18,12 +21,12 @@ async function main() {
       await runPlan({ offline: flags.includes("--offline") });
       return;
     case "apply":
-      console.error(
-        importConfig.writesAllowed && flags.includes("--apply")
-          ? "apply is not implemented in this phase. Importing products requires explicit approval."
-          : "Refusing to write: apply needs --apply AND PRINITI_IMPORT_ALLOW_WRITE=1, and is not enabled in this phase.",
-      );
-      process.exitCode = 1;
+      if (!importConfig.writesAllowed || !flags.includes("--apply")) {
+        console.error("Refusing to write: apply needs --apply AND PRINITI_IMPORT_ALLOW_WRITE=1.");
+        process.exitCode = 1;
+        return;
+      }
+      await runApply({ status: flags.includes("--draft") ? "draft" : "publish", termMeta: flags.includes("--term-meta") });
       return;
     default:
       console.error("Usage: tsx tools/import/src/cli.ts plan [--offline]");

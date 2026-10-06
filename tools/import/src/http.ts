@@ -33,3 +33,29 @@ export async function wpGetAll<T>(path: string): Promise<T[]> {
   }
   return out;
 }
+
+/**
+ * Write request (POST/PUT). Only used by `apply`, which the owner approved for the live site.
+ * Same error policy as wpGet: status + WordPress code/message only.
+ */
+export async function wpSend<T>(
+  method: "POST" | "PUT",
+  path: string,
+  body: unknown,
+  opts: { raw?: { bytes: Uint8Array; contentType: string; filename: string } } = {},
+): Promise<T> {
+  const headers: Record<string, string> = { Accept: "application/json", ...authHeader() };
+  let payload: BodyInit;
+  if (opts.raw) {
+    headers["Content-Type"] = opts.raw.contentType;
+    headers["Content-Disposition"] = `attachment; filename="${opts.raw.filename}"`;
+    payload = new Blob([new Uint8Array(opts.raw.bytes)]);
+  } else {
+    headers["Content-Type"] = "application/json";
+    payload = JSON.stringify(body);
+  }
+  const res = await fetch(`${importConfig.baseUrl}/wp-json${path}`, { method, headers, body: payload });
+  const data = await res.json().catch(() => null);
+  if (!res.ok) throw new WpError(res.status, data?.code ?? "unknown", data?.message ?? res.statusText);
+  return data as T;
+}
