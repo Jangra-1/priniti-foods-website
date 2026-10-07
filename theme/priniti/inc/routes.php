@@ -2,7 +2,7 @@
 /**
  * Routes: keeps the design's URLs (reference/nextjs/app/*) and picks the template for each.
  *
- * - Content routes (/about, /contact, /login, /signup, /track-order, /search and the four policy pages) are
+ * - Content routes (/about, /contact, /login, /signup, /track-order, /search and the five policy pages) are
  *   theme routes, so no WordPress pages have to be created for them.
  * - Product categories live at /category/<slug> (the blog's category base moves to /blog-category/).
  * - /shop, /product/<slug>, /cart, /checkout and /my-account are WooCommerce's own pages, rendered with
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const PRINITI_REWRITE_VERSION = '2';
+const PRINITI_REWRITE_VERSION = '3';
 
 /**
  * Theme routes: slug => template file in templates/.
@@ -30,10 +30,23 @@ function priniti_routes(): array {
 		'signup'          => 'signup',
 		'track-order'     => 'track-order',
 		'search'          => 'search',
-		'privacy-policy'  => 'policy',
-		'terms'           => 'policy',
-		'shipping-policy' => 'policy',
-		'return-policy'   => 'policy',
+		'privacy-policy'       => 'policy',
+		'terms-and-conditions' => 'policy',
+		'shipping-policy'      => 'policy',
+		'return-refund-policy' => 'policy',
+		'cookie-policy'        => 'policy',
+	);
+}
+
+/**
+ * Former policy URLs, permanently redirected to their canonical routes.
+ *
+ * @return array<string, string>
+ */
+function priniti_route_aliases(): array {
+	return array(
+		'terms'         => '/terms-and-conditions',
+		'return-policy' => '/return-refund-policy',
 	);
 }
 
@@ -54,7 +67,7 @@ add_filter(
 add_action(
 	'init',
 	static function (): void {
-		foreach ( array_keys( priniti_routes() ) as $slug ) {
+		foreach ( array_merge( array_keys( priniti_routes() ), array_keys( priniti_route_aliases() ) ) as $slug ) {
 			add_rewrite_rule( '^' . preg_quote( $slug, '/' ) . '/?$', 'index.php?priniti_route=' . $slug, 'top' );
 		}
 	}
@@ -155,7 +168,8 @@ add_filter(
 );
 
 /**
- * Redirects: WordPress search goes to the design's /search; signed-in visitors skip /login and /signup;
+ * Redirects: former policy URLs go to their canonical routes; WordPress search goes to the design's /search;
+ * signed-in visitors skip /login and /signup;
  * signed-out visitors opening My Account land on /login.
  */
 add_action(
@@ -163,6 +177,11 @@ add_action(
 	static function (): void {
 		if ( is_search() && ! is_admin() ) {
 			wp_safe_redirect( add_query_arg( 'q', rawurlencode( get_search_query( false ) ), priniti_url( '/search' ) ) );
+			exit;
+		}
+		$alias = priniti_route_aliases()[ (string) get_query_var( 'priniti_route' ) ] ?? '';
+		if ( $alias ) {
+			wp_safe_redirect( priniti_url( $alias ), 301 );
 			exit;
 		}
 		$route = priniti_route();
@@ -314,6 +333,11 @@ add_action(
 		$meta = priniti_page_meta();
 		if ( $meta['description'] ) {
 			printf( '<meta name="description" content="%s">' . "\n", esc_attr( $meta['description'] ) );
+		}
+		// Policy pages: one canonical URL each (the former /terms and /return-policy redirect here).
+		$route = priniti_route();
+		if ( $route && 'policy' === priniti_routes()[ $route ] ) {
+			printf( '<link rel="canonical" href="%s">' . "\n", esc_url( priniti_url( '/' . $route ) ) );
 		}
 	},
 	3

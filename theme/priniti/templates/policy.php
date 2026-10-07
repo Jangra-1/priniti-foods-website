@@ -1,7 +1,7 @@
 <?php
 /**
- * /privacy-policy, /terms, /shipping-policy, /return-policy (reference/nextjs/components/legal/PolicyPage.tsx).
- * Text comes from inc/data/legal.php (generated from data/legal.ts: DRAFT, for business and legal review).
+ * /privacy-policy, /terms-and-conditions, /shipping-policy, /return-refund-policy and /cookie-policy
+ * (reference/nextjs/components/legal/PolicyPage.tsx). Text comes from inc/data/legal.php (generated from data/legal.ts).
  *
  * @package Priniti
  */
@@ -14,12 +14,7 @@ $policy  = $legal['policies'][ $slug ];
 $meta    = $legal['meta'];
 $company = priniti_data( 'company' );
 $care    = $company['contact']['customerCare'];
-$related = array(
-	'privacy-policy'  => 'Privacy Policy',
-	'terms'           => 'Terms & Conditions',
-	'shipping-policy' => 'Shipping Policy',
-	'return-policy'   => 'Returns & Refund Policy',
-);
+$related = array_map( static fn ( array $p ): string => $p['title'], $legal['policies'] );
 
 $toc = static function () use ( $policy ): void {
 	echo '<ol class="flex flex-col gap-1 text-sm">';
@@ -41,13 +36,10 @@ get_header();
 		<?php priniti_eyebrow( 'Priniti Foods', 'mb-2' ); ?>
 		<h1 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl"><?php echo esc_html( $policy['title'] ); ?></h1>
 		<p class="mt-2 max-w-2xl text-base leading-relaxed text-ink-soft"><?php echo esc_html( $policy['summary'] ); ?></p>
-		<div class="mt-4">
-			<ul role="list" class="flex flex-wrap gap-2 text-xs font-semibold">
-				<li class="rounded-full bg-lime-tint px-3 py-1 text-ink"><?php echo esc_html( $meta['draftNote'] ); ?></li>
-				<li class="rounded-full bg-surface px-3 py-1 text-ink-soft ring-1 ring-line"><?php echo esc_html( 'Last updated: ' . $meta['lastUpdated'] ); ?></li>
-				<li class="rounded-full bg-surface px-3 py-1 text-ink-soft ring-1 ring-line"><?php echo esc_html( $policy['status'] ); ?></li>
-			</ul>
-		</div>
+		<p class="mt-4 inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1 text-xs font-semibold text-ink-soft ring-1 ring-line">
+			<?php priniti_the_icon( 'badge-check', 'size-3.5 text-brand' ); ?>
+			<?php echo esc_html( 'Last updated: ' . $meta['lastUpdated'] ); ?>
+		</p>
 	<?php priniti_container_close(); ?>
 </section>
 
@@ -81,12 +73,6 @@ get_header();
 								<?php priniti_policy_prose( $sub['paragraphs'] ?? array(), $sub['bullets'] ?? array() ); ?>
 							</div>
 						<?php endforeach; ?>
-						<?php if ( ! empty( $s['pending'] ) ) : ?>
-							<p class="flex items-start gap-2.5 rounded-xl border-l-4 border-lime bg-lime-tint px-4 py-3 text-sm leading-relaxed text-ink">
-								<?php priniti_the_icon( 'info', 'mt-0.5 size-4 shrink-0 text-ink-soft' ); ?>
-								<span><strong class="font-semibold"><?php echo esc_html( $meta['pendingLabel'] . '.' ); ?></strong> <?php echo esc_html( $s['pending'] ); ?></span>
-							</p>
-						<?php endif; ?>
 					</div>
 				</section>
 			<?php endforeach; ?>

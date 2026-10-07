@@ -17,7 +17,7 @@ return array(
 	array(
 		'id' => 'shipping',
 		'label' => 'Shipping rules and rates',
-		'detail' => 'Delivery areas, charges and any free-shipping rule are not configured.',
+		'detail' => 'Delivery areas and shipping charges are not configured.',
 	),
 	array(
 		'id' => 'tax',
