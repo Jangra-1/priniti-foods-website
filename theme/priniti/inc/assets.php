@@ -73,7 +73,6 @@ function priniti_islands_config(): array {
 		),
 		'commerce'   => array(
 			'currency'              => $config['commerce']['currency'],
-			'freeShippingThreshold' => $config['commerce']['free_shipping_threshold'],
 			'maxQuantityPerLine'    => (int) $config['commerce']['max_quantity_per_line'],
 			'pricesIncludeTax'      => $wc && 'incl' === get_option( 'woocommerce_tax_display_cart' ),
 			'couponsEnabled'        => $wc && function_exists( 'wc_coupons_enabled' ) && wc_coupons_enabled() && priniti_has_coupons(),

@@ -9,7 +9,7 @@ import { Drawer } from "./Drawer";
 
 /**
  * Port of reference/nextjs/components/commerce/CartDrawer.tsx, reading the WooCommerce cart (Store API).
- * The free-shipping bar stays hidden until a confirmed threshold is configured, as in the reference.
+ * The reference's shipping-offer progress bar is not ported: Priniti does not run shipping offers.
  */
 export function CartDrawer() {
   const open = useUIStore((s) => s.cartOpen);
@@ -21,9 +21,6 @@ export function CartDrawer() {
   const { setQuantity, removeItem } = useCartStore.getState();
 
   const savings = Math.max(0, lines.reduce((n, l) => n + (l.mrp - l.price) * l.quantity, 0));
-  const threshold = config.commerce.freeShippingThreshold;
-  const freeShippingRemaining = threshold ? Math.max(0, threshold - subtotal) : undefined;
-  const freeShippingProgress = threshold ? Math.min(1, subtotal / threshold) : undefined;
 
   const footer = lines.length ? (
     <div className="flex flex-col gap-3">
@@ -65,20 +62,6 @@ export function CartDrawer() {
         </div>
       ) : (
         <div className="flex flex-col">
-          {freeShippingRemaining !== undefined && freeShippingProgress !== undefined ? (
-            <div className="border-b border-line bg-canvas px-5 py-3">
-              {freeShippingRemaining > 0 ? (
-                <p className="text-sm">
-                  Add <strong>{formatINR(freeShippingRemaining)}</strong> more for free shipping
-                </p>
-              ) : (
-                <p className="text-sm font-medium text-leaf">You have unlocked free shipping</p>
-              )}
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-line" role="presentation">
-                <div className="h-full rounded-full bg-leaf transition-[width] duration-500" style={{ width: `${freeShippingProgress * 100}%` }} />
-              </div>
-            </div>
-          ) : null}
           <ul role="list" className="flex flex-col divide-y divide-line px-5">
             {lines.map((line) => (
               <li key={line.key} className="py-4">

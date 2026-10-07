@@ -19,7 +19,6 @@ export interface PrinitiConfig {
   storeApi: { enabled: boolean; root: string; nonce: string };
   commerce: {
     currency: string;
-    freeShippingThreshold: number | null;
     maxQuantityPerLine: number;
     pricesIncludeTax: boolean;
     couponsEnabled: boolean;
@@ -41,7 +40,7 @@ const fallback: PrinitiConfig = {
   categories: [],
   searchIndexUrl: "",
   storeApi: { enabled: false, root: "", nonce: "" },
-  commerce: { currency: "INR", freeShippingThreshold: null, maxQuantityPerLine: 10, pricesIncludeTax: false, couponsEnabled: false, status: { shipping: false, tax: false, payment: false } },
+  commerce: { currency: "INR", maxQuantityPerLine: 10, pricesIncludeTax: false, couponsEnabled: false, status: { shipping: false, tax: false, payment: false } },
 };
 
 export const config: PrinitiConfig = window.PRINITI ?? fallback;

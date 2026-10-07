@@ -42,8 +42,6 @@ function priniti_site_config(): array {
 			'fssai_license' => null,
 			'commerce'     => array(
 				'currency'                => 'INR',
-				// PENDING: shipping rules are not confirmed, so the free-shipping line stays hidden.
-				'free_shipping_threshold' => null,
 				// UI limit; the server enforces the same limit (inc/woocommerce.php).
 				'max_quantity_per_line'   => 10,
 			),
