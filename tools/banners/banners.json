@@ -1,0 +1,18 @@
+{
+  "$comment": "Banner definitions for tools/banners/build-banners.py. Products are WooCommerce slugs; the first is the hero (largest, front). Every product must belong to `category` (checked against the live store when building). `person` is an optional transparent PNG layer (for example an approved AI lifestyle person) placed on the opposite side to the packs; none is set yet. `front` lists products shown in a lower front row (for example sweet tins in front of gift boxes).",
+  "banners": [
+    {"id": "home-namkeen", "kind": "home", "category": "indian-traditional-namkeen", "scene": "namkeen", "products": ["bhujia", "aloo-bhujia", "bombay-mix"], "person": null},
+    {"id": "home-chips", "kind": "home", "category": "potato-chips", "scene": "chips", "products": ["chips-classic-salted", "chips-cream-n-onion", "chips-masala-punch"], "person": null},
+    {"id": "home-cookies", "kind": "home", "category": "cookies", "scene": "cookies-home", "products": ["ajwain-cookies", "jeera-cookies", "kaju-cookies"], "person": null},
+    {"id": "category-indian-traditional-namkeen", "kind": "category", "category": "indian-traditional-namkeen", "scene": "namkeen-festive", "products": ["navratan-mixture", "kaju-mixture", "bhujia", "cornflakes-mixture"], "person": null},
+    {"id": "category-potato-chips", "kind": "category", "category": "potato-chips", "scene": "chips-party", "products": ["chips-tomato-punch", "potato-chips-spicy-masti", "chips-classic-salted", "chips-cream-n-onion", "chips-masala-punch"], "person": null},
+    {"id": "category-charchare-sticks", "kind": "category", "category": "charchare-sticks", "scene": "charchare", "products": ["charchare-mast-masala", "charchare-tangy-tomato"], "person": null},
+    {"id": "category-popcorn", "kind": "category", "category": "popcorn", "scene": "popcorn", "products": ["popcorn-butter-salted"], "person": null},
+    {"id": "category-puffs-fryums", "kind": "category", "category": "puffs-fryums", "scene": "puffs", "products": ["jungle-masti", "puffcorn", "roll-n-roll", "chilli-storm", "veg-biryani"], "person": null},
+    {"id": "category-ringo-star-rings", "kind": "category", "category": "ringo-star-rings", "scene": "ringo", "products": ["ringo-star-tangy-tomato"], "person": null},
+    {"id": "category-rusk", "kind": "category", "category": "rusk", "scene": "rusk", "products": ["rusk"], "person": null},
+    {"id": "category-sweets", "kind": "category", "category": "sweets", "scene": "sweets", "products": ["soan-papdi", "besan-ladoo", "panjeeri-ladoo", "rasgulla", "gulab-jamun"], "person": null, "front": ["rasgulla", "gulab-jamun"]},
+    {"id": "category-cookies", "kind": "category", "category": "cookies", "scene": "cookies", "products": ["badam-cookies", "atta-cookies", "coconut-cookies", "kaju-cookies"], "person": null},
+    {"id": "category-donut-cakes", "kind": "category", "category": "donut-cakes", "scene": "donut", "products": ["choco-vanilla-donut-cake", "strawberry-vanilla-donut-cake"], "person": null}
+  ]
+}

@@ -354,12 +354,18 @@ function initHeroSlider() {
     let hovered = false;
     let focused = false;
 
-    const loadImages = () =>
+    const loadImages = () => {
+      // <source> first, so the browser picks the right banner size when the <img> gets its src.
+      root.querySelectorAll<HTMLSourceElement>("source[data-hero-srcset]").forEach((source) => {
+        source.srcset = source.dataset.heroSrcset!;
+        source.removeAttribute("data-hero-srcset");
+      });
       root.querySelectorAll<HTMLImageElement>("img[data-hero-src]").forEach((img) => {
         if (img.dataset.heroSrcset) img.srcset = img.dataset.heroSrcset;
         img.src = img.dataset.heroSrc!;
         img.removeAttribute("data-hero-src");
       });
+    };
     if (document.readyState === "complete") loadImages();
     else window.addEventListener("load", loadImages, { once: true });
 

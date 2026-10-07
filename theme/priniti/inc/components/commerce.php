@@ -401,6 +401,32 @@ function priniti_category_banner( array $category, int $index, int $count, array
 	$art  = priniti_category_art( (string) $category['slug'], (string) $category['name'] );
 	$text = $category['description'] ?: $art['text'];
 	$has  = (bool) array_filter( $products, static fn ( $p ) => ! empty( $p['images'][0] ) );
+
+	// Category banner image (real packs of this category only, see tools/banners): text and CTA stay HTML.
+	$banner = priniti_banner( 'category-' . $category['slug'] );
+	if ( $banner && $banner['category'] === $category['slug'] ) {
+		$light = 'light' === ( $banner['text'] ?? 'dark' );
+		?>
+		<div class="relative flex flex-col overflow-hidden rounded-[2rem] lg:block lg:aspect-[16/7]" style="<?php echo esc_attr( 'background-color:' . $banner['top'] ); ?>">
+			<div class="<?php echo esc_attr( priniti_cx( 'relative z-10 px-6 pb-2 pt-8 sm:px-8 sm:pt-10 lg:flex lg:h-full lg:max-w-[46%] lg:flex-col lg:justify-center lg:px-12 lg:py-10', $light ? 'text-white' : 'text-ink' ) ); ?>">
+				<?php priniti_eyebrow( $art['eyebrow'], $light ? 'mb-3' : 'mb-3 text-ink [&>span]:bg-ink/40', $light ? 'lime' : 'brand' ); ?>
+				<h1 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl"><?php echo esc_html( $category['name'] ); ?></h1>
+				<p class="<?php echo esc_attr( priniti_cx( 'mt-3 max-w-lg text-base font-medium leading-relaxed sm:text-lg', $light ? 'text-white/90' : 'text-ink/80' ) ); ?>"><?php echo esc_html( $text ); ?></p>
+				<div class="mt-5 flex flex-wrap items-center gap-3">
+					<?php if ( $count > 0 ) : ?>
+						<?php priniti_button_link( '#products', 'Shop ' . esc_html( $category['name'] ) . priniti_icon( 'arrow-right', 'size-4' ), 'primary', 'md', 'h-11 px-5 shadow-soft' ); ?>
+					<?php endif; ?>
+					<p class="inline-flex min-h-11 items-center gap-2 rounded-full bg-surface px-4 text-sm font-semibold text-ink shadow-card">
+						<?php priniti_the_icon( 'package', 'size-4 text-brand' ); ?>
+						<?php echo esc_html( 0 === $count ? 'Coming soon' : sprintf( '%d %s', $count, 1 === $count ? 'product' : 'products' ) ); ?>
+					</p>
+				</div>
+			</div>
+			<?php priniti_banner_picture( $banner, 'priority', 'mt-auto lg:absolute lg:inset-0' ); ?>
+		</div>
+		<?php
+		return;
+	}
 	?>
 	<div class="<?php echo esc_attr( priniti_cx( 'relative overflow-hidden rounded-[2rem]', priniti_tint_for_index( $index ) ) ); ?>">
 		<?php

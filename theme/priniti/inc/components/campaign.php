@@ -47,70 +47,112 @@ function priniti_promo_strip(): void {
  * ---------------------------------------------------------------------- */
 
 /**
- * The three homepage hero slides. Products are real catalog products (slugs); the CTA links to their category.
- * `background` is an optional image URL (for example an AI-generated lifestyle scene WITHOUT any packaging): it is
- * drawn behind the real pack cutouts, which always come from the official product images. Filterable.
+ * Banner images built by tools/banners/build-banners.py (assets/images/banners): every pack in them is the real
+ * official product image, and banners.json records which products (and categories) each image contains.
+ *
+ * @return array<string, array> Keyed by banner id.
+ */
+function priniti_banners(): array {
+	static $banners = null;
+	if ( null === $banners ) {
+		$file    = PRINITI_DIR . '/assets/images/banners/banners.json';
+		$banners = is_readable( $file ) ? (array) json_decode( (string) file_get_contents( $file ), true ) : array(); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+	}
+	return $banners;
+}
+
+/** One banner (null when its images are missing), with image URLs resolved. */
+function priniti_banner( string $id ): ?array {
+	$b = priniti_banners()[ $id ] ?? null;
+	if ( ! $b || empty( $b['files']['desktop'] ) || empty( $b['files']['mobile'] ) ) {
+		return null;
+	}
+	foreach ( array( 'desktop', 'mobile' ) as $v ) {
+		$b['files'][ $v ]['url'] = priniti_asset( 'banners/' . $b['files'][ $v ]['file'] );
+	}
+	return $b;
+}
+
+/**
+ * Banner <picture>: the 1000 x 700 phone/tablet image below 1024 px (shown under the HTML text), the 1600 x 700
+ * desktop image from 1024 px (the HTML text overlays its calm left side). Width and height are set, so no layout
+ * shift. $mode: 'priority' (first hero), 'lazy' (native lazy loading) or 'deferred' (URLs in data-hero-* until the
+ * slider loads them after the page).
+ */
+function priniti_banner_picture( array $banner, string $mode = 'lazy', string $class = '' ): void {
+	$d   = $banner['files']['desktop'];
+	$m   = $banner['files']['mobile'];
+	$src = 'deferred' === $mode ? 'data-hero-src' : 'src';
+	$set = 'deferred' === $mode ? 'data-hero-srcset' : 'srcset';
+	$alt = 'Priniti ' . implode( ', ', array_map( static fn ( $p ) => $p['name'], $banner['products'] ) );
+	?>
+	<picture class="<?php echo esc_attr( priniti_cx( 'block', $class ) ); ?>">
+		<source media="(min-width: 1024px)" <?php echo esc_attr( $set ); ?>="<?php echo esc_url( $d['url'] ); ?>" width="<?php echo esc_attr( (string) $d['width'] ); ?>" height="<?php echo esc_attr( (string) $d['height'] ); ?>">
+		<img <?php echo esc_attr( $src ); ?>="<?php echo esc_url( $m['url'] ); ?>" width="<?php echo esc_attr( (string) $m['width'] ); ?>" height="<?php echo esc_attr( (string) $m['height'] ); ?>" alt="<?php echo esc_attr( $alt ); ?>" decoding="async" <?php echo 'priority' === $mode ? 'fetchpriority="high"' : ( 'lazy' === $mode ? 'loading="lazy"' : '' ); ?> class="block h-auto w-full lg:size-full lg:object-cover">
+	</picture>
+	<?php
+}
+
+/**
+ * The three homepage hero slides: banner image (real packs) + HTML text and CTAs. Each slide's products are the
+ * products in its banner, all from the slide's category. Filterable.
  */
 function priniti_hero_slides(): array {
 	return (array) apply_filters(
 		'priniti_hero_slides',
 		array(
 			array(
-				'eyebrow'    => 'Indian traditional namkeen',
-				'title'      => array( 'Every Bite,', 'Full of Happiness.' ),
-				'copy'       => 'Bhujia, Aloo Bhujia, Bombay Mix and more: classic Priniti namkeen for every chai break.',
-				'category'   => 'indian-traditional-namkeen',
-				'cta'        => 'Shop Namkeen',
-				'products'   => array( 'aloo-bhujia', 'bhujia', 'bombay-mix' ),
-				'theme'      => array( 'bg' => 'from-cream via-blush to-brand-tint', 'arch' => 'text-brand', 'inner' => 'text-navy', 'accents' => array( 'chili', 'leaf', 'grain' ) ),
-				'background' => null,
+				'banner'   => 'home-namkeen',
+				'eyebrow'  => 'Indian traditional namkeen',
+				'title'    => array( 'Every Bite,', 'Full of Happiness.' ),
+				'copy'     => 'Bhujia, Aloo Bhujia, Bombay Mix and more: traditional Indian taste for every chai break.',
+				'category' => 'indian-traditional-namkeen',
+				'cta'      => 'Shop Namkeen',
 			),
 			array(
-				'eyebrow'    => 'Potato chips & CharChare',
-				'title'      => array( 'Crunch Time,', 'Every Time.' ),
-				'copy'       => 'Classic Salted, Cream \'n\' Onion and CharChare Mast Masala in bold Priniti flavours.',
-				'category'   => 'potato-chips',
-				'cta'        => 'Shop Chips',
-				'products'   => array( 'chips-cream-n-onion', 'chips-classic-salted', 'charchare-mast-masala' ),
-				'theme'      => array( 'bg' => 'from-lime-tint via-cream to-blush', 'arch' => 'text-navy', 'inner' => 'text-brand', 'accents' => array( 'burst', 'zigzag', 'sparkle' ) ),
-				'background' => null,
+				'banner'   => 'home-chips',
+				'eyebrow'  => 'Potato chips',
+				'title'    => array( 'Crunch Time,', 'Every Time.' ),
+				'copy'     => 'Classic Salted, Cream \'n\' Onion and Masala Punch: crunchy Priniti potato chips in bold flavours.',
+				'category' => 'potato-chips',
+				'cta'      => 'Shop Chips',
 			),
 			array(
-				'eyebrow'    => 'Cookies & donut cakes',
-				'title'      => array( 'Tea-Time,', 'Baked by Priniti.' ),
-				'copy'       => 'Jeera and Ajwain cookies, plus soft Choco Vanilla Donut Cakes for your tea-time and tiffin.',
-				'category'   => 'cookies',
-				'cta'        => 'Shop Cookies',
-				'products'   => array( 'ajwain-cookies', 'jeera-cookies', 'choco-vanilla-donut-cake' ),
-				'theme'      => array( 'bg' => 'from-navy-tint via-cream to-lime-tint', 'arch' => 'text-leaf', 'inner' => 'text-lime', 'accents' => array( 'cookie', 'grain', 'sparkle' ) ),
-				'background' => null,
+				'banner'   => 'home-cookies',
+				'eyebrow'  => 'Cookies',
+				'title'    => array( 'Tea-Time,', 'Baked by Priniti.' ),
+				'copy'     => 'Ajwain, Jeera and Kaju cookies: baked for your tea-time and tiffin.',
+				'category' => 'cookies',
+				'cta'      => 'Shop Cookies',
 			),
 		)
 	);
 }
 
 /**
- * Homepage hero: three product slides. All slides share one grid cell, so the hero's height never jumps; slide 1 is
+ * Homepage hero: three banner slides. All slides share one grid cell, so the hero's height never jumps; slide 1 is
  * visible without JavaScript, and the other slides' images load only after the page has loaded (interactions.ts).
+ * Phones and tablets: text, then the banner image. Desktop (1024 px+): the text overlays the banner's left side.
  */
 function priniti_section_hero_slider(): void {
 	$slides = array();
 	foreach ( priniti_hero_slides() as $s ) {
-		$packs = array_values( array_filter( array_map( 'priniti_get_product', $s['products'] ), static fn ( $p ) => $p && ! empty( $p['images'] ) ) );
-		if ( ! $packs ) {
+		$banner = priniti_banner( $s['banner'] );
+		if ( ! $banner ) {
 			continue;
 		}
 		$category = priniti_get_category( $s['category'] );
 		$prices   = array();
-		foreach ( $packs as $p ) {
-			foreach ( $p['variants'] as $v ) {
+		foreach ( $banner['products'] as $bp ) {
+			$p = priniti_get_product( $bp['slug'] );
+			foreach ( $p['variants'] ?? array() as $v ) {
 				if ( priniti_is_purchasable( $v ) ) {
 					$prices[] = (float) $v['price'];
 				}
 			}
 		}
 		$slides[] = $s + array(
-			'packs' => array_slice( $packs, 0, 3 ),
+			'image' => $banner,
 			'href'  => $category['href'] ?? priniti_url( '/shop' ),
 			'label' => $category['name'] ?? 'Products',
 			'from'  => $prices ? min( $prices ) : null,
@@ -120,18 +162,6 @@ function priniti_section_hero_slider(): void {
 		return;
 	}
 	$count = count( $slides );
-	// [ left %, width %, bottom %, rotate deg, z ] for up to three packs: centre pack first.
-	$layout = array( array( 30, 40, 13, 0, 3 ), array( 4, 32, 16, -10, 2 ), array( 64, 32, 16, 10, 2 ) );
-	$colour = array(
-		'chili'   => 'text-brand',
-		'leaf'    => 'text-leaf',
-		'grain'   => 'text-[#c9a23a]',
-		'burst'   => 'text-[#f5b301]',
-		'zigzag'  => 'text-brand/60',
-		'sparkle' => 'text-brand',
-		'cookie'  => 'text-[#d9a25f]',
-	);
-	$spots  = array( 'left-[2%] top-[28%] size-10 -rotate-12 motion-safe:animate-float', 'right-[2%] top-[40%] size-11 rotate-12 motion-safe:animate-float-delayed', 'left-[12%] top-[6%] size-8 motion-safe:animate-float-delayed' );
 	?>
 	<section aria-roledescription="carousel" aria-label="Featured Priniti products" class="relative touch-pan-y" data-hero-slider data-interval="3000">
 		<div class="grid">
@@ -139,80 +169,41 @@ function priniti_section_hero_slider(): void {
 				<?php
 				$first   = 0 === $i;
 				$heading = $first ? 'h1' : 'h2';
-				$img     = static function ( array $image, string $sizes, bool $eager, bool $priority ) use ( $first ): string {
-					$src    = esc_url( $image['src'] );
-					$srcset = ! empty( $image['srcset'] ) ? esc_attr( $image['srcset'] ) : '';
-					// Slides 2 and 3: real URLs in data-* attributes, swapped in by interactions.ts after load.
-					return $first
-						? sprintf( '<img src="%s"%s sizes="%s" alt="" %s decoding="async" class="absolute inset-0 size-full object-contain">', $src, $srcset ? ' srcset="' . $srcset . '"' : '', esc_attr( $sizes ), $priority ? 'fetchpriority="high"' : ( $eager ? '' : 'loading="lazy"' ) )
-						: sprintf( '<img data-hero-src="%s"%s sizes="%s" alt="" decoding="async" class="absolute inset-0 size-full object-contain">', $src, $srcset ? ' data-hero-srcset="' . $srcset . '"' : '', esc_attr( $sizes ) );
-				};
+				$light   = 'light' === ( $s['image']['text'] ?? 'dark' );
 				?>
-				<div role="group" aria-roledescription="slide" aria-label="<?php echo esc_attr( sprintf( '%d of %d: %s', $i + 1, $count, $s['label'] ) ); ?>" data-hero-slide class="<?php echo esc_attr( priniti_cx( 'relative overflow-hidden bg-linear-to-br transition-opacity duration-700 ease-out [grid-area:1/1]', $s['theme']['bg'], $first ? 'opacity-100' : 'pointer-events-none opacity-0' ) ); ?>" <?php echo $first ? '' : 'aria-hidden="true" inert'; ?>>
-					<?php if ( ! empty( $s['background'] ) ) : ?>
-						<img <?php echo $first ? 'src' : 'data-hero-src'; ?>="<?php echo esc_url( $s['background'] ); ?>" alt="" decoding="async" class="absolute inset-0 size-full object-cover opacity-90">
-						<div aria-hidden="true" class="absolute inset-0 bg-linear-to-r from-cream/95 via-cream/70 to-transparent"></div>
-					<?php endif; ?>
-					<?php
-					priniti_decor( 'dots', 'left-[38%] top-8 hidden size-28 text-brand/15 lg:block' );
-					priniti_decor( 'sparkle', 'left-[46%] top-[22%] hidden size-5 text-brand/60 lg:block' );
-					priniti_decor( 'wave', 'inset-x-0 bottom-0 h-6 w-full text-surface sm:h-8' );
-					?>
-					<?php priniti_container_open( 'relative grid items-center gap-4 pb-12 pt-8 sm:pb-14 sm:pt-10 lg:grid-cols-[1fr_1.05fr] lg:gap-8 lg:py-12' ); ?>
-						<div class="max-w-xl">
-							<p class="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 text-[13px] font-semibold shadow-card">
+				<div role="group" aria-roledescription="slide" aria-label="<?php echo esc_attr( sprintf( '%d of %d: %s', $i + 1, $count, $s['label'] ) ); ?>" data-hero-slide style="<?php echo esc_attr( 'background-color:' . $s['image']['top'] ); ?>" class="<?php echo esc_attr( priniti_cx( 'relative flex flex-col overflow-hidden transition-opacity duration-700 ease-out [grid-area:1/1] lg:block lg:aspect-[16/7]', $first ? 'opacity-100' : 'pointer-events-none opacity-0' ) ); ?>" <?php echo $first ? '' : 'aria-hidden="true" inert'; ?>>
+					<?php priniti_container_open( 'relative z-10 pb-2 pt-7 sm:pt-9 lg:flex lg:h-full lg:items-center lg:py-10' ); ?>
+						<div class="<?php echo esc_attr( priniti_cx( 'max-w-xl lg:max-w-[min(34rem,40vw)]', $light ? 'text-white' : 'text-ink' ) ); ?>">
+							<p class="inline-flex items-center gap-2 rounded-full bg-surface/90 px-3.5 py-1.5 text-[13px] font-semibold text-ink shadow-card">
 								<?php priniti_the_icon( 'sparkles', 'size-4 text-brand' ); ?>
 								<?php echo esc_html( $s['eyebrow'] ); ?>
 							</p>
-							<<?php echo esc_html( $heading ); ?> <?php echo $first ? 'id="hero-heading"' : ''; ?> class="mt-4 font-display text-[2.25rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem] xl:text-[3.9rem]">
+							<<?php echo esc_html( $heading ); ?> <?php echo $first ? 'id="hero-heading"' : ''; ?> class="mt-3 font-display text-[2.1rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[2.9rem] xl:text-[3.5rem]">
 								<span class="block"><?php echo esc_html( $s['title'][0] ); ?></span>
-								<span class="block text-brand"><?php echo esc_html( $s['title'][1] ); ?></span>
+								<span class="<?php echo esc_attr( priniti_cx( 'block', $light ? 'text-lime' : 'text-brand' ) ); ?>"><?php echo esc_html( $s['title'][1] ); ?></span>
 							</<?php echo esc_html( $heading ); ?>>
-							<p class="mt-3 max-w-md text-base leading-relaxed text-ink-soft sm:text-lg"><?php echo esc_html( $s['copy'] ); ?></p>
+							<p class="<?php echo esc_attr( priniti_cx( 'mt-3 max-w-md text-base font-medium leading-relaxed sm:text-lg', $light ? 'text-white/90' : 'text-ink/80' ) ); ?>"><?php echo esc_html( $s['copy'] ); ?></p>
 							<?php if ( null !== $s['from'] ) : ?>
-								<p class="mt-3 text-sm font-semibold text-ink"><?php echo esc_html( 'Starting at ' . priniti_format_inr( $s['from'] ) ); ?></p>
+								<p class="mt-2.5 text-sm font-bold"><?php echo esc_html( 'Starting at ' . priniti_format_inr( $s['from'] ) ); ?></p>
 							<?php endif; ?>
-							<div class="mt-5 flex flex-col gap-3 sm:flex-row">
+							<div class="mt-4 flex flex-wrap gap-3">
 								<?php
-								priniti_button_link( $s['href'], priniti_icon( 'shopping-cart', 'size-5' ) . esc_html( $s['cta'] ?? 'Shop ' . $s['label'] ) . priniti_icon( 'arrow-right', 'size-4' ), 'primary', 'md', 'h-12 px-6 text-[15px]' );
-								priniti_button_link( priniti_url( '/shop' ), 'Explore Products', 'outline', 'md', 'h-12 px-6 text-[15px]' );
+								priniti_button_link( $s['href'], priniti_icon( 'shopping-cart', 'size-5' ) . esc_html( $s['cta'] ?? 'Shop ' . $s['label'] ) . priniti_icon( 'arrow-right', 'size-4' ), 'primary', 'md', 'h-12 px-6 text-[15px] shadow-soft' );
+								priniti_button_link( priniti_url( '/shop' ), 'Explore Products', 'outline', 'md', 'h-12 border-ink/80 bg-surface/90 px-6 text-[15px] text-ink hover:bg-surface' );
 								?>
 							</div>
-						</div>
-
-						<div class="relative mx-auto aspect-[5/4] w-full max-w-[26rem] sm:max-w-[30rem] lg:max-w-[34rem]">
-							<div aria-hidden="true">
-								<?php
-								priniti_decor( 'ring', 'inset-[4%] size-[92%] text-brand/20' );
-								priniti_decor( 'arch', priniti_cx( 'bottom-[16%] left-[16%] h-[80%] w-[68%]', $s['theme']['arch'] ) );
-								priniti_decor( 'arch', priniti_cx( 'bottom-[16%] left-[28%] h-[58%] w-[44%] opacity-90', $s['theme']['inner'] ) );
-								?>
-								<div class="absolute bottom-[8%] left-[4%] h-[15%] w-[92%] rounded-[50%] bg-cream shadow-[0_24px_40px_-18px_rgb(21_26_46/0.45)]"></div>
-								<?php
-								foreach ( $s['theme']['accents'] as $n => $kind ) {
-									priniti_decor( $kind, priniti_cx( $spots[ $n ] ?? '', in_array( $kind, array( 'zigzag' ), true ) ? 'h-5 w-16' : '', 'grain' === $kind ? 'h-14 w-7' : '', $colour[ $kind ] ?? 'text-brand' ) );
-								}
-								?>
-							</div>
-							<?php foreach ( array_slice( $s['packs'], 0, 3 ) as $n => $p ) : ?>
-								<?php [ $left, $width, $bottom, $rotate, $z ] = $layout[ $n ]; ?>
-								<a href="<?php echo esc_url( $p['href'] ); ?>" <?php echo $first ? '' : 'tabindex="-1"'; ?> class="group absolute block aspect-[3/4] drop-shadow-[0_18px_20px_rgb(21_26_46/0.32)] transition-transform duration-300 hover:-translate-y-1" style="<?php echo esc_attr( "left:{$left}%;width:{$width}%;bottom:{$bottom}%;z-index:{$z};transform:rotate({$rotate}deg)" ); ?>">
-									<?php echo $img( $p['images'][0], '(min-width:1024px) 15vw, 34vw', $first, $first && 0 === $n ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in $img. ?>
-									<span class="sr-only"><?php echo esc_html( $p['name'] ); ?></span>
-								</a>
-							<?php endforeach; ?>
-							<?php priniti_decor_stamp( 'Swad Mein No.1 • Priniti Foods • ', 'right-[1%] top-[1%] z-10 size-16 sm:size-20' ); ?>
 						</div>
 					<?php priniti_container_close(); ?>
+					<?php priniti_banner_picture( $s['image'], $first ? 'priority' : 'deferred', 'mt-auto lg:absolute lg:inset-0' ); ?>
 				</div>
 			<?php endforeach; ?>
 		</div>
 
 		<?php if ( $count > 1 ) : ?>
-			<div class="pointer-events-none absolute inset-x-0 bottom-7 z-10 sm:bottom-9">
+			<div class="pointer-events-none absolute inset-x-0 bottom-4 z-10 sm:bottom-6">
 				<?php priniti_container_open( 'flex items-center justify-center gap-3 lg:justify-start' ); ?>
 					<button type="button" data-hero-prev aria-label="Previous slide" class="pointer-events-auto flex size-9 items-center justify-center rounded-full bg-surface/95 text-ink shadow-card ring-1 ring-line/70 transition hover:bg-ink hover:text-white"><?php priniti_the_icon( 'chevron-left', 'size-4' ); ?></button>
-					<div class="pointer-events-auto flex items-center gap-1.5" role="group" aria-label="Choose slide">
+					<div class="pointer-events-auto flex items-center gap-1.5 rounded-full bg-surface/80 px-2 py-1.5" role="group" aria-label="Choose slide">
 						<?php foreach ( $slides as $i => $s ) : ?>
 							<button type="button" data-hero-dot="<?php echo esc_attr( (string) $i ); ?>" aria-label="<?php echo esc_attr( sprintf( 'Show slide %d: %s', $i + 1, $s['label'] ) ); ?>" aria-current="<?php echo 0 === $i ? 'true' : 'false'; ?>" class="<?php echo esc_attr( priniti_cx( 'h-2 rounded-full transition-all', 0 === $i ? 'w-6 bg-brand' : 'w-2 bg-ink/25 hover:bg-ink/50' ) ); ?>"></button>
 						<?php endforeach; ?>
