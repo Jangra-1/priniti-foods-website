@@ -42,8 +42,6 @@ function priniti_site_config(): array {
 			'fssai_license' => null,
 			'commerce'     => array(
 				'currency'                => 'INR',
-				// PENDING: shipping rules are not confirmed, so the free-shipping line stays hidden.
-				'free_shipping_threshold' => null,
 				// UI limit; the server enforces the same limit (inc/woocommerce.php).
 				'max_quantity_per_line'   => 10,
 			),
@@ -91,7 +89,7 @@ function priniti_navigation(): array {
 					array( 'label' => 'All products', 'path' => '/shop' ),
 					array( 'label' => 'Search', 'path' => '/search' ),
 					array( 'label' => 'Cart', 'path' => '/cart' ),
-					array( 'label' => 'My account', 'path' => '/account' ),
+					array( 'label' => 'My account', 'path' => '/my-account' ),
 				),
 				'support' => array(
 					$links['contact'],
@@ -105,9 +103,10 @@ function priniti_navigation(): array {
 				),
 				'legal'   => array(
 					array( 'label' => 'Shipping Policy', 'path' => '/shipping-policy' ),
-					array( 'label' => 'Return Policy', 'path' => '/return-policy' ),
+					array( 'label' => 'Return & Refund Policy', 'path' => '/return-refund-policy' ),
 					array( 'label' => 'Privacy Policy', 'path' => '/privacy-policy' ),
-					array( 'label' => 'Terms & Conditions', 'path' => '/terms' ),
+					array( 'label' => 'Terms & Conditions', 'path' => '/terms-and-conditions' ),
+					array( 'label' => 'Cookie Policy', 'path' => '/cookie-policy' ),
 				),
 			),
 		)
