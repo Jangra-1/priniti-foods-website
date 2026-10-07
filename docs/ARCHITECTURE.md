@@ -72,16 +72,28 @@ Same tokens and visual language as the reference; these extend it rather than re
 | Campaign pieces (v0.4.0): promo strip (`priniti_promo_strip`, copy via `priniti_promo_strip_messages` filter), sample testimonials (`priniti_sample_reviews` filter; real WooCommerce reviews replace them automatically), Instagram feed (`priniti_section_instagram`) | `inc/components/campaign.php` |
 | Category art (eyebrow, fallback copy, accents per category; `priniti_category_art` filter), pack stage (`priniti_pack_stage`), multi-view product gallery (`priniti_product_gallery`) | `inc/components/commerce.php`, `inc/components/decor.php`, `interactions.ts` |
 
-| Homepage hero slider (v0.6.0): exactly three slides from `priniti_hero_slides()` (filterable): Namkeen, Chips & CharChare, Cookies & Donut Cakes. Real catalog products by slug, "Starting at" from their live prices, Shop + Explore Products CTAs | `inc/components/campaign.php` (`priniti_section_hero_slider`), `interactions.ts` (`initHeroSlider`) |
+| Homepage hero slider (v0.6.0, banner images v0.7.0): exactly three slides from `priniti_hero_slides()` (filterable): Namkeen, Potato Chips, Cookies. Each slide's banner shows real packs of that category only; "Starting at" from their live prices, Shop + Explore Products CTAs | `inc/components/campaign.php` (`priniti_section_hero_slider`), `interactions.ts` (`initHeroSlider`) |
 | Category showcase (v0.6.0): curated products per category for the category hero (`priniti_category_showcase` filter); category images fall back to the first showcase product when the term has no thumbnail (`priniti_category_with_image`) | `inc/catalog.php`, `templates/category.php` |
 | Header logo in a white rounded container (official SVG, aspect ratio kept); compact footer whose link groups collapse on phones (`initFooter`) | `template-parts/layout/header.php`, `logo.php`, `footer.php`, `interactions.ts` |
 
-**Hero slider.** All slides share one grid cell, so the hero never changes height (no CLS). Slide 1 is server-rendered visible with a
-high-priority first image and works without JavaScript; slides 2 and 3 keep their image URLs in `data-hero-src` until the page has
-loaded. Autoplay every 3 s (`data-interval`), cross-fade, pause on hover, keyboard focus and hidden tabs, no autoplay with reduced
-motion; dots, previous/next and swipe. Inactive slides are `inert` and `aria-hidden`. Each slide has an optional `background` image
-slot drawn behind the packs: use it only for scenery (for example an AI-generated background with no packaging or logo). Packs and
-the logo always come from the official images.
+**Banners (v0.7.0).** The homepage hero slides and every category hero use banner images built by
+`tools/banners/build-banners.py` (`npm run banners`) from `tools/banners/banners.json`, written to
+`assets/images/banners/` (WebP: `<id>-desktop.webp` 1600 x 700, `<id>-mobile.webp` 1000 x 700, plus `banners.json`).
+- Packs are the real official product images, fetched from the public Store API and only trimmed, scaled (aspect kept),
+  slightly tilted and shadowed. Backgrounds, the red stage and the floating ingredients are drawn in code. No text is
+  baked in: headings, copy and CTAs are HTML.
+- The builder refuses a product that is not in the banner's WooCommerce category; `npm test` checks the manifest
+  (3 homepage banners, one per category, category-only products, sizes, file sizes).
+- `person` in banners.json is an optional approved lifestyle cut-out (transparent PNG with source and licence); none
+  yet, as no image generation is available here. Specs, slot guide and prompts: `docs/BANNER-PEOPLE.md`.
+- Below 1024 px the HTML text sits above the 1000 x 700 image (on the image's own top colour); from 1024 px the text
+  overlays the calm left side of the 1600 x 700 image. Width/height attributes and fixed aspect ratios prevent CLS.
+
+**Hero slider.** All slides share one grid cell, so the hero never changes height. Slide 1 is server-rendered visible
+with a high-priority image and works without JavaScript; slides 2 and 3 keep their image URLs (`<source>` and `<img>`)
+in `data-hero-*` until the page has loaded. Autoplay every 3 s (`data-interval`), cross-fade, pause on hover, keyboard
+focus and hidden tabs, no autoplay with reduced motion; dots, previous/next and swipe. Inactive slides are `inert` and
+`aria-hidden`.
 
 Catalog pages show 12 products (`PRINITI_PAGE_SIZE`), so 2-, 3- and 4-column grids end on full rows.
 
