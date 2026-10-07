@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { wpGetAll, wpSend } from "../http.ts";
 import { META } from "../meta-keys.ts";
@@ -47,7 +47,8 @@ export function imageInfo(bytes: Uint8Array): { type: "png" | "jpeg"; width: num
 }
 
 const MIN_SIDE = 300;
-const fileName = (product: string, url: string) => `priniti-${product.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-official${path.extname(new URL(url).pathname).toLowerCase()}`;
+// Named after the detected type, not the URL: some official ".jpg" URLs serve PNG data.
+const fileName = (product: string, type: "png" | "jpeg") => `priniti-${product.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-official.${type === "png" ? "png" : "jpg"}`;
 
 export async function fetchImages(outDir: string) {
   mkdirSync(outDir, { recursive: true });
@@ -64,7 +65,7 @@ export async function fetchImages(outDir: string) {
       const info = imageInfo(bytes);
       if (!info) throw new Error("not a PNG or JPEG");
       if (Math.min(info.width, info.height) < MIN_SIDE) throw new Error(`too small (${info.width}×${info.height})`);
-      writeFileSync(path.join(outDir, fileName(product, e.url)), bytes);
+      writeFileSync(path.join(outDir, fileName(product, info.type)), bytes);
       rows.push(`${product}\tOK ${info.type} ${info.width}×${info.height} ${Math.round(bytes.length / 1024)} KB\t${e.url}`);
     } catch (err) {
       rows.push(`${product}\tFAILED ${(err as Error).message}\t${e.url}`);
@@ -98,7 +99,8 @@ export async function applyImages(opts: { dryRun: boolean; dir: string }) {
       console.log(`${name}: already has an image, left unchanged`);
       continue;
     }
-    const file = fileName(name, e.url);
+    const file = ["png", "jpeg"].map((t) => fileName(name, t as "png" | "jpeg")).find((f) => existsSync(path.join(opts.dir, f)));
+    if (!file) throw new Error(`${name}: image not downloaded (run fetch first)`);
     const bytes = new Uint8Array(readFileSync(path.join(opts.dir, file)));
     const info = imageInfo(bytes);
     if (!info) throw new Error(`${name}: ${file} is not a valid image (run fetch again)`);

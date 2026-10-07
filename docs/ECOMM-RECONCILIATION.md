@@ -5,7 +5,8 @@ Source: tools/import/data/ecomm-item-list.csv (Ecomm Item List.xlsx, sheet 30-09
 > **Applied to shop.prinitifoods.com on 2026-10-07** (`npm run ecomm:apply -- --apply`). This is the reconciliation as it
 > stood *before* the apply. Post-apply verification (`npm run ecomm:apply -- --verify`): 161 packs checked, 0 errors;
 > 77 live products, no duplicate names, Potato Chips Sizzling Hot absent. Two existing names were tidied (slugs kept):
-> "Noodles (Yellow)" → "Noodles", "A TO Z" → "A To Z". The 20 new products have no image yet (internal note on each).
+> "Noodles (Yellow)" → "Noodles", "A TO Z" → "A To Z". Official images (tools/import/data/official-images.json, each checked
+> visually against the pack artwork) were added to 18 of the 20 new products; Boondi Masala and Loopyz still need one.
 > Charchare Mast Masala Rs30 uses the sheet's CURRENT WT (80 g), not the 75 g in its item code.
 
 | | Count |
