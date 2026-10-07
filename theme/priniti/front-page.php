@@ -100,7 +100,9 @@ priniti_section_stats(
 		array( 'value' => 'No.1', 'label' => 'Swad Mein' ),
 	)
 );
+priniti_section_moods( $categories, $counts );
 priniti_section_brand_story( $story );
+priniti_section_on_the_go( $range ? $range : $hero_packs );
 priniti_section_newsletter();
 priniti_section_social( $range );
 

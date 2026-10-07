@@ -56,6 +56,23 @@ Every reference component has a counterpart. ✅ ported · ➖ replaced by WooCo
 | TestPriceBanner, TestPriceBadge, `data/test-prices.ts` | ➖ WooCommerce prices are real |
 | `components/home/*` | ➖ unused duplicates of `components/sections/*` |
 
+### Storefront extensions (beyond the reference, v0.3.0)
+
+Same tokens and visual language as the reference; these extend it rather than replace it.
+
+| Piece | Where |
+| --- | --- |
+| Decorative vectors (`priniti_decor()` blob, dots, ring, wave, sparkle, leaf, grain, squiggle; `priniti_decor_backdrop()`) | `inc/components/decor.php` |
+| Empty / coming-soon state (`priniti_empty_state()`), `tint` badge tone, `.skeleton` shimmer, `[data-reveal]` scroll reveal | `inc/components/ui.php`, `assets/src/css/app.css`, `interactions.ts` |
+| Homepage: decorated hero with real count badges, "Snacks for Every Mood" (`priniti_section_moods`), "Shop On The Go" (`priniti_section_on_the_go`) | `inc/components/sections.php`, `front-page.php` |
+| Shop hero (`priniti_shop_hero`), category pills, branded category hero with pack fan, related categories, snack-box promo strip | `inc/components/commerce.php`, `templates/shop.php`, `templates/category.php` |
+| Product page: decorated gallery with hover zoom, pack-size cards, assurances (facts only) and delivery placeholder, info grid and accordions, reviews block with empty state, "More from", "Explore the range", sticky mobile buy bar | `templates/product.php`, `inc/components/commerce.php`, `interactions.ts` |
+| Header category menu with thumbnails; footer with newsletter/social band and Policies column | `template-parts/layout/desktop-nav.php`, `footer.php`, `inc/config.php` |
+
+Data rules: these components only display existing product data. Missing ingredients, nutrition, storage and highlights read
+"Coming soon"; ratings and reviews appear only when real WooCommerce reviews exist; unpriced products show "Price coming soon"
+and an enquiry link instead of a cart button.
+
 ## Content and data
 
 - `inc/data/*.php` are generated from `reference/nextjs/data` (`npm run export:data`; CI fails if they drift): company facts, homepage copy, merchandising slugs, legal drafts, checkout integration labels.

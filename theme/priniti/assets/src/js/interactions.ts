@@ -177,14 +177,65 @@ function initGallery() {
   });
 }
 
+/** Hover zoom on the product image (fine pointers only): scale around the pointer position. */
+function initZoom() {
+  if (!window.matchMedia("(pointer: fine)").matches) return;
+  document.querySelectorAll<HTMLElement>("[data-zoom]").forEach((box) => {
+    const img = () => box.querySelector<HTMLImageElement>("img");
+    box.addEventListener("pointermove", (e) => {
+      const el = img();
+      if (!el) return;
+      const r = box.getBoundingClientRect();
+      el.style.transformOrigin = `${((e.clientX - r.left) / r.width) * 100}% ${((e.clientY - r.top) / r.height) * 100}%`;
+      el.style.transform = "scale(1.8)";
+      box.style.cursor = "zoom-in";
+    });
+    box.addEventListener("pointerleave", () => {
+      const el = img();
+      if (el) el.style.transform = "";
+    });
+  });
+}
+
 function initPurchasePanel() {
   document.querySelectorAll<HTMLElement>("[data-priniti-purchase]").forEach((root) => {
+    const sticky = document.querySelector<HTMLElement>("[data-sticky-buy]");
+    const activePanel = () => root.querySelector<HTMLElement>("[data-variant-panel]:not([hidden])");
+    const syncSticky = () => {
+      if (!sticky) return;
+      const price = activePanel()?.dataset.stickyPrice;
+      sticky.querySelectorAll<HTMLButtonElement>("[data-sticky-action]").forEach((b) => (b.disabled = !price));
+      const out = sticky.querySelector("[data-sticky-price-out]");
+      if (out) out.textContent = price ?? "Price coming soon";
+    };
     root.querySelectorAll<HTMLInputElement>('input[name="priniti-pack"]').forEach((radio) =>
       radio.addEventListener("change", () => {
         root.querySelectorAll<HTMLElement>("[data-variant-panel]").forEach((p) => (p.hidden = p.dataset.variantPanel !== radio.value));
         root.querySelectorAll<HTMLElement>("[data-variant-only]").forEach((p) => (p.hidden = p.dataset.variantOnly !== radio.value));
+        syncSticky();
       }),
     );
+
+    // Sticky mobile buy bar: shown while the panel's own buttons are scrolled out of view; its buttons
+    // press the visible panel's buttons, so cart behaviour stays in one place.
+    if (sticky) {
+      syncSticky();
+      sticky.querySelectorAll<HTMLButtonElement>("[data-sticky-action]").forEach((b) =>
+        b.addEventListener("click", () => {
+          const sel = b.dataset.stickyAction === "buy" ? "[data-priniti-buy-now]" : "[data-priniti-add]";
+          activePanel()?.querySelector<HTMLButtonElement>(sel)?.click();
+        }),
+      );
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          const below = entry.boundingClientRect.top < 0;
+          sticky.hidden = entry.isIntersecting || !below;
+          document.body.classList.toggle("has-sticky-buy", !sticky.hidden);
+        },
+        { threshold: 0 },
+      );
+      io.observe(root);
+    }
   });
 
   document.querySelectorAll<HTMLElement>("[data-qty]").forEach((group) => {
@@ -204,6 +255,27 @@ function initPurchasePanel() {
   });
 }
 
+/** Subtle reveal for sections marked data-reveal (CSS in app.css; skipped for reduced motion). */
+function initReveal() {
+  const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
+  if (!items.length) return;
+  if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    items.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-visible");
+          io.unobserve(e.target);
+        }
+      }),
+    { rootMargin: "0px 0px -8% 0px" },
+  );
+  items.forEach((el) => io.observe(el));
+}
+
 export function initInteractions() {
   initCartButtons();
   initWishlist();
@@ -212,4 +284,6 @@ export function initInteractions() {
   initTabs();
   initGallery();
   initPurchasePanel();
+  initZoom();
+  initReveal();
 }

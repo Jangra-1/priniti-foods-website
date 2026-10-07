@@ -13,9 +13,17 @@ $base    = priniti_url( '/shop' );
 get_header();
 ?>
 <div class="<?php echo esc_attr( priniti_container_classes( 'py-6 lg:py-10' ) ); ?>">
-	<?php priniti_breadcrumbs( array( array( 'label' => 'Shop' ) ) ); ?>
-	<h1 class="mb-6 mt-4 font-display text-3xl font-extrabold sm:text-4xl"><?php echo esc_html( priniti_shop_heading( $filters ) ); ?></h1>
-	<?php priniti_catalog_view( $base, $filters, priniti_get_categories() ); ?>
+	<?php priniti_breadcrumbs( array( array( 'label' => 'Shop' ) ), 'mb-4' ); ?>
+	<?php
+	$categories = priniti_get_categories();
+	$counts     = priniti_category_counts();
+	$heading    = priniti_shop_heading( $filters );
+	priniti_shop_hero( 'All snacks' === $heading ? 'Shop Priniti Foods' : $heading, (int) array_sum( $counts ), priniti_get_products_by_slugs( priniti_data( 'merchandising' )['heroSlugs'] ) );
+	priniti_category_pills( $categories, $counts, '', 'mt-5' );
+	?>
+	<div class="mt-6 lg:mt-8">
+		<?php priniti_catalog_view( $base, $filters, $categories ); ?>
+	</div>
 </div>
 <?php
 get_footer();
