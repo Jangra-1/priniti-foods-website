@@ -40,7 +40,7 @@ priniti_auth_shell(
 			<div data-field>
 				<label class="flex cursor-pointer items-start gap-2 text-sm">
 					<input type="checkbox" id="signup-terms" name="terms" value="1" data-validate="checked:Please agree to the terms to continue." class="mt-0.5 size-4 accent-brand" <?php checked( ! empty( $values['terms'] ) ); ?> aria-describedby="signup-terms-error">
-					<span>I agree to the <a href="<?php echo esc_url( priniti_url( '/terms' ) ); ?>" class="<?php echo esc_attr( $link ); ?>">Terms &amp; Conditions</a> and <a href="<?php echo esc_url( priniti_url( '/privacy-policy' ) ); ?>" class="<?php echo esc_attr( $link ); ?>">Privacy Policy</a>.</span>
+					<span>I agree to the <a href="<?php echo esc_url( priniti_url( '/terms-and-conditions' ) ); ?>" class="<?php echo esc_attr( $link ); ?>">Terms &amp; Conditions</a> and <a href="<?php echo esc_url( priniti_url( '/privacy-policy' ) ); ?>" class="<?php echo esc_attr( $link ); ?>">Privacy Policy</a>.</span>
 				</label>
 				<p id="signup-terms-error" data-error-for="signup-terms" class="mt-1 text-sm text-brand" <?php echo empty( $errors['terms'] ) ? 'hidden' : ''; ?>><?php echo esc_html( $errors['terms'] ?? '' ); ?></p>
 			</div>

@@ -50,7 +50,7 @@ Every reference component has a counterpart. ✅ ported · ➖ replaced by WooCo
 | `app/track-order`, TrackOrderForm, OrderJourney, TrackHelp | `templates/track-order.php` + priniti-core tracking ✅ |
 | `app/about`, JourneyTimeline | `templates/about.php` ✅ |
 | `app/contact`, ContactCards, ReachPanel, LocationCards, ContactForm | `templates/contact.php` + priniti-core enquiries ✅ |
-| `app/{privacy-policy,terms,shipping-policy,return-policy}`, PolicyPage | `templates/policy.php` ✅ |
+| `app/{privacy-policy,terms,shipping-policy,return-policy}`, PolicyPage | `templates/policy.php` ✅ (now at the Phase 5 URLs below, plus `/cookie-policy`) |
 | `app/not-found.tsx` | `404.php` ✅ |
 | Order received (no reference page) | `woocommerce/checkout/thankyou.php` built from the design's components ✅ |
 | TestPriceBanner, TestPriceBadge, `data/test-prices.ts` | ➖ WooCommerce prices are real |
@@ -137,7 +137,7 @@ highlights, then accordions (Ingredients open; Nutrition, Pack sizes, Storage, S
 
 ## Content and data
 
-- `inc/data/*.php` are generated from `reference/nextjs/data` (`npm run export:data`; CI fails if they drift): company facts, homepage copy, merchandising slugs, legal drafts, checkout integration labels.
+- `inc/data/*.php` are generated from `reference/nextjs/data` (`npm run export:data`; CI fails if they drift): company facts, homepage copy, merchandising slugs, legal policies, checkout integration labels.
 - Catalog data comes from WooCommerce through `inc/catalog.php`, shaped like the reference `Product` type. Filters, sorts, search and capabilities are ported line for line from `lib/catalog.ts` / `lib/api/products.ts`.
 - Class conflicts are resolved by `priniti_cx()`, a small tailwind-merge equivalent, so component overrides behave like the reference's `cn()`.
 
@@ -166,7 +166,8 @@ The design's routes are kept. Theme routes and the `/category/` base are registe
 | `/search?q=` | theme route |
 | `/cart`, `/checkout`, `/my-account` | WooCommerce's existing pages, rendered by the theme's templates (their page content is not used, so it does not need to change) |
 | `/login`, `/signup`, `/track-order` | theme routes, handled by priniti-core |
-| `/about`, `/contact`, `/privacy-policy`, `/terms`, `/shipping-policy`, `/return-policy` | theme routes (no WordPress pages needed) |
+| `/about`, `/contact` | theme routes (no WordPress pages needed) |
+| `/privacy-policy`, `/terms-and-conditions`, `/shipping-policy`, `/return-refund-policy`, `/cookie-policy` | theme routes (`templates/policy.php`, text in `reference/nextjs/data/legal.ts` → `npm run export:data`); each prints its own canonical link. The former `/terms` and `/return-policy` redirect here (301) |
 
 ## Data model (priniti-core)
 

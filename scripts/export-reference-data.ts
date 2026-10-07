@@ -5,7 +5,7 @@
 import { writeFileSync } from "node:fs";
 import { company } from "../reference/nextjs/data/company.ts";
 import { homeContent } from "../reference/nextjs/data/home.ts";
-import { policyMeta, privacyPolicy, returnPolicy, shippingPolicy, termsPolicy } from "../reference/nextjs/data/legal.ts";
+import { cookiePolicy, policyMeta, privacyPolicy, returnPolicy, shippingPolicy, termsPolicy } from "../reference/nextjs/data/legal.ts";
 import { merchandising } from "../reference/nextjs/data/merchandising.ts";
 import { pendingIntegrations } from "../reference/nextjs/data/integrations.ts";
 
@@ -50,7 +50,13 @@ write("company", "data/company.ts", company);
 write("home", "data/home.ts", { ...homeRest, hero: heroRest, brandStory: storyRest });
 write("legal", "data/legal.ts", {
   meta: policyMeta,
-  policies: { "privacy-policy": privacyPolicy, terms: termsPolicy, "shipping-policy": shippingPolicy, "return-policy": returnPolicy },
+  policies: {
+    "privacy-policy": privacyPolicy,
+    "terms-and-conditions": termsPolicy,
+    "shipping-policy": shippingPolicy,
+    "return-refund-policy": returnPolicy,
+    "cookie-policy": cookiePolicy,
+  },
 });
 write("merchandising", "data/merchandising.ts", merchandising);
 write("integrations", "data/integrations.ts", pendingIntegrations);
