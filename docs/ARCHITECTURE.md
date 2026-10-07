@@ -90,6 +90,26 @@ Data rules: these components only display existing product data. Missing ingredi
 "Coming soon"; ratings and reviews appear only when real WooCommerce reviews exist; unpriced products show "Price coming soon"
 and an enquiry link instead of a cart button.
 
+## E-commerce pricing (Ecomm Item List)
+
+The master list is `tools/import/data/ecomm-item-list.csv`, a CSV snapshot of "Ecomm Item List.xlsx" (sheet 30-09-2025).
+`docs/ECOMM-RECONCILIATION.md` maps every sheet row to its WooCommerce product and pack.
+
+- **Model.** One WooCommerce product per sheet product; each (weight, Pcs) row is a pack. Products with one pack are simple,
+  others are variable on the global *Pack size* attribute (`50 g`, `Pack of 14 × 13 g`). Every sellable product/variation
+  stores `_priniti_mrp` (MRP of one piece), `_priniti_pcs`, `_priniti_weight` and `_priniti_ecomm_item` (sheet item, internal).
+- **Prices.** Regular price = MRP for single packs (Pcs = 1), MRP × Pcs for a Pack of X. No sale prices.
+- **1 / 2 / 3 packs.** Single packs are bought as 1, 2 or 3 packs: the product page and quick view set the cart quantity,
+  and priniti-core (`includes/pack-pricing.php`) prices 2 or 3 packs at MRP × n × 0.88 in the cart, so cart, checkout and
+  orders charge what the page shows. Lines of single packs are capped at 3; Pack-of-X lines keep the site limit (10) and
+  are never discounted.
+- **Tooling.** `npm run ecomm:plan` (read-only reconciliation, writes a report), `npm run ecomm:apply` (dry run),
+  `PRINITI_IMPORT_ALLOW_WRITE=1 npm run ecomm:apply -- --apply` (write), `npm run ecomm:apply -- --verify` (check live
+  prices and pack data). Matching uses normalised names (case, punctuation, plurals, doubled letters, word order,
+  synonyms) and reviewed decisions for near-misses, never silent fuzzy guesses. `npm test` covers the pricing examples.
+- **Local preview.** `npx tsx tools/dev/export-catalog.ts --ecomm` builds the local catalog from the same reconciliation;
+  the local cart mock calls priniti-core's own pricing function.
+
 ## Content and data
 
 - `inc/data/*.php` are generated from `reference/nextjs/data` (`npm run export:data`; CI fails if they drift): company facts, homepage copy, merchandising slugs, legal drafts, checkout integration labels.

@@ -1,0 +1,106 @@
+{
+  "source": "https://www.prinitifoods.com/ (official image URLs supplied by the owner, 2026-10-07)",
+  "rules": "Only products listed here get an image. An entry is applied only after its downloaded artwork has been checked visually against the product (verified: true). Products that already have an image keep it.",
+  "products": {
+    "Choco Vanilla Donut Cake": {
+      "url": "https://www.prinitifoods.com/images/choco-vanilla-donut.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Donut Cake – Choco Vanilla Cake'"
+    },
+    "Strawberry Vanilla Donut Cake": {
+      "url": "https://www.prinitifoods.com/images/Strawberry-vanilla-donut.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Donut Cake – Strawberry Vanilla Cake'"
+    },
+    "Chilli Storm": {
+      "url": "https://www.prinitifoods.com/images/chilli-storm.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Chilli Storm'"
+    },
+    "Roll N Roll": {
+      "url": "https://www.prinitifoods.com/new-images/Rollnroll.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Roll N Roll'"
+    },
+    "Manchurian Fried Rice": {
+      "url": "https://www.prinitifoods.com/images/manchurian-fried-rice.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Manchurian Fried Rice flavoured snacks'"
+    },
+    "Mintoze Baby Ring": {
+      "url": "https://www.prinitifoods.com/images/mintoze.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Baby Ring Mintoze Pudina flavour'"
+    },
+    "Tomato Katori": {
+      "url": "https://www.prinitifoods.com/images/tomato-katori.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Tomato Katori'"
+    },
+    "Puffcorn": {
+      "url": "https://www.prinitifoods.com/images/puff-corn.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Puff Corn' (cheese flavour)"
+    },
+    "Veg Biryani": {
+      "url": "https://www.prinitifoods.com/new-images/Vegbriyani.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Veg Biryani'"
+    },
+    "Boondi Masala": {
+      "url": null,
+      "verified": false,
+      "note": "No official Boondi Masala artwork: images/boondi-masala.png shows the plain 'Boondi' pack, identical to the existing Boondi product image, so it is not used."
+    },
+    "Cocktail Mix": {
+      "url": "https://www.prinitifoods.com/new-images/Cocktail_mix.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Cocktail Mix'"
+    },
+    "Jhatpat Bhel": {
+      "url": "https://www.prinitifoods.com/new-images/jhatpat.png",
+      "verified": true,
+      "note": "Verified: pack reads 'JhatPat Bhel'"
+    },
+    "Salted Peanuts": {
+      "url": "https://www.prinitifoods.com/images/salted-peenut.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Salty Peanut' (plain salted peanuts); tasty-penuts.png is Tasty Nuts"
+    },
+    "Bhujia": {
+      "url": "https://www.prinitifoods.com/images/new-bikaneri-bhujia.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Bhujia' (not Aloo Bhujia); products/bikaneri-bhujia.png is a smaller 'Bikaneri Bhujia' variant"
+    },
+    "Cornflakes": {
+      "url": "https://www.prinitifoods.com/new-images/Cornflakes-Namkeen.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Cornflakes' (the filename-based guess had this swapped with cornflakes.png)"
+    },
+    "Cornflakes Mixture": {
+      "url": "https://www.prinitifoods.com/images/cornflakes.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Cornflakes Mixture' (despite the filename)"
+    },
+    "Chiji Noodles": {
+      "url": "https://www.prinitifoods.com/new-images/noodles-snacks.jpg",
+      "verified": true,
+      "note": "Verified: pack reads 'Chiji Noodles Snacks'; Noodles.jpg is the existing Noodles product"
+    },
+    "Puff Hot Spicy": {
+      "url": "https://www.prinitifoods.com/images/puffs.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Puffs – Hot Spicy flavoured'"
+    },
+    "Potato Chips Spicy Masti": {
+      "url": "https://www.prinitifoods.com/new-images/mastu.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Potato Chips Spicy Masti' (not prd2-chips.png, which is Masala Punch)"
+    },
+    "Loopyz": {
+      "url": null,
+      "verified": false,
+      "note": "None of the 83 supplied official images shows a Loopyz pack."
+    }
+  }
+}

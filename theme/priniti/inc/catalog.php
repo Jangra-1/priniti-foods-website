@@ -53,6 +53,15 @@ function priniti_product_view( WC_Product $product ): array {
 		return 'outofstock' === $p->get_stock_status() ? false : null; // null = no stock data
 	};
 	$money = static fn ( $v ): ?float => ( '' === $v || null === $v ) ? null : (float) $v;
+	// Sellable-unit data from the e-commerce item list (priniti-core pack-pricing.php): pieces per unit and MRP per piece.
+	$pack_data = static function ( int $post_id ) use ( $money ): array {
+		$pcs = get_post_meta( $post_id, '_priniti_pcs', true );
+		return array(
+			'pcs'     => '' === $pcs ? null : max( 1, (int) $pcs ),
+			'unitMrp' => $money( get_post_meta( $post_id, '_priniti_mrp', true ) ),
+			'weight'  => (string) get_post_meta( $post_id, '_priniti_weight', true ),
+		);
+	};
 
 	$variants = array();
 	if ( $product->is_type( 'variable' ) ) {
@@ -80,7 +89,7 @@ function priniti_product_view( WC_Product $product ): array {
 				'sku'        => $variation->get_sku(),
 				'attributes' => $store_attr,
 				'purchasable' => null !== $price && false !== $stock( $variation ) && $variation->is_purchasable(),
-			);
+			) + $pack_data( $child_id );
 		}
 	} else {
 		$pack  = (string) ( $meta( '_priniti_pack_size' ) ?? '' );
@@ -96,7 +105,7 @@ function priniti_product_view( WC_Product $product ): array {
 				'sku'         => $product->get_sku(),
 				'attributes'  => array(),
 				'purchasable' => null !== $price && false !== $stock( $product ) && $product->is_purchasable(),
-			);
+			) + $pack_data( $id );
 		}
 	}
 
@@ -150,7 +159,7 @@ function priniti_catalog(): array {
 	if ( ! function_exists( 'wc_get_products' ) ) {
 		return $catalog = array();
 	}
-	$cached = get_transient( 'priniti_catalog_v1' );
+	$cached = get_transient( 'priniti_catalog_v2' );
 	if ( is_array( $cached ) ) {
 		return $catalog = $cached;
 	}
@@ -163,7 +172,7 @@ function priniti_catalog(): array {
 		$catalog,
 		static fn ( array $a, array $b ): int => array( $a['categoryOrder'], $a['menuOrder'], $a['id'] ) <=> array( $b['categoryOrder'], $b['menuOrder'], $b['id'] )
 	);
-	set_transient( 'priniti_catalog_v1', $catalog, HOUR_IN_SECONDS * 6 );
+	set_transient( 'priniti_catalog_v2', $catalog, HOUR_IN_SECONDS * 6 );
 	return $catalog;
 }
 
@@ -284,6 +293,39 @@ function priniti_discount( ?array $variant ): int {
 	return (int) round( ( $variant['mrp'] - $variant['price'] ) / $variant['mrp'] * 100 );
 }
 
+/** Discount on 2 and 3 single packs; mirrors priniti-core's PRINITI_CORE_MULTIPACK_DISCOUNT. */
+const PRINITI_MULTIPACK_DISCOUNT = 0.12;
+
+/** True when a variant is a single pack sold with the 1 / 2 / 3 pack selector. */
+function priniti_is_multipack( ?array $variant ): bool {
+	return $variant && 1 === ( $variant['pcs'] ?? null ) && null !== ( $variant['unitMrp'] ?? null );
+}
+
+/** True when a variant is a predefined "Pack of X" (Pcs > 1). */
+function priniti_is_pack_of( ?array $variant ): bool {
+	return $variant && ( $variant['pcs'] ?? 0 ) > 1;
+}
+
+/**
+ * The 1 / 2 / 3 pack options of a single pack: total price, MRP equivalent and discount.
+ *
+ * @return array<int, array{packs:int, total:float, mrp:float, off:int}>
+ */
+function priniti_multipack_options( array $variant ): array {
+	$mrp = (float) $variant['unitMrp'];
+	$out = array();
+	foreach ( array( 1, 2, 3 ) as $n ) {
+		$total = 1 === $n ? $mrp : round( $mrp * $n * ( 1 - PRINITI_MULTIPACK_DISCOUNT ), 2 );
+		$out[] = array(
+			'packs' => $n,
+			'total' => $total,
+			'mrp'   => $mrp * $n,
+			'off'   => 1 === $n ? 0 : (int) round( PRINITI_MULTIPACK_DISCOUNT * 100 ),
+		);
+	}
+	return $out;
+}
+
 /** Verified pack-size labels (no placeholders). */
 function priniti_pack_labels( array $product ): array {
 	return array_values( array_filter( array_map( static fn ( $v ) => (string) $v['label'], $product['variants'] ) ) );
@@ -337,16 +379,16 @@ function priniti_sort_options(): array {
 }
 
 function priniti_format_inr( float $amount ): string {
-	// en-IN grouping (12,34,567) with no decimals, like Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 }).
-	$n     = (string) (int) round( $amount );
-	$neg   = str_starts_with( $n, '-' );
-	$n     = ltrim( $n, '-' );
+	// en-IN grouping (12,34,567); paise only when present (₹30, ₹96.80), like assets/src/js/lib/format.ts.
+	$cents = (int) round( abs( $amount ) * 100 );
+	$n     = (string) intdiv( $cents, 100 );
+	$paise = $cents % 100;
 	$last3 = substr( $n, -3 );
 	$rest  = substr( $n, 0, -3 );
 	if ( '' !== $rest ) {
 		$rest = (string) preg_replace( '/\B(?=(\d{2})+(?!\d))/', ',', $rest ) . ',';
 	}
-	return ( $neg ? '-' : '' ) . '₹' . $rest . $last3;
+	return ( $amount < 0 && $cents ? '-' : '' ) . '₹' . $rest . $last3 . ( $paise ? sprintf( '.%02d', $paise ) : '' );
 }
 
 function priniti_price_ranges(): array {
@@ -653,7 +695,7 @@ function priniti_get_search_index(): array {
  * ---------------------------------------------------------------------- */
 
 function priniti_flush_catalog_cache(): void {
-	delete_transient( 'priniti_catalog_v1' );
+	delete_transient( 'priniti_catalog_v2' );
 }
 foreach ( array( 'save_post_product', 'save_post_product_variation', 'deleted_post', 'woocommerce_update_product', 'woocommerce_update_product_variation', 'woocommerce_product_set_stock_status', 'woocommerce_variation_set_stock_status', 'created_product_cat', 'edited_product_cat', 'delete_product_cat', 'comment_post', 'wp_set_comment_status', 'edited_term', 'woocommerce_after_product_ordering' ) as $priniti_hook ) {
 	add_action( $priniti_hook, 'priniti_flush_catalog_cache' );

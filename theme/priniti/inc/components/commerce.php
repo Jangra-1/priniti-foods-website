@@ -102,6 +102,8 @@ function priniti_product_payload( array $product ): array {
 				'mrp'         => $v['mrp'],
 				'attributes'  => $v['attributes'],
 				'purchasable' => (bool) $v['purchasable'],
+				'pcs'         => $v['pcs'] ?? null,
+				'unitMrp'     => $v['unitMrp'] ?? null,
 			),
 			$product['variants']
 		),
@@ -165,7 +167,17 @@ function priniti_product_card( array $product, string $class = '' ): void {
 			<?php if ( $product['categoryHref'] ) : ?>
 				<a href="<?php echo esc_url( $product['categoryHref'] ); ?>" class="relative z-10 line-clamp-1 w-fit text-[10px] font-bold uppercase tracking-wide text-brand transition-colors hover:text-brand-dark"><?php echo esc_html( $product['categoryName'] ); ?></a>
 			<?php endif; ?>
-			<p class="text-[11px] leading-tight text-ink-soft"><?php echo esc_html( $packs ? implode( ' · ', $packs ) : 'Pack size to be confirmed' ); ?></p>
+			<p class="text-[11px] leading-tight text-ink-soft">
+				<?php
+				if ( $purchasable && $purchasable['label'] ) {
+					// The pack the card sells, plus how many other sizes the product page offers.
+					$more = count( $packs ) - 1;
+					echo esc_html( $purchasable['label'] . ( $more > 0 ? sprintf( ' · %d more %s', $more, 1 === $more ? 'size' : 'sizes' ) : '' ) );
+				} else {
+					echo esc_html( $packs ? implode( ' · ', $packs ) : 'Pack size to be confirmed' );
+				}
+				?>
+			</p>
 
 			<h3 class="line-clamp-2 font-display text-sm font-semibold leading-snug sm:text-[15px]">
 				<a href="<?php echo esc_url( $product['href'] ); ?>" class="card-link outline-none after:absolute after:inset-0"><?php echo esc_html( $product['name'] ); ?></a>
@@ -179,7 +191,19 @@ function priniti_product_card( array $product, string $class = '' ): void {
 
 			<div class="relative z-10 mt-auto flex items-end justify-between gap-2 pt-2">
 				<?php if ( $purchasable ) : ?>
-					<?php priniti_price_display( (float) ( $purchasable['mrp'] ?? $purchasable['price'] ), (float) $purchasable['price'], 'sm', false ); ?>
+					<div class="min-w-0">
+						<?php if ( priniti_is_multipack( $purchasable ) ) : ?>
+							<span class="<?php echo esc_attr( priniti_badge_classes( 'leaf', 'mb-1 px-2 py-0.5 text-[10px]' ) ); ?>">2+ packs 12% OFF</span>
+						<?php elseif ( priniti_is_pack_of( $purchasable ) ) : ?>
+							<span class="<?php echo esc_attr( priniti_badge_classes( 'navy', 'mb-1 px-2 py-0.5 text-[10px]' ) ); ?>"><?php echo esc_html( 'Pack of ' . $purchasable['pcs'] ); ?></span>
+						<?php endif; ?>
+						<?php priniti_price_display( (float) ( $purchasable['mrp'] ?? $purchasable['price'] ), (float) $purchasable['price'], 'sm', false ); ?>
+						<?php if ( priniti_is_pack_of( $purchasable ) && null !== $purchasable['unitMrp'] ) : ?>
+							<p class="text-[10px] leading-tight text-ink-soft"><?php echo esc_html( sprintf( 'MRP %s × %d', priniti_format_inr( (float) $purchasable['unitMrp'] ), $purchasable['pcs'] ) ); ?></p>
+						<?php elseif ( priniti_is_multipack( $purchasable ) ) : ?>
+							<p class="text-[10px] leading-tight text-ink-soft">MRP per pack</p>
+						<?php endif; ?>
+					</div>
 					<?php priniti_card_add_button( $product, $purchasable ); ?>
 				<?php else : ?>
 					<p class="text-xs font-semibold text-ink-soft"><?php esc_html_e( 'Price coming soon', 'priniti' ); ?></p>
@@ -324,7 +348,7 @@ function priniti_category_art( string $slug, string $name ): array {
 		'puffs'        => array( 'Fun snacking', 'Colourful Priniti puffs and fryums for playful snack breaks.', array( 'confetti', 'burst', 'dots' ) ),
 		'ringo'        => array( 'Ring of fun', 'Ringo Star rings for snack-time fun with friends.', array( 'confetti', 'squiggle', 'dots' ) ),
 		'sweets'       => array( 'Festive mithai', 'Priniti sweets for festivals, celebrations and gifting.', array( 'flower', 'sparkle', 'dots' ) ),
-		'donut'        => array( 'Sweet bakes', 'Priniti donut cakes are on their way to the online store.', array( 'confetti', 'sparkle', 'dots' ) ),
+		'donut'        => array( 'Sweet bakes', 'Priniti donut cakes for lunch boxes and tea-time.', array( 'confetti', 'sparkle', 'dots' ) ),
 	);
 	$match = array( 'Priniti category', sprintf( 'Explore Priniti %s for every snack moment.', $name ), array( 'sparkle', 'squiggle', 'dots' ) );
 	foreach ( $art as $prefix => $a ) {
@@ -937,6 +961,71 @@ function priniti_product_gallery( array $product, int $cat_index, string $tone )
 				<?php endforeach; ?>
 			</ul>
 		<?php endif; ?>
+	</div>
+	<?php
+}
+
+/**
+ * Price and quantity area of one pack in the product purchase panel.
+ *
+ * - Single pack (Pcs = 1): a 1 / 2 / 3 Packs selector. Choosing 2 or 3 sets the cart quantity; priniti-core prices
+ *   two or three packs at MRP x n x 0.88, so the totals shown here are what the cart charges.
+ * - Pack of X (Pcs > 1): the pack price and its contents, plus how many packs to buy.
+ * - Anything else: price and quantity as before.
+ */
+function priniti_purchase_options( array $product, array $variant, int $max_qty ): void {
+	if ( priniti_is_multipack( $variant ) ) {
+		$options = priniti_multipack_options( $variant );
+		$name    = 'packs-' . $variant['id'];
+		?>
+		<div class="border-t border-line pt-5">
+		<fieldset data-pack-options>
+			<legend class="mb-3 text-sm font-semibold">How many packs?</legend>
+			<div class="grid gap-2.5 sm:grid-cols-3">
+				<?php foreach ( $options as $o ) : ?>
+					<label class="relative cursor-pointer">
+						<input type="radio" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( (string) $o['packs'] ); ?>" data-pack-total="<?php echo esc_attr( priniti_format_inr( $o['total'] ) ); ?>" class="peer sr-only" <?php checked( 1 === $o['packs'] ); ?>>
+						<span class="flex h-full items-center justify-between gap-2 rounded-2xl border-2 border-line bg-surface px-4 py-3 transition hover:border-ink/40 peer-checked:border-navy peer-checked:bg-navy-tint peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand sm:flex-col sm:items-start">
+							<span>
+								<span class="block font-display text-base font-bold leading-tight"><?php echo esc_html( 1 === $o['packs'] ? '1 Pack' : $o['packs'] . ' Packs' ); ?></span>
+								<span class="mt-0.5 flex flex-wrap items-baseline gap-x-1.5 text-sm">
+									<span class="font-semibold tabular-nums text-ink"><?php echo esc_html( priniti_format_inr( $o['total'] ) ); ?></span>
+									<?php if ( $o['off'] ) : ?>
+										<del class="text-xs tabular-nums text-ink-soft"><span class="sr-only">MRP </span><?php echo esc_html( priniti_format_inr( $o['mrp'] ) ); ?></del>
+									<?php endif; ?>
+								</span>
+							</span>
+							<?php if ( $o['off'] ) : ?>
+								<span class="<?php echo esc_attr( priniti_badge_classes( 'leaf', 'shrink-0 px-2 py-1 text-[11px]' ) ); ?>"><?php echo esc_html( $o['off'] . '% OFF' ); ?></span>
+							<?php endif; ?>
+						</span>
+					</label>
+				<?php endforeach; ?>
+			</div>
+			<output data-qty-value hidden>1</output>
+			<p class="mt-3 flex flex-wrap items-baseline gap-x-2 text-sm text-ink-soft">
+				<span>Total</span>
+				<span class="font-display text-2xl font-bold tabular-nums text-ink" data-pack-total-out><?php echo esc_html( priniti_format_inr( $options[0]['total'] ) ); ?></span>
+				<span><?php echo esc_html( 'MRP ' . priniti_format_inr( (float) $variant['unitMrp'] ) . ' per pack' . ( $variant['weight'] ? ' (' . $variant['weight'] . ')' : '' ) ); ?></span>
+			</p>
+		</fieldset>
+		</div>
+		<?php
+		return;
+	}
+	?>
+	<div class="border-t border-line pt-5">
+		<?php priniti_price_display( (float) ( $variant['mrp'] ?? $variant['price'] ), (float) $variant['price'], 'lg' ); ?>
+		<?php if ( priniti_is_pack_of( $variant ) ) : ?>
+			<p class="mt-1.5 flex flex-wrap items-center gap-2 text-sm text-ink-soft">
+				<span class="<?php echo esc_attr( priniti_badge_classes( 'navy', 'px-2.5 py-1 text-xs' ) ); ?>"><?php echo esc_html( 'Pack of ' . $variant['pcs'] ); ?></span>
+				<span><?php echo esc_html( sprintf( '%d packs%s, MRP %s each', $variant['pcs'], $variant['weight'] ? ' of ' . $variant['weight'] : '', priniti_format_inr( (float) $variant['unitMrp'] ) ) ); ?></span>
+			</p>
+		<?php endif; ?>
+	</div>
+	<div class="flex items-center gap-3">
+		<span class="text-sm font-semibold"><?php echo esc_html( priniti_is_pack_of( $variant ) ? 'Number of packs' : 'Quantity' ); ?></span>
+		<?php priniti_quantity_selector( $product['name'], $max_qty ); ?>
 	</div>
 	<?php
 }

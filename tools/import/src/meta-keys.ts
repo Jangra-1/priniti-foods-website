@@ -10,6 +10,11 @@ export const META = {
   packSource: "_priniti_pack_source",
   sourceId: "_priniti_source_id",
   internalNotes: "_priniti_internal_notes",
+  // Sellable unit (product or variation), from the e-commerce item list.
+  mrp: "_priniti_mrp",
+  pcs: "_priniti_pcs",
+  weight: "_priniti_weight",
+  ecommItem: "_priniti_ecomm_item",
 } as const;
 
 export const TERM_META = {

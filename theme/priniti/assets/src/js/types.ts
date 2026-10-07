@@ -28,6 +28,10 @@ export interface QuickViewVariant {
   mrp: number | null;
   attributes: { attribute: string; value: string }[];
   purchasable: boolean;
+  /** Pieces per sellable unit: 1 = single pack (1/2/3 pack selector), >1 = a predefined "Pack of X". */
+  pcs: number | null;
+  /** MRP of one piece. */
+  unitMrp: number | null;
 }
 
 export interface QuickViewProduct {

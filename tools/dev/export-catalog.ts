@@ -1,13 +1,18 @@
 /**
  * LOCAL PREVIEW ONLY. Writes the reference catalog in the theme's view-model shape (inc/catalog.php) to
  * tools/dev/catalog.json, for tools/dev/local-preview-mu.php. `--test-prices` layers the reference's development
- * TEST prices on, to preview the priced UI (cart, quick view, buy now). Never used on a real site.
+ * TEST prices on, to preview the priced UI (cart, quick view, buy now). `--ecomm` builds the catalog the way the live
+ * store now has it: the e-commerce item list reconciled with the reference products (same packs, prices and images).
+ * Never used on a real site.
  */
 import { writeFileSync } from "node:fs";
 import { categories } from "../../reference/nextjs/data/categories.ts";
 import { comboProducts } from "../../reference/nextjs/data/combos.ts";
 import { products } from "../../reference/nextjs/data/products.ts";
 import { applyTestPricing } from "../../reference/nextjs/data/test-prices.ts";
+import { RENAMES } from "../import/src/ecomm/apply.ts";
+import { loadItems } from "../import/src/ecomm/plan.ts";
+import { reconcile } from "../import/src/ecomm/reconcile.ts";
 
 const base = process.argv.includes("--base") ? process.argv[process.argv.indexOf("--base") + 1] : "http://localhost:8080";
 const test = process.argv.includes("--test-prices");
@@ -69,5 +74,48 @@ const cats = categories.map((c, i) => {
   };
 });
 
-writeFileSync("tools/dev/catalog.json", JSON.stringify({ catalog, categories: cats }, null, 1));
-console.log(`tools/dev/catalog.json: ${catalog.length} products, ${cats.length} categories${test ? " (TEST prices)" : ""}`);
+let out = catalog;
+if (process.argv.includes("--ecomm")) {
+  // Reference products stand in for the live catalog (the live store was imported from them).
+  const asLive = catalog.map((p) => ({ id: p.id, name: p.name, slug: p.slug, type: p.variants.length > 1 ? "variable" : "simple", status: "publish", category: p.categorySlug, imageCount: p.images.length, packSize: "", variations: [] }));
+  const r = reconcile(loadItems(), asLive);
+  if (r.problems.length) throw new Error(r.problems.join("\n"));
+  let newId = 5000;
+  out = r.products.map((planned) => {
+    const ref = catalog.find((p) => p.id === planned.live?.id);
+    const id = ref?.id ?? newId++;
+    const slug = ref?.slug ?? planned.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const category = cats.find((c) => c.slug === planned.category)!;
+    return {
+      ...(ref ?? { ...catalog[0], images: [], description: null, badges: [], featured: false, highlights: null, ingredients: null, nutrition: null, storage: null, shippingNote: null, faqs: null, rating: null, reviewCount: 0 }),
+      id,
+      slug,
+      name: (ref && RENAMES[ref.id]) || planned.name,
+      href: `${base}/product/${slug}/`,
+      categorySlug: category.slug,
+      categoryName: category.name,
+      categoryHref: category.href,
+      categoryOrder: category.order,
+      variants: planned.packs.map((k, i) => ({
+        id: planned.packs.length > 1 ? nextId++ : id,
+        label: k.label,
+        source: "ecomm-item-list",
+        price: k.price,
+        mrp: k.price,
+        inStock: null,
+        sku: "",
+        attributes: planned.packs.length > 1 ? [{ attribute: "Pack size", value: k.label }] : [],
+        purchasable: true,
+        pcs: k.pcs,
+        unitMrp: k.mrp,
+        weight: k.weight,
+        order: i,
+      })),
+    };
+  });
+  // Reference products the sheet does not list stay visible locally, unpriced, as on the live store.
+  for (const p of catalog) if (!r.products.some((x) => x.live?.id === p.id) && p.categorySlug !== "combos") out.push({ ...p, variants: p.variants.map((v) => ({ ...v, price: null, mrp: null, purchasable: false })) });
+}
+
+writeFileSync("tools/dev/catalog.json", JSON.stringify({ catalog: out, categories: cats }, null, 1));
+console.log(`tools/dev/catalog.json: ${out.length} products, ${cats.length} categories${test ? " (TEST prices)" : ""}${process.argv.includes("--ecomm") ? " (e-commerce item list)" : ""}`);
