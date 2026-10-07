@@ -15,6 +15,7 @@ export const META = {
   pcs: "_priniti_pcs",
   weight: "_priniti_weight",
   ecommItem: "_priniti_ecomm_item",
+  contentSource: "_priniti_content_source",
 } as const;
 
 export const TERM_META = {

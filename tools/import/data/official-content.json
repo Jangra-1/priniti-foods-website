@@ -1,0 +1,927 @@
+{
+  "source": "https://www.prinitifoods.com/ (official product pages)",
+  "skipped": {
+    "Chana Jor Garam": "official page repeats the All in One text"
+  },
+  "products": {
+    "All In One": {
+      "source": "https://www.prinitifoods.com/all-in-one-namkeen.php",
+      "officialTitle": "All in One Namkeen",
+      "shortDescription": "All-in-One Namkeen has built strong acceptance as a mixed savoury snack across households, workplaces, and shared consumption occasions.",
+      "description": "All-in-One Namkeen has built strong acceptance as a mixed savoury snack across households, workplaces, and shared consumption occasions. Designed to deliver variety in a single pack, this namkeen brings together red peanut, gram pulses, rice flakes, gramflakes, raisins, cornflakes, sago, potato, green pea, and cashew nuts to create a balanced combination of textures and flavours. The mix offers crunch, lightness, and mild sweetness, making it a preferred choice for consumers who enjoy diversity without switching between multiple snack options.",
+      "highlights": [
+        "The product delivers a balanced savoury taste, combining crunch, lightness, and mild sweetness without any single element overpowering the blend.",
+        "The familiar mix and balanced composition make it suitable for regular consumption across different age groups and usage occasions."
+      ],
+      "ingredients": "Red peanuts, gram pulses, rice flakes, gram flakes, raisins, cornflakes, sago, potato, green peas and cashew nuts",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Aloo Bhujia": {
+      "source": "https://www.prinitifoods.com/aloo-bhujia-namkeen-manufacturers.php",
+      "officialTitle": "Aloo Bhujia Namkeen",
+      "shortDescription": "Aloo Bhujia is a widely preferred savoury snack made from potato and formed into fine strands, offering a familiar and convenient format.",
+      "description": "Aloo Bhujia is a widely preferred savoury snack made from potato and formed into fine strands, offering a familiar and convenient format. Its flavour is built using garlic, mint, cumin, coriander, onion, mango, cardamom, black pepper, clove, and cinnamon, resulting in a layered, mildly spiced, and well-balanced taste. The seasoning delivers impact without overwhelming the base, making it suitable for regular consumption.",
+      "highlights": [
+        "Aloo Bhujia delivers a savoury and aromatic taste developed through a balanced blend of spices.",
+        "Aloo Bhujia fits naturally into everyday snack breaks and tea-time occasions."
+      ],
+      "ingredients": "Potato, seasoned with garlic, mint, cumin, coriander, onion, mango, cardamom, black pepper, clove and cinnamon",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and direct sunlight.",
+      "shelfLife": "Up to 6 months"
+    },
+    "Bhujia": {
+      "source": "https://www.prinitifoods.com/bhujia-namkeen.php",
+      "officialTitle": "Bhujia Namkeen",
+      "shortDescription": "Bhujia is a finely textured savoury snack recognised for its crisp bite and bold spice character.",
+      "description": "Bhujia is a finely textured savoury snack recognised for its crisp bite and bold spice character. It is prepared using tepary beans flour and gram pulse flour, shaped into thin strands and seasoned with a carefully balanced blend of spices, including red chilli, clove, black pepper, ginger, long pepper, cardamom, nutmeg, and cinnamon. This combination delivers a flavour that is robust yet controlled, offering warmth and depth without overpowering the base profile.",
+      "highlights": [],
+      "ingredients": "Tepary bean flour and gram pulse flour",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "Up to 6 months"
+    },
+    "Bombay Mix": {
+      "source": "https://www.prinitifoods.com/bombay-mix-namkeen.php",
+      "officialTitle": "Bombay Mix Namkeen",
+      "shortDescription": "Bombay Mix is a mixed savoury snack developed for consumers who prefer bold, familiar flavours with a balanced texture.",
+      "description": "Bombay Mix is a mixed savoury snack developed for consumers who prefer bold, familiar flavours with a balanced texture. The product is prepared using gram pulse, potato, rice flakes, and curry leaves, creating a combination that delivers crunch, lightness, and a distinctive aromatic profile. Curry leaves add a noticeable flavour identity, while gram pulse and potato provide structure and bite, supported by the light texture of rice flakes.",
+      "highlights": [
+        "Bombay Mix is a mixed savoury snack made using gram pulse, potato, rice flakes, and curry leaves.",
+        "Bombay Mix delivers a savoury and aromatic taste profile, where curry leaves provide a distinct flavour note.",
+        "Bombay Mix is suitable for regular household use due to its familiar ingredients and balanced flavour profile."
+      ],
+      "ingredients": "Gram pulse, potato, rice flakes and curry leaves",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and direct sunlight.",
+      "shelfLife": "Up to 6 months"
+    },
+    "Boondi": {
+      "source": "https://www.prinitifoods.com/boondi-masala.php",
+      "officialTitle": "Boondi Namkeen",
+      "shortDescription": "Boondi is a crisp, besan-based savoury snack prepared using gram pulse flour and shaped into small, crunchy pearls.",
+      "description": "Boondi is a crisp, besan-based savoury snack prepared using gram pulse flour and shaped into small, crunchy pearls. It offers a light savoury taste with a clean and uniform texture, making it suitable for both direct snacking and culinary use such as raita, chaat toppings, and household food preparations.",
+      "highlights": [
+        "Boondi is prepared using gram pulse flour and formed into small, crisp pearls that work well as a light snack and as an ingredient for raita, chaat, and household food preparations."
+      ],
+      "ingredients": "Gram pulse flour",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and direct sunlight.",
+      "shelfLife": "Up to 6 months"
+    },
+    "Chatpati Dal": {
+      "source": "https://www.prinitifoods.com/chatpati-dal-namkeen-manufacturers.php",
+      "officialTitle": "Chatpati Dal Namkeen",
+      "shortDescription": "Chatpati Dal is a crisp, tangy savoury snack made from gram pulse, seasoned to deliver a chatpata taste profile with a balanced mix of spice, sourness, and warmth.",
+      "description": "Chatpati Dal is a crisp, tangy savoury snack made from gram pulse, seasoned to deliver a chatpata taste profile with a balanced mix of spice, sourness, and warmth. The seasoning is built using flavours such as mango powder, black salt, red chilli, onion powder, garlic powder, ginger powder, cinnamon powder, mint leaf powder, clove powder, and mint oil, which together create a lively and flavour-rich snacking experience.",
+      "highlights": [
+        "The taste is chatpata and flavour-forward, combining tanginess, mild heat, spice warmth, and light mint notes, while retaining the natural crunch of the gram pulse.",
+        "Its crisp texture and lively flavour make it suitable for tea-time, work breaks, travel snacking, and casual household consumption."
+      ],
+      "ingredients": "Gram pulse, seasoned with mango powder, black salt, red chilli, onion powder, garlic powder, ginger powder, cinnamon powder, mint leaf powder, clove powder and mint oil",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and direct sunlight.",
+      "shelfLife": "Up to 6 months"
+    },
+    "Cocktail Mix": {
+      "source": "https://www.prinitifoods.com/Cocktail-Mix.php",
+      "officialTitle": "Cocktail Mix Namkeen",
+      "shortDescription": "Cocktail Mix is a savoury snack blend created using a combination of green peas, red peanuts and chickpeas, offering a mix of crunchy, nutty and roasted textures in every bite.",
+      "description": "Cocktail Mix is a savoury snack blend created using a combination of green peas, red peanuts and chickpeas, offering a mix of crunchy, nutty and roasted textures in every bite. The seasoning profile is designed to complement the natural taste of these ingredients, giving the product a bold and chatpata flavour tone that feels lively and snack-worthy. The mix format makes it suitable for casual gatherings, evening snacking, tea-time, and on-the-go consumption, appealing to consumers who enjoy multi-component snacks with a fuller bite.",
+      "highlights": [
+        "The name Cocktail Mix reflects its purpose as a multi-ingredient snack blend made with green peas, red peanuts and chickpeas, designed for informal gatherings, group snacking and social consumption occasions."
+      ],
+      "ingredients": "Green peas, red peanuts and chickpeas",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Cornflakes": {
+      "source": "https://www.prinitifoods.com/cornflakes-manufacturers.php",
+      "officialTitle": "Cornflakes Namkeen",
+      "shortDescription": "Cornflakes Namkeen is a light, flaky savoury snack prepared using crisp cornflakes combined with red peanuts to deliver a balanced crunch and fuller bite experience.",
+      "description": "Cornflakes Namkeen is a light, flaky savoury snack prepared using crisp cornflakes combined with red peanuts to deliver a balanced crunch and fuller bite experience. The product offers a clean, airy texture with mild savoury seasoning, making it suitable for consumers who prefer a light yet satisfying snack across daily consumption occasions. The mix is crafted to offer crunch without heaviness, supporting repeat intake across tea-time, short breaks, and casual snacking moments.",
+      "highlights": [
+        "The product offers a light, crunchy cornflake base complemented by red peanuts for a fuller bite, resulting in a balanced savoury flavour that is easy to consume regularly."
+      ],
+      "ingredients": "Cornflakes and red peanuts",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "Up to 6 months"
+    },
+    "Cornflakes Mixture": {
+      "source": "https://www.prinitifoods.com/cornflakes-mixture-namkeen.php",
+      "officialTitle": "Cornflakes Mixture Namkeen",
+      "shortDescription": "Cornflakes Mixture is a light–crunchy savoury snack made using a balanced combination of cornflakes, potato, raisins, and cashew nuts, bringing together sweetness, crunch, and mild savoury notes in a single blend.",
+      "description": "Cornflakes Mixture is a light–crunchy savoury snack made using a balanced combination of cornflakes, potato, raisins, and cashew nuts, bringing together sweetness, crunch, and mild savoury notes in a single blend. The mix offers a contrast of crisp textures with occasional sweet bites, making it appealing to consumers who enjoy variety in both taste and mouthfeel.",
+      "highlights": [],
+      "ingredients": "Cornflakes, potato, raisins and cashew nuts",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture.",
+      "shelfLife": null
+    },
+    "Diet Chiwda": {
+      "source": "https://www.prinitifoods.com/diet-chiwda-namkeen-manufacturers.php",
+      "officialTitle": "Diet Chiwda Namkeen",
+      "shortDescription": "It is often preferred by consumers who avoid heavy or strongly-spiced snacks and look for a light, subtle-tasting option that can be eaten during tea-time, office hours, or late-evening snacking.",
+      "description": "It is often preferred by consumers who avoid heavy or strongly-spiced snacks and look for a light, subtle-tasting option that can be eaten during tea-time, office hours, or late-evening snacking.",
+      "highlights": [],
+      "ingredients": "Rice flakes and cumin seeds",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and direct sunlight.",
+      "shelfLife": "6 months"
+    },
+    "Diet Mixture": {
+      "source": "https://www.prinitifoods.com/diet-mixture-namkeen-manufacturers.php",
+      "officialTitle": "Diet Mixture Namkeen",
+      "shortDescription": "Diet Mixture is a light, crisp and easy-to-snack namkeen blend made using rice flakes, bengal gram, cornflakes, and curry leaves.",
+      "description": "Diet Mixture is a light, crisp and easy-to-snack namkeen blend made using rice flakes, bengal gram, cornflakes, and curry leaves. It is designed for consumers who prefer a snack that feels lighter on the palate, offers gentle crunch, and can be consumed in small, anytime portions.",
+      "highlights": [
+        "It is called Diet Mixture because it is designed as a light and mild-tasting namkeen option, suitable for small-portion and frequent snacking rather than heavy or strongly flavoured consumption.",
+        "It is frequently purchased for tea-time, office snacking, and casual home consumption, making it a regular-use product rather than an occasional snack."
+      ],
+      "ingredients": "Rice flakes, bengal gram, cornflakes and curry leaves",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and sunlight.",
+      "shelfLife": "6 months"
+    },
+    "Gathiya": {
+      "source": "https://www.prinitifoods.com/gathiya.php",
+      "officialTitle": "Gathiya Namkeen",
+      "shortDescription": "Priniti Gathiya is a classic namkeen made from gram pulse flour and lightly seasoned with selected spices to deliver a clean, familiar savoury taste.",
+      "description": "Priniti Gathiya is a classic namkeen made from gram pulse flour and lightly seasoned with selected spices to deliver a clean, familiar savoury taste. Each piece carries a crisp bite on the outside with a light, airy texture inside, making it easy to enjoy across age groups. The flavour is mild yet satisfying, allowing it to be consumed on its own or paired with tea, chutneys, or quick snack mixes.",
+      "highlights": [
+        "Gathiya has a mild savoury flavour with gentle spice notes.",
+        "The balanced flavour and light texture make it ideal for everyday use in households."
+      ],
+      "ingredients": "Gram pulse flour and selected spices",
+      "allergenNote": "Made using gram-based ingredients; may be processed in a facility that also handles nuts, soy, milk, wheat and sesame. Complete allergen information is provided on the packaging.",
+      "storage": "Store in a cool, dry place. After opening, keep in an air-tight container.",
+      "shelfLife": null
+    },
+    "Gathiya Papdi": {
+      "source": "https://www.prinitifoods.com/gathiya-papdi.php",
+      "officialTitle": "Gathiya Papdi Namkeen",
+      "shortDescription": "Gathiya Papdi is a savoury snack prepared using a gram-pulse (besan) base, shaped into thin, flat papdi-style strips that deliver a crisp yet light texture.",
+      "description": "Gathiya Papdi is a savoury snack prepared using a gram-pulse (besan) base, shaped into thin, flat papdi-style strips that deliver a crisp yet light texture. The flavour is developed around a mild savoury profile with subtle spice notes, making it suitable for consumers who prefer a balanced, less-intense namkeen taste. The papdi-style format offers an easy-to-bite crunch and smooth mouthfeel, making it popular for tea-time, light snacking, and family sharing occasions.",
+      "highlights": [
+        "The product offers a light, smooth-bite texture with a gentle savoury flavour, making it suitable for tea-time, family snacking, and repeat consumption."
+      ],
+      "ingredients": "Gram pulse flour (besan)",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "Up to 6 months"
+    },
+    "Hing Jeera Chana": {
+      "source": "https://www.prinitifoods.com/hing-jeera-chana-namkeen-manufacturers.php",
+      "officialTitle": "Hing Jeera Chana Namkeen",
+      "shortDescription": "Hing Jeera Chana is built around the traditional flavour pairing of hing and cumin, combined with the firm bite of roasted Bengal Gram.",
+      "description": "Hing Jeera Chana is built around the traditional flavour pairing of hing and cumin, combined with the firm bite of roasted Bengal Gram. The hing aroma adds a sharp, savoury note that instantly brings familiarity to the flavour, while jeera contributes a warm and earthy spice tone that complements the natural taste of chana instead of overpowering it. The result is a snack that feels comfort-driven, aromatic and satisfying, making it suitable for consumers who prefer chana as a filling and routine snack choice for tea-time, office breaks and travel carry packs.",
+      "highlights": [
+        "The flavour is built around hing and cumin, where hing provides a sharp and aromatic savoury note and jeera adds a warm spice tone that complements the natural taste of roasted Bengal Gram."
+      ],
+      "ingredients": "Roasted bengal gram, hing (asafoetida) and cumin",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and sunlight.",
+      "shelfLife": "Up to 6 months"
+    },
+    "Jhalmuri": {
+      "source": "https://www.prinitifoods.com/jhalmuri-namkeen.php",
+      "officialTitle": "Jhalmuri Namkeen",
+      "shortDescription": "Jhalmuri is crafted to capture the classic street-style snacking experience, built around a light and flavourful blend of puffed rice, potato, gram pulse, and red peanut.",
+      "description": "Jhalmuri is crafted to capture the classic street-style snacking experience, built around a light and flavourful blend of puffed rice, potato, gram pulse, and red peanut. The mix brings a lively, chatpata taste profile with a balance of airy crunch and mild nuttiness — giving consumers the kind of flavour recall associated with traditional jhalmuri preparation.",
+      "highlights": [
+        "Jhalmuri is centred around puffed rice along with potato, gram pulse, and red peanut, giving it a light, airy and chatpata taste that reflects the traditional street-style snacking experience.",
+        "It is preferred by consumers who enjoy lively, mix-texture snacks that are light to eat yet flavourful, suitable for tea-time, evening snacking, and casual sharing.",
+        "Its light texture and quick-snack appeal make it suitable for frequent snacking occasions at home, office, or while travelling."
+      ],
+      "ingredients": "Puffed rice, potato, gram pulse and red peanuts",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and sunlight.",
+      "shelfLife": "6 months"
+    },
+    "Jhatpat Bhel": {
+      "source": "https://www.prinitifoods.com/Jhatpal-bhel.php",
+      "officialTitle": "Jhatpat Bhel Namkeen",
+      "shortDescription": "Jhatpat Bhel is a light, crunchy savoury snack made using a combination of puffed rice, red peanuts, and gram pulse, offering a mix of airy crispness and nutty crunch in every bite.",
+      "description": "Jhatpat Bhel is a light, crunchy savoury snack made using a combination of puffed rice, red peanuts, and gram pulse, offering a mix of airy crispness and nutty crunch in every bite. The flavour carries a chatpata, tangy and mildly spicy profile, giving it a lively taste experience that suits frequent snacking.",
+      "highlights": [
+        "Jhatpat Bhel is a light and crunchy namkeen snack made using puffed rice, red peanuts, and gram pulse, offering a mix of airy crispness and nutty crunch in a single blend.",
+        "The flavour is chatpata and tangy with mild spicy notes, giving it a lively snacking experience that appeals to consumers who enjoy flavour-forward yet light snacks.",
+        "It is suitable for tea-time, evening snacking, office breaks, travel packs, and casual sharing, making it a regular household purchase option."
+      ],
+      "ingredients": "Puffed rice, red peanuts and gram pulse",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and sunlight.",
+      "shelfLife": "6 months"
+    },
+    "Kaju Mixture": {
+      "source": "https://www.prinitifoods.com/kaju-mixture-namkeen-manufacturers.php",
+      "officialTitle": "Kaju Mixture Namkeen",
+      "shortDescription": "Kaju Mixture is positioned as a rich, multi-component savoury blend made using green gram pulses, cashew nuts, potato, musk melon seeds, and rice flakes.",
+      "description": "Kaju Mixture is positioned as a rich, multi-component savoury blend made using green gram pulses, cashew nuts, potato, musk melon seeds, and rice flakes. The mix brings together a balanced combination of crunch, lightness, and nutty texture, offering a taste experience that feels fuller and more indulgent compared to regular mixtures.",
+      "highlights": [
+        "It contains cashew nuts and seed components, giving it a richer, nut-based taste profile that is suited for family sharing, festive usage, and occasional premium snack consumption.",
+        "It is consumed both as a regular household snack and as a preferred choice for gatherings, hospitality serving, and special-occasion snacking."
+      ],
+      "ingredients": "Green gram pulses, cashew nuts, potato, musk melon seeds and rice flakes",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and sunlight.",
+      "shelfLife": "6 months"
+    },
+    "Khatta Meetha": {
+      "source": "https://www.prinitifoods.com/khatta-meetha.php",
+      "officialTitle": "Khatta Meetha Namkeen",
+      "shortDescription": "Khatta Meetha is crafted as a sweet-and-tangy style namkeen blend that brings together rice flakes, gram pulse, peanuts, peas and sago, creating a mix of light crunch, soft bite and mild sweetness.",
+      "description": "Khatta Meetha is crafted as a sweet-and-tangy style namkeen blend that brings together rice flakes, gram pulse, peanuts, peas and sago, creating a mix of light crunch, soft bite and mild sweetness. The flavour is balanced to deliver a pleasant sweet tone followed by a gentle tangy note, giving the product a familiar “khatta-meetha” taste experience that appeals across age groups and household usage occasions. The mix works well as an anytime snack — suitable for tea-time, casual evening snacking and light family sharing moments.",
+      "highlights": [],
+      "ingredients": "Rice flakes, gram pulse, peanuts, peas and sago",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and sunlight.",
+      "shelfLife": "Up to 6 months"
+    },
+    "Malai Sev": {
+      "source": "https://www.prinitifoods.com/malai-sev-namkeen-manufacturers.php",
+      "officialTitle": "Malai Sev Namkeen",
+      "shortDescription": "Malai Sev is a light, crispy sev variant known for its smooth texture and mild savoury taste.",
+      "description": "Malai Sev is a light, crispy sev variant known for its smooth texture and mild savoury taste. It is designed to offer an easy-to-eat, clean-flavoured snacking experience that suits regular consumption as well as household food use. The fine strands and soft crunch make it suitable for direct snacking and as an add-on with chaats and home recipes.",
+      "highlights": [
+        "Malai Sev is generally suitable for a wide range of age groups because of its mild savoury taste and soft-crisp texture."
+      ],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture.",
+      "shelfLife": null
+    },
+    "Masala Murmura": {
+      "source": "https://www.prinitifoods.com/masala-murmura.php",
+      "officialTitle": "Masala Murmura Namkeen",
+      "shortDescription": "Masala Murmura is a light and crisp puffed-rice namkeen made using puffed rice, gram pulse and red peanuts, offering an airy crunch with a fuller bite experience.",
+      "description": "Masala Murmura is a light and crisp puffed-rice namkeen made using puffed rice, gram pulse and red peanuts, offering an airy crunch with a fuller bite experience. The flavour profile is developed around a mildly tangy and savoury masala taste, with a balanced spice note that enhances the overall flavour without making the snack heavy. This makes it suitable for tea-time, short hunger breaks, travel snacking and everyday family consumption. Its easy-to-eat format, gentle spice tone and light texture appeal to consumers who prefer flavourful snacks that can be enjoyed frequently, while still delivering a satisfying crunch in every bite.",
+      "highlights": [
+        "Masala Murmura offers a light and crunchy puffed-rice base with a mildly tangy and savoury masala flavour, making it suitable for frequent and repeat consumption.",
+        "It fits well into tea-time, evening snacking and small hunger breaks, especially for consumers who prefer light-format namkeen."
+      ],
+      "ingredients": "Puffed rice, gram pulse and red peanuts",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "Up to 6 months"
+    },
+    "Mast Matar": {
+      "source": "https://www.prinitifoods.com/mast-matar.php",
+      "officialTitle": "Mast Matar Namkeen",
+      "shortDescription": "Mast Matar is made using carefully roasted green peas, seasoned with a savoury spice blend that enhances their natural taste while retaining their crisp and crunchy bite.",
+      "description": "Mast Matar is made using carefully roasted green peas, seasoned with a savoury spice blend that enhances their natural taste while retaining their crisp and crunchy bite. The flavour tone delivers a lively, chatpata snacking experience — the kind of taste consumers associate with street-style roasted peas and traditional spice notes. The product offers a light yet satisfying mouthfeel, making it suitable for tea-time snacking, travel packs, office breaks, and small hunger-break moments across the day.",
+      "highlights": [
+        "Mast Matar is made using roasted green peas that are seasoned with a flavourful spice blend to deliver a crisp, chatpata and savoury snacking experience.",
+        "It is preferred by consumers who enjoy light, crunchy snacks that offer a lively flavour profile and can be consumed during tea-time, short snack breaks, travel, or casual evening snacking."
+      ],
+      "ingredients": "Roasted green peas and a savoury spice blend",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and sunlight.",
+      "shelfLife": "Up to 6 months"
+    },
+    "Moong Dal": {
+      "source": "https://www.prinitifoods.com/moong-dal-namkeen-manufacturers.php",
+      "officialTitle": "Moong Dal Namkeen",
+      "shortDescription": "Moong Dal is a crunchy namkeen prepared using green gram pulses as the primary ingredient.",
+      "description": "Moong Dal is a crunchy namkeen prepared using green gram pulses as the primary ingredient. The product offers a clean, pulse-forward taste supported by light seasoning that enhances flavour without overpowering the base ingredient. Its crisp texture and simple flavour profile make it suitable for frequent snacking across different age groups.",
+      "highlights": [],
+      "ingredients": "Green gram pulses",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and sunlight.",
+      "shelfLife": "Up to 6 months"
+    },
+    "Navratan Mixture": {
+      "source": "https://www.prinitifoods.com/navratan-mixture-namkeen-manufacturers.php",
+      "officialTitle": "Navratan Mixture Namkeen",
+      "shortDescription": "Navratan Mixture is a multi-component savoury snack blend made using gram pulse, red peanuts, rice flakes, and green peas, offering a mix of textures ranging from light crisp to nutty crunch in every serving.",
+      "description": "Navratan Mixture is a multi-component savoury snack blend made using gram pulse, red peanuts, rice flakes, and green peas, offering a mix of textures ranging from light crisp to nutty crunch in every serving. The taste profile carries a masala-style, mildly spicy and savoury flavour, making it suitable for consumers who enjoy fuller and flavour-rich namkeen mixes.",
+      "highlights": [
+        "Navratan Mixture is a mixed-texture namkeen blend made using gram pulse, red peanuts, rice flakes, and green peas, offering a combination of light, crisp, and crunchy elements in one pack.",
+        "The product delivers a masala-style savoury taste with mild spice notes, making it suitable for consumers who prefer flavour-rich and engaging namkeen blends.",
+        "It is suitable for tea-time, evening snacking, family sharing, and casual home consumption, making it a regular household purchase."
+      ],
+      "ingredients": "Gram pulse, red peanuts, rice flakes and green peas",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and direct sunlight.",
+      "shelfLife": "6 months"
+    },
+    "Panchrattan": {
+      "source": "https://www.prinitifoods.com/panchrattan-namkeen-manufacturers.php",
+      "officialTitle": "Panchrattan Namkeen",
+      "shortDescription": "Panchrattan is designed as a rich, multi-component namkeen blend that brings together potato, raisins, cashew nuts, almonds, rice flakes and curry leaves to create a mix of varied textures and layered taste.",
+      "description": "Panchrattan is designed as a rich, multi-component namkeen blend that brings together potato, raisins, cashew nuts, almonds, rice flakes and curry leaves to create a mix of varied textures and layered taste. The combination delivers light crunch from potato elements, gentle sweetness from raisins, and a nut-based bite from cashew and almond pieces, supported by a subtle curry-leaf aroma. The result is a flavour experience that feels balanced, indulgent, and suitable for sharing, making Panchrattan relevant for family snacking, tea-time serving, and informal gifting occasions.",
+      "highlights": [],
+      "ingredients": "Potato, raisins, cashew nuts, almonds, rice flakes and curry leaves",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Punjabi Tadka": {
+      "source": "https://www.prinitifoods.com/punjabi-tadka-namkeen-manufacturers.php",
+      "officialTitle": "Punjabi Tadka Namkeen",
+      "shortDescription": "Punjabi Tadka is a bold and flavour-rich namkeen snack built around a crunchy potato-based texture and a lively masala taste profile.",
+      "description": "Punjabi Tadka is a bold and flavour-rich namkeen snack built around a crunchy potato-based texture and a lively masala taste profile. The flavour delivers a mix of spice warmth, tangy notes, and a chatpata finish, giving it a strong and satisfying bite that appeals to consumers who enjoy fuller, more robust snack flavours.",
+      "highlights": [
+        "The flavour is lively and chatpata, combining spice warmth with tangy notes and a robust masala finish, making it suitable for consumers who enjoy fuller and intense snack seasoning.",
+        "Punjabi Tadka is commonly purchased for tea-time snacking, family consumption, and casual sharing occasions, making it relevant for repeat household purchase."
+      ],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and direct sunlight.",
+      "shelfLife": null
+    },
+    "Ratlami Sev": {
+      "source": "https://www.prinitifoods.com/ratlami-sev.php",
+      "officialTitle": "Ratlami Sev Namkeen",
+      "shortDescription": "Ratlami Sev is prepared using gram flour and a traditional spice blend inspired by the iconic flavours of Ratlam.",
+      "description": "Ratlami Sev is prepared using gram flour and a traditional spice blend inspired by the iconic flavours of Ratlam. The taste opens with warm besan notes, followed by a layered spice profile led by chilli, cumin, and aromatic masala tones that build gradually on the palate. Each strand delivers a dry, crisp bite that breaks cleanly, creating a satisfying crunch with every handful.",
+      "highlights": [
+        "Ratlami Sev carries a distinct spice profile inspired by the traditional Ratlam style, offering deeper masala notes and a bolder taste compared to standard sev variants.",
+        "Its dry texture and balanced spice profile make it suitable for regular consumption, whether as a standalone snack or alongside tea and light meals.",
+        "It can be eaten directly from the pack, paired with beverages, or used as a topping on chaat, poha, and other light dishes for added crunch and flavour."
+      ],
+      "ingredients": "Gram flour and a traditional spice blend",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "6 months"
+    },
+    "Salted Peanuts": {
+      "source": "https://www.prinitifoods.com/salted-peanuts-manufacturer.php",
+      "officialTitle": "Salted Peanuts Namkeen",
+      "shortDescription": "Salted Peanuts is a classic savoury snack made using peanuts seasoned with black salt and common salt, offering a clean, nut-forward taste with a crisp bite.",
+      "description": "Salted Peanuts is a classic savoury snack made using peanuts seasoned with black salt and common salt, offering a clean, nut-forward taste with a crisp bite. The seasoning enhances the natural flavour of the peanuts without overpowering it, making the snack suitable for frequent and portion-based consumption.",
+      "highlights": [
+        "It is commonly consumed during tea-time, travel, office breaks, and casual household snacking, making it a regular and repeat-purchase product."
+      ],
+      "ingredients": "Peanuts, black salt and common salt",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and direct sunlight.",
+      "shelfLife": null
+    },
+    "Tasty Nuts": {
+      "source": "https://www.prinitifoods.com/tasty-peanuts-manufacturer.php",
+      "officialTitle": "Tasty Nuts Namkeen",
+      "shortDescription": "Tasty Nuts is a crunchy savoury snack made from red peanuts, coated with gram pulse flour and seasoned using a carefully selected blend of spices.",
+      "description": "Tasty Nuts is a crunchy savoury snack made from red peanuts, coated with gram pulse flour and seasoned using a carefully selected blend of spices. The coating enhances texture, while the spice mix delivers a bold, savoury taste with mild heat and tangy notes, keeping the natural nutty flavour intact. The result is a snack that offers strong crunch and flavour consistency in every bite.",
+      "highlights": [
+        "Tasty Nuts are made from red peanuts coated with gram pulse flour and seasoned with a blend of spices that enhances flavour while maintaining a crunchy texture.",
+        "The product delivers a savoury and well-balanced taste, combining mild heat, tanginess, and spice warmth, while keeping the nutty character of peanuts clearly noticeable.",
+        "Tasty Nuts is suitable for daily snacking, including tea-time, work breaks, and travel, due to its crunchy format and familiar flavour profile."
+      ],
+      "ingredients": "Red peanuts coated with gram pulse flour, and a blend of spices",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture and direct sunlight.",
+      "shelfLife": "Up to 6 months"
+    },
+    "Tikha Mitha Mix": {
+      "source": "https://www.prinitifoods.com/tikha-mitha-mix.php",
+      "officialTitle": "Tikha Mitha Namkeen",
+      "shortDescription": "Tikha Mitha Mix is a layered savoury snack made from a combination of gram pulse, rice flakes, red peanuts, cornflakes, green peas, tapioca sago, and curry leaves — bringing together different textures in a single blend.",
+      "description": "Tikha Mitha Mix is a layered savoury snack made from a combination of gram pulse, rice flakes, red peanuts, cornflakes, green peas, tapioca sago, and curry leaves — bringing together different textures in a single blend. The mix offers a sweet–spicy (tikha-mitha) flavour profile with light tangy notes, creating a balanced taste that appeals to consumers who enjoy variety in both taste and crunch.",
+      "highlights": [
+        "The product delivers a sweet–spicy (tikha-mitha) taste with mild tangy notes, combining crunch, lightness, and flavour depth without any single element overpowering the mix."
+      ],
+      "ingredients": "Gram pulse, rice flakes, red peanuts, cornflakes, green peas, tapioca sago and curry leaves",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Potato Chips Spicy Masti": {
+      "source": "https://www.prinitifoods.com/chips-spicy-masti.php",
+      "officialTitle": "Potato Chips Spicy Masti",
+      "shortDescription": "Potato Chips Spicy Masti delivers a bold burst of masala layered with a refreshing mint finish, creating a taste that feels lively from the first bite to the last.",
+      "description": "Potato Chips Spicy Masti delivers a bold burst of masala layered with a refreshing mint finish, creating a taste that feels lively from the first bite to the last. The flavour opens with warm spice notes, then settles into a cool, tangy mint trail that keeps the palate engaged without becoming heavy. Each ridged chip carries seasoning evenly, ensuring a consistent crunch and balanced taste in every handful. This dynamic hot-and-cool profile makes the snack exciting for repeated munching, perfectly suited for quick breaks, travel moments, and everyday craving-led snacking.",
+      "highlights": [
+        "This variant combines bold spice with a noticeable mint finish, creating a balanced hot-and-cool taste experience.",
+        "The mint note is designed to be refreshing, not overpowering.",
+        "It is especially popular among school-going consumers, teenagers, and young adults who prefer sharper, more expressive flavours for everyday snacking."
+      ],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "CharChare Mast Masala": {
+      "source": "https://www.prinitifoods.com/charchare-mast-masala.php",
+      "officialTitle": "Charchare Mast Masala",
+      "shortDescription": "Charchare Mast Masala Extruded Sticks are prepared using a base of rice meal, corn meal, gram meal, and flavourful spices, created to deliver a bold, masala-packed snacking experience with a light and crunchy bite.",
+      "description": "Charchare Mast Masala Extruded Sticks are prepared using a base of rice meal, corn meal, gram meal, and flavourful spices, created to deliver a bold, masala-packed snacking experience with a light and crunchy bite. The flavour bursts in with a warm and aromatic spice profile, carrying layered seasoning notes that coat the palate and build into a rich, full-taste experience. Each bite feels crisp, lively, and flavour-loaded, making the snack exciting to enjoy across repeated bites and highly appealing for consumers who enjoy strong and masala-driven snacks.",
+      "highlights": [
+        "They offer a bold, masala-rich and spice-loaded taste with layered seasoning notes and a light, crisp texture that feels engaging across repeated bites.",
+        "The airy-crisp texture and bold spice taste make them suitable for casual breaks, on-the-go snacking, and sharing occasions across age groups."
+      ],
+      "ingredients": "Rice meal, corn meal, gram meal and spices",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "6 months"
+    },
+    "CharChare Tangy Tomato": {
+      "source": "https://www.prinitifoods.com/charchare-tangy-tomato.php",
+      "officialTitle": "Charchare Tangy Tomato",
+      "shortDescription": "Charchare Tangy Tomato Extruded Sticks are prepared using a base of rice meal, corn meal, gram meal, and spices, developed to deliver a lively, tangy tomato taste with a light and crunchy bite.",
+      "description": "Charchare Tangy Tomato Extruded Sticks are prepared using a base of rice meal, corn meal, gram meal, and spices, developed to deliver a lively, tangy tomato taste with a light and crunchy bite. The flavour opens with a juicy sweet-tangy note that spreads smoothly across the palate, followed by a gentle savoury depth that gives the snack a bright, zesty, and appetising taste character. Each bite feels crisp, juicy in expression, and full of flavour engagement, making it appealing for consumers who enjoy a playful, tang-style snacking experience during everyday and casual consumption moments. The airy-crisp texture allows the tangy taste to balance well with the crunch, keeping the product enjoyable across repeated bites.",
+      "highlights": [],
+      "ingredients": "Rice meal, corn meal, gram meal and spices",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "6 months"
+    },
+    "Popcorn Butter Salted": {
+      "source": "https://www.prinitifoods.com/butter-salted-popcorn.php",
+      "officialTitle": "Popcorn Butter Salted",
+      "shortDescription": "Popcorn Butter Salted is prepared using popping corn and crafted to deliver a rich, buttery and lightly salted taste with a soft yet crisp popcorn bite.",
+      "description": "Popcorn Butter Salted is prepared using popping corn and crafted to deliver a rich, buttery and lightly salted taste with a soft yet crisp popcorn bite. The flavour opens with a smooth buttery warmth, followed by gentle saltiness that enhances the natural popcorn character, creating a comforting and familiar taste that feels satisfying from the first handful to the last.",
+      "highlights": [
+        "Popcorn Butter Salted offers a light, airy texture with a balanced buttery and salted taste that can be enjoyed slowly over longer periods.",
+        "This popcorn is suitable for multiple snacking moments such as casual gatherings, evening breaks, work-from-home munching, and relaxed family time.",
+        "Each kernel pops into a light and fluffy form with a delicate crunch, allowing the buttery salted taste to stay evenly balanced."
+      ],
+      "ingredients": "Popping corn",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "6 months"
+    },
+    "Ringo Star Tangy Tomato": {
+      "source": "https://www.prinitifoods.com/ringo-star-tangy-tomato.php",
+      "officialTitle": "Ringo Star Tangy Tomato",
+      "shortDescription": "Ringo Star is a ring-shaped fryum prepared using corn meal and developed to deliver a tangy, spice-forward taste with a crisp and crunchy bite.",
+      "description": "Ringo Star is a ring-shaped fryum prepared using corn meal and developed to deliver a tangy, spice-forward taste with a crisp and crunchy bite. The flavour opens with a lively tang note followed by layered spice tones that coat the palate evenly, creating an engaging snacking experience. The product is baked, allowing the rings to remain light and crunchy while maintaining a firm bite.",
+      "highlights": [
+        "Ringo Star delivers a tangy, spice-forward taste with a crisp baked texture that feels light yet satisfying.",
+        "The product is prepared using corn meal, which forms the base of the fryum and contributes to its crunchy bite and overall texture after baking."
+      ],
+      "ingredients": "Corn meal",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "6 months"
+    },
+    "A To Z": {
+      "source": "https://www.prinitifoods.com/a-to-z.php",
+      "officialTitle": "A to Z",
+      "shortDescription": "A to Z Fryums are alphabet-shaped fryums developed to deliver a crunchy, savoury, and spice-forward snacking experience with a playful twist.",
+      "description": "A to Z Fryums are alphabet-shaped fryums developed to deliver a crunchy, savoury, and spice-forward snacking experience with a playful twist. Each piece offers a crisp bite followed by warm spice notes that build gently on the palate, creating a flavour-rich and enjoyable taste across repeated consumption. The familiar alphabet shapes add a fun visual element, making the snack engaging while still delivering a satisfying crunch.",
+      "highlights": [
+        "The alphabet format adds a playful and engaging element to the snacking experience, making the fryums visually appealing while still delivering a familiar savoury taste.",
+        "The spice balance is designed to feel satisfying without becoming overpowering, allowing consumers to enjoy the fryums repeatedly across everyday snacking occasions.",
+        "They work well for home-prepared fryums, family snacking, and casual sharing moments due to their light texture and consistent crunch."
+      ],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "6 months"
+    },
+    "Chiji Noodles": {
+      "source": "https://www.prinitifoods.com/noodles_snacks.php",
+      "officialTitle": "Chiji Noodles",
+      "shortDescription": "Chiji Noodles Fryum Snack is prepared using a base of refined wheat flour and developed to deliver a savoury, masala-style taste with a crisp and lightly textured bite.",
+      "description": "Chiji Noodles Fryum Snack is prepared using a base of refined wheat flour and developed to deliver a savoury, masala-style taste with a crisp and lightly textured bite. The flavour carries warm seasoning tones with a mild savoury depth that spreads smoothly across the palate, creating an appetising and flavour-engaging snacking experience. Each bite feels crunchy yet light, making the product appealing for consumers who enjoy a flavour-forward fryum snack that is easy to consume during casual breaks, everyday snacking, and youth-oriented snack moments.",
+      "highlights": [
+        "Chiji Noodles Fryum Snack delivers a savoury, masala-style flavour with warm seasoning tones and a crisp, light bite that remains enjoyable across repeated consumption.",
+        "The product is prepared using a base of refined wheat flour, which forms the primary structure of the fryum snack, while other flavour elements support its seasoning profile.",
+        "Its light, crunchy texture and flavour-forward profile make it suitable for casual breaks, everyday snacking, and sharing moments among younger and family consumers."
+      ],
+      "ingredients": "Refined wheat flour",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "6 months"
+    },
+    "Jungle Masti": {
+      "source": "https://www.prinitifoods.com/jungle-masti.php",
+      "officialTitle": "Jungle Masti",
+      "shortDescription": "Jungle Masti is crafted using refined wheat flour and seasoned with a lively blend of spices that deliver a bold, playful, and masala-forward taste.",
+      "description": "Jungle Masti is crafted using refined wheat flour and seasoned with a lively blend of spices that deliver a bold, playful, and masala-forward taste. Each bite opens with a mild tang and spice lift that quickly turns engaging, creating a fun snacking experience that feels energetic and flavour-active. The texture is light and crisp, making it easy to enjoy across repeated bites without feeling heavy.",
+      "highlights": [
+        "Jungle Masti is designed for children and young snackers who enjoy fun, flavour-forward snacks.",
+        "The flavour is bold and masala-driven with a light tang that feels exciting from the first bite.",
+        "Its light and crisp texture allows it to be enjoyed across multiple bites without feeling heavy, making it suitable for longer snacking moments."
+      ],
+      "ingredients": "Refined wheat flour and a blend of spices",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Puffcorn": {
+      "source": "https://www.prinitifoods.com/puff-corn.php",
+      "officialTitle": "Puff Corn",
+      "shortDescription": "Puff Corn is a light, crispy, and ready-to-eat corn snack made from premium-quality corn ingredients.",
+      "description": "Puff Corn is a light, crispy, and ready-to-eat corn snack made from premium-quality corn ingredients.",
+      "highlights": [],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Moon Chips": {
+      "source": "https://www.prinitifoods.com/moon_chips.php",
+      "officialTitle": "Moon Chips",
+      "shortDescription": "Moon Chips are prepared using a base of refined wheat flour and developed to deliver a savoury, masala-style taste with a crisp and lightly layered bite.",
+      "description": "Moon Chips are prepared using a base of refined wheat flour and developed to deliver a savoury, masala-style taste with a crisp and lightly layered bite. The flavour carries warm spice tones with a mild savoury lift that spreads evenly across the palate, giving the chips an appetising, flavour-active snacking experience with a balanced depth of seasoning. The texture feels light yet firmly crunchy, allowing the bite to remain satisfying across repeated consumption and making the product suitable for casual snacking, quick breaks, and everyday consumption occasions where consumers prefer a flavour-rich wheat-based chip with a rewarding crunch.",
+      "highlights": [
+        "Moon Chips deliver a savoury, masala-style taste with mild spice tones and a crisp, layered bite that remains enjoyable across repeated consumption.",
+        "The product is prepared using a base of refined wheat flour, with flavour elements forming part of its seasoning profile.",
+        "The light yet crunchy texture and flavour-forward taste make them suitable for casual breaks, household snacking, and sharing moments."
+      ],
+      "ingredients": "Refined wheat flour",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "6 months"
+    },
+    "Noodles": {
+      "source": "https://www.prinitifoods.com/noodles.php",
+      "officialTitle": "Noodle",
+      "shortDescription": "Priniti Noodle are crafted from refined wheat flour and shaped into light, crunchy sticks that deliver a lively masala taste in every bite.",
+      "description": "Priniti Noodle are crafted from refined wheat flour and shaped into light, crunchy sticks that deliver a lively masala taste in every bite. The flavour opens with a gentle spice warmth, followed by a savoury lift that feels playful and satisfying. Each piece is airy yet crisp, making the snack easy to enjoy in small handfuls without feeling heavy.",
+      "highlights": [
+        "Noodle have a lighter, airy crunch with a playful stick shape that feels fun to eat.",
+        "Its mild spice level and light texture make it a convenient option for lunchboxes and short snack breaks.",
+        "The taste is savoury with a gentle spice warmth, offering a bright and engaging flavour without being overpowering."
+      ],
+      "ingredients": "Refined wheat flour",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Pasta": {
+      "source": "https://www.prinitifoods.com/pasta.php",
+      "officialTitle": "Pasta",
+      "shortDescription": "Pasta Fryums are prepared using a base of refined wheat flour and developed to deliver a savoury, masala-forward taste with a crisp and crunchy fryum bite.",
+      "description": "Pasta Fryums are prepared using a base of refined wheat flour and developed to deliver a savoury, masala-forward taste with a crisp and crunchy fryum bite. The flavour carries warm spice notes that spread evenly across the palate, creating a flavour-rich and appetising experience that feels satisfying without being overwhelming. Once fried, the fryums turn light and airy while retaining a firm crunch, making them enjoyable for consumers who prefer bold, masala-style fryums for everyday snacking and sharing occasions.",
+      "highlights": [
+        "Pasta Fryums deliver a savoury, masala-style flavour with warm spice tones and a crisp fryum texture that remains enjoyable across repeated consumption.",
+        "The product is prepared using refined wheat flour, which forms the base structure and supports the crunchy fryum format.",
+        "Once fried, the fryums expand and turn light and crunchy, making them suitable for home preparation, family snacking, and sharing occasions."
+      ],
+      "ingredients": "Refined wheat flour",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "6 months"
+    },
+    "Pizza": {
+      "source": "https://www.prinitifoods.com/pizza.php",
+      "officialTitle": "Pizza",
+      "shortDescription": "Pizza Corn & Rice Puff Snack is prepared using a base of corn meal and rice meal, developed to deliver a pizza-style savoury taste with a light, airy and crunchy puff texture.",
+      "description": "Pizza Corn & Rice Puff Snack is prepared using a base of corn meal and rice meal, developed to deliver a pizza-style savoury taste with a light, airy and crunchy puff texture. The flavour opens with a rich, pizza-inspired taste character that combines mild savoury notes with a balanced spice lift, creating an appetising and flavour-forward snacking experience. Each bite feels light, crisp, and expressive in taste, making the product enjoyable across repeated consumption and suitable for casual snacking, sharing moments, and on-the-go snack occasions.",
+      "highlights": [
+        "It offers a pizza-style savoury taste with a balanced spice lift and a light, airy puff texture that feels crisp and enjoyable across repeated bites.",
+        "The product is prepared using a base of corn meal and rice meal, with other flavour elements forming part of its seasoning profile.",
+        "The light puff texture and flavour-expressive taste make it suitable for casual breaks, quick snacking, and sharing moments."
+      ],
+      "ingredients": "Corn meal and rice meal",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "6 months"
+    },
+    "Puff Tangy Tomato": {
+      "source": "https://www.prinitifoods.com/rice-puffs-tangy-tomato.php",
+      "officialTitle": "Puff Tangy Tomato",
+      "shortDescription": "Puff Tangy Tomato delivers a bold tomato-led flavour with a lively balance of tanginess and spice.",
+      "description": "Puff Tangy Tomato delivers a bold tomato-led flavour with a lively balance of tanginess and spice. Made from corn meal and shaped into light, airy puffs, each bite opens with a bright tomato note, followed by gentle heat that builds without overpowering. The texture stays crisp and hollow, making the snack easy to eat in repeated handfuls while keeping the flavour engaging from start to finish.",
+      "highlights": [
+        "Puff Tangy Tomato delivers a bright tomato-led flavour with a balanced tang and mild spice.",
+        "The spice level is controlled and approachable.",
+        "The light and airy puff structure provides an instant crunch that releases flavour quickly, keeping the snack enjoyable across repeated handfuls without feeling heavy."
+      ],
+      "ingredients": "Corn meal",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "6 months"
+    },
+    "Roll N Roll": {
+      "source": "https://www.prinitifoods.com/roll-n-roll.php",
+      "officialTitle": "Roll ’N’ Roll",
+      "shortDescription": "Roll ’N’ Roll is prepared using refined wheat flour and shaped into playful crunchy rings that deliver a bold, masala-style taste with every bite.",
+      "description": "Roll ’N’ Roll is prepared using refined wheat flour and shaped into playful crunchy rings that deliver a bold, masala-style taste with every bite. The flavour opens with a savoury spice lift and builds into a lively, mouth-appealing snacking experience that feels exciting and engaging. Each ring offers a crisp, light crunch, making it easy to enjoy repeatedly without heaviness.",
+      "highlights": [
+        "Roll ’N’ Roll is designed with a balanced masala taste that feels flavourful without being too intense.",
+        "While it is popular among children, the savoury and spice-forward taste appeals to teenagers and adults as well, making it a fun snack choice across age groups."
+      ],
+      "ingredients": "Refined wheat flour",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Salted Pipe": {
+      "source": "https://www.prinitifoods.com/salted_pipe.php",
+      "officialTitle": "Salted Pipe",
+      "shortDescription": "Salted Pipe is prepared using refined wheat flour and shaped into hollow, pipe-style sticks that deliver a light, crisp, and clean-tasting snacking experience.",
+      "description": "Salted Pipe is prepared using refined wheat flour and shaped into hollow, pipe-style sticks that deliver a light, crisp, and clean-tasting snacking experience. Each bite opens with a gentle salt note followed by an airy crunch that feels smooth on the palate. The texture remains evenly light across pieces, making the snack easy to enjoy in repeated handfuls without feeling heavy.",
+      "highlights": [
+        "Salted Pipe delivers a mild, lightly salted flavour with a clean finish, focusing on crunch and balance rather than strong spice.",
+        "Its light texture and gentle seasoning make it suitable for regular snacking across different times of the day."
+      ],
+      "ingredients": "Refined wheat flour",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place. After opening, keep in an air-tight container.",
+      "shelfLife": "6 months"
+    },
+    "Veg Biryani": {
+      "source": "https://www.prinitifoods.com/veg-biryani-snacks.php",
+      "officialTitle": "Veg Biryani",
+      "shortDescription": "Veg Biryani Puffs are developed to deliver a crunchy, crispy, and spice-rich snacking experience inspired by bold biryani-style taste notes.",
+      "description": "Veg Biryani Puffs are developed to deliver a crunchy, crispy, and spice-rich snacking experience inspired by bold biryani-style taste notes. Each puff offers an immediate crunch followed by layered spice warmth that builds gradually on the palate, creating a flavour-forward and satisfying bite. The texture feels light yet crisp, allowing the spice profile to remain lively and engaging across repeated consumption.",
+      "highlights": [
+        "Veg Biryani Puffs are well suited for evening snack breaks, tea-time moments, and casual hunger gaps when consumers look for a crunchy and spicy snack that feels flavourful and filling.",
+        "The light, crispy texture and bold taste make the product suitable for sharing during small gatherings, informal meetings, or group snacking moments.",
+        "The airy puff structure delivers an immediate crunch while allowing the spice profile to release gradually, creating a balanced and enjoyable mouthfeel across repeated bites."
+      ],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Mintoze Baby Ring": {
+      "source": "https://www.prinitifoods.com/mintoze.php",
+      "officialTitle": "Mintoze",
+      "shortDescription": "Mintoze is a delicious mint-flavored snack known for its crispy texture, refreshing taste, and light crunch, making it a popular choice for snack lovers.",
+      "description": "Mintoze is a delicious mint-flavored snack known for its crispy texture, refreshing taste, and light crunch, making it a popular choice for snack lovers.",
+      "highlights": [],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Puff Hot Spicy": {
+      "source": "https://www.prinitifoods.com/puffs.php",
+      "officialTitle": "Puffs",
+      "shortDescription": "Spicy Hot Flavored Puffs are light, crunchy, and ready-to-eat snacks made from premium ingredients and seasoned with a bold, spicy flavor for a delicious snacking experience.",
+      "description": "Spicy Hot Flavored Puffs are light, crunchy, and ready-to-eat snacks made from premium ingredients and seasoned with a bold, spicy flavor for a delicious snacking experience.",
+      "highlights": [],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Loopyz": {
+      "source": "https://www.prinitifoods.com/loopyz.php",
+      "officialTitle": "Loopyz",
+      "shortDescription": "Priniti Loopyz is a deliciously crunchy corn snack that offers a light texture and irresistible flavor in every bite.",
+      "description": "Priniti Loopyz is a deliciously crunchy corn snack that offers a light texture and irresistible flavor in every bite. Made from carefully selected ingredients, Loopyz is crafted to deliver a satisfying snacking experience with consistent taste and crispiness.",
+      "highlights": [
+        "Loopyz is a crispy and flavorful corn snack made from quality ingredients, offering a light texture and delicious taste."
+      ],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Tomato Katori": {
+      "source": "https://www.prinitifoods.com/tomato-katori.php",
+      "officialTitle": "Tomato Katori",
+      "shortDescription": "Priniti Tomato Katori is a deliciously crunchy snack seasoned with the rich and tangy flavor of premium tomato spices.",
+      "description": "Priniti Tomato Katori is a deliciously crunchy snack seasoned with the rich and tangy flavor of premium tomato spices. Crafted using carefully selected ingredients, Tomato Katori delivers a perfect balance of crispiness and taste, making it an ideal snack for every occasion.",
+      "highlights": [],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Manchurian Fried Rice": {
+      "source": "https://www.prinitifoods.com/manchurian-fried-rice.php",
+      "officialTitle": "Manchurian Fried Rice",
+      "shortDescription": "Priniti Manchurian Fried Rice is a tasty and crispy snack crafted for those who enjoy bold, spicy flavors.",
+      "description": "Priniti Manchurian Fried Rice is a tasty and crispy snack crafted for those who enjoy bold, spicy flavors. Infused with the rich taste of Manchurian seasoning, Manchurian Fried Rice offers a perfect blend of crunch and flavor, making it an ideal snack for any time of the day..",
+      "highlights": [
+        "Priniti Foods Manchurian Fried Rice is a crispy and flavorful snack seasoned with delicious Manchurian spices, offering a unique combination of crunch and authentic taste."
+      ],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Chilli Storm": {
+      "source": "https://www.prinitifoods.com/chilli-storm.php",
+      "officialTitle": "Chilli Storm",
+      "shortDescription": "Chilli Storm is a spicy chilli-flavoured snack from Priniti Foods, offering a crunchy texture and bold flavour for snack lovers.",
+      "description": "Chilli Storm is a spicy chilli-flavoured snack from Priniti Foods, offering a crunchy texture and bold flavour for snack lovers. Chilli Storm has a bold flamin' chilli flavour, making it a suitable choice for consumers who enjoy spicy and flavourful snacks.",
+      "highlights": [],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Ajwain Cookies": {
+      "source": "https://www.prinitifoods.com/ajwaincookies.php",
+      "officialTitle": "Ajwain Cookies",
+      "shortDescription": "Ajwain Cookies are crafted to deliver a crisp, savoury biscuit experience built around the familiar warmth of ajwain.",
+      "description": "Ajwain Cookies are crafted to deliver a crisp, savoury biscuit experience built around the familiar warmth of ajwain. The first bite offers a gentle salt note, followed by a light spice aroma that feels comforting and home-style. The baked texture remains firm and even, creating a clean crunch that holds its character across repeated bites.",
+      "highlights": [
+        "Ajwain Cookies stand out for their savoury profile and warm spice notes.",
+        "Their mild saltiness and subtle spice make them an excellent companion for tea, coffee, or even light herbal drinks.",
+        "These cookies are baked to achieve a crisp outer layer with a gentle bite."
+      ],
+      "ingredients": "Ajwain (carom seeds)",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place. After opening, keep in an air-tight container.",
+      "shelfLife": null
+    },
+    "Atta Cookies": {
+      "source": "https://www.prinitifoods.com/attacookies.php",
+      "officialTitle": "Atta Cookies",
+      "shortDescription": "Priniti Atta Cookies are crafted for consumers who enjoy a wholesome biscuit experience with a familiar home-style taste.",
+      "description": "Priniti Atta Cookies are crafted for consumers who enjoy a wholesome biscuit experience with a familiar home-style taste. Made using a blend of wheat flour and carefully balanced ingredients, these cookies deliver a satisfying bite that fits effortlessly into daily routines—whether paired with morning tea, served as an evening snack, or packed for travel and school breaks.",
+      "highlights": [
+        "These cookies are designed for everyday use.",
+        "The flavour profile is balanced and approachable, allowing consumers to enjoy them repeatedly without fatigue, which is why they perform well as a daily biscuit option.",
+        "The familiar taste and consistent crunch appeal across age groups, making them suitable for school breaks, office snacks, and family tea-time moments."
+      ],
+      "ingredients": "Wheat flour",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place. After opening, keep in an air-tight container.",
+      "shelfLife": null
+    },
+    "Badam Cookies": {
+      "source": "https://www.prinitifoods.com/badamcookies.php",
+      "officialTitle": "Badam Cookies",
+      "shortDescription": "Badam Cookies bring a rich almond-led taste to the classic cookie format, delivering a satisfying crunch with every bite.",
+      "description": "Badam Cookies bring a rich almond-led taste to the classic cookie format, delivering a satisfying crunch with every bite. Crafted with finely ground almonds and balanced sweetness, these cookies appeal to consumers who prefer nut-forward bakery snacks that feel indulgent yet familiar. The layered buttery notes combined with the mild roasted almond flavour create a comforting profile that works equally well for tea-time, on-the-go munching, or light dessert moments.",
+      "highlights": [
+        "Badam Cookies combine a soft baked texture with almond flavour and a visible nut centre, offering a richer and more layered taste compared to standard plain biscuits.",
+        "Their mild sweetness and balanced profile make them suitable for regular tea-time, tiffin, or light snacking throughout the day.",
+        "The sweetness is kept moderate so the almond notes remain prominent, making them easy to enjoy without feeling overpowering."
+      ],
+      "ingredients": "Almonds",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Coconut Cookies": {
+      "source": "https://www.prinitifoods.com/coconut-cookies.php",
+      "officialTitle": "Coconut Cookies",
+      "shortDescription": "Coconut Cookies are crafted for consumers who enjoy a light, mildly sweet biscuit with a smooth coconut note that feels familiar and easy.",
+      "description": "Coconut Cookies are crafted for consumers who enjoy a light, mildly sweet biscuit with a smooth coconut note that feels familiar and easy. The flavour remains gentle, allowing repeated consumption without fatigue, making it ideal for daily tea-time and casual snacking. The subtle coconut profile gives the product a clear identity on the shelf while staying approachable for all age groups.",
+      "highlights": [
+        "Coconut Cookies offer a softer flavour profile with a gentle coconut note that feels familiar and comforting.",
+        "The mild sweetness and smooth coconut taste are designed for frequent eating without causing flavour fatigue, making them ideal for routine tea-time and casual snacking.",
+        "The gentle flavour and familiar biscuit profile make them suitable for children, adults, and older consumers, supporting household-level repeat purchases."
+      ],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Jam Cookies": {
+      "source": "https://www.prinitifoods.com/jam-cookies.php",
+      "officialTitle": "Jam Cookies",
+      "shortDescription": "Priniti Jam Cookies combine a soft-baked biscuit base with a fruity jam centre, creating a balanced bite that feels comforting, familiar, and indulgent at the same time.",
+      "description": "Priniti Jam Cookies combine a soft-baked biscuit base with a fruity jam centre, creating a balanced bite that feels comforting, familiar, and indulgent at the same time. The outer cookie offers a light crumb with gentle sweetness, while the jam core adds a bright, fruity contrast that appeals across age groups. This dual-texture experience makes the product suitable for tea-time, school tiffins, and casual snacking moments throughout the day.",
+      "highlights": [
+        "Jam Cookies combine a soft cookie base with a fruity jam centre, offering both texture and flavour contrast in a single bite.",
+        "The mild sweetness and soft texture make Jam Cookies appealing for children.",
+        "They pair well with tea or coffee, work as a mid-day snack, and are convenient for travel or office breaks."
+      ],
+      "ingredients": "Jam centre",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place. After opening, keep in an air-tight container.",
+      "shelfLife": null
+    },
+    "Jeera Cookies": {
+      "source": "https://www.prinitifoods.com/Jeera-cookies.php",
+      "officialTitle": "Jeera Cookies",
+      "shortDescription": "Priniti Jeera Cookies are crafted for those who enjoy a balanced savoury bite with a mild aromatic touch.",
+      "description": "Priniti Jeera Cookies are crafted for those who enjoy a balanced savoury bite with a mild aromatic touch. Infused with carefully selected jeera (cumin seeds), these cookies deliver a distinct earthy flavour that pairs perfectly with tea-time and light snacking occasions. The texture remains crisp yet easy to bite, making them suitable for regular consumption across age groups.",
+      "highlights": [
+        "Jeera Cookies offer a savoury taste profile enriched with cumin seeds, making them an ideal alternative to sweet cookies.",
+        "These cookies are designed for routine snacking.",
+        "Jeera Cookies pair well with tea and other hot beverages."
+      ],
+      "ingredients": "Jeera (cumin seeds)",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from direct sunlight. After opening, keep in an air-tight container.",
+      "shelfLife": null
+    },
+    "Kaju Cookies": {
+      "source": "https://www.prinitifoods.com/kajucookies.php",
+      "officialTitle": "Kaju Cookies",
+      "shortDescription": "Kaju Cookies bring the rich, buttery character of cashews into a perfectly baked cookie format that feels indulgent yet familiar.",
+      "description": "Kaju Cookies bring the rich, buttery character of cashews into a perfectly baked cookie format that feels indulgent yet familiar. Each bite delivers a smooth crunch followed by a warm, nut-led finish, making these cookies ideal for tea-time, office breaks, and light dessert moments. The balanced sweetness allows repeat consumption without feeling heavy, while the visible cashew appeal adds instant shelf attraction. Designed for everyday enjoyment, Kaju Cookies fit naturally into family snack routines and impulse purchases alike, offering a dependable taste experience across age groups.",
+      "highlights": [
+        "Kaju Cookies are crafted around the rich taste of cashews, giving them a distinctive nutty profile and smoother mouthfeel compared to standard sweet biscuits.",
+        "The balanced sweetness and light crunch make them suitable for daily tea-time, office breaks, and school tiffins, allowing repeat consumption without flavour fatigue."
+      ],
+      "ingredients": "Cashews",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place. After opening, keep in an air-tight container.",
+      "shelfLife": null
+    },
+    "Tutti Frutti Cookies": {
+      "source": "https://www.prinitifoods.com/tuttifrutticookies.php",
+      "officialTitle": "Tutti Frutti Cookies",
+      "shortDescription": "Priniti Tutti Frutti Cookies are crafted to deliver a colourful, sweet, and cheerful cookie experience that appeals across age groups.",
+      "description": "Priniti Tutti Frutti Cookies are crafted to deliver a colourful, sweet, and cheerful cookie experience that appeals across age groups. These cookies combine a crisp baked texture with evenly spread tutti frutti bits that add bursts of fruity sweetness in every bite. The flavour profile remains light and pleasant, making the cookies easy to enjoy repeatedly without feeling heavy.",
+      "highlights": [
+        "Tutti Frutti Cookies stand out due to the addition of colourful fruit bits that provide mild fruity sweetness along with a crisp cookie base, creating a visually appealing and flavour-balanced snack.",
+        "The light sweetness and crisp texture make these cookies suitable for regular consumption as part of tea-time, school snacks, or casual munching moments."
+      ],
+      "ingredients": "Tutti frutti (fruit bits)",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place. After opening, keep in an air-tight container.",
+      "shelfLife": null
+    },
+    "Choco Vanilla Donut Cake": {
+      "source": "https://www.prinitifoods.com/choco-vanilla-donut.php",
+      "officialTitle": "Choco Vanilla Donut Cake",
+      "shortDescription": "Priniti Donut Cake is a delightful choco vanilla cake created to bring together a soft texture and a rich chocolate-vanilla flavour in every bite.",
+      "description": "Priniti Donut Cake is a delightful choco vanilla cake created to bring together a soft texture and a rich chocolate-vanilla flavour in every bite. With its distinctive donut shape and appealing combination of chocolate and vanilla, it offers a simple yet enjoyable sweet treat for cake and snack lovers. The balanced flavour makes it easy to enjoy whenever you are in the mood for something sweet and satisfying.",
+      "highlights": [
+        "Choco Vanilla Donut Cake is a soft, donut-shaped bakery snack that combines the familiar flavours of chocolate and vanilla for a delicious and enjoyable bite.",
+        "It can be enjoyed as an everyday snack, during school or office breaks, with tea or coffee, or whenever you want a quick sweet treat.",
+        "Its familiar chocolate vanilla flavour and convenient donut format make it suitable for a wide range of age groups."
+      ],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Strawberry Vanilla Donut Cake": {
+      "source": "https://www.prinitifoods.com/strawberry-vanilla-donut.php",
+      "officialTitle": "Strawberry Vanilla Donut Cake",
+      "shortDescription": "Strawberry Vanilla Donut Cake is a delightful cake snack that brings together the sweet taste of strawberry and the familiar flavour of vanilla in every bite.",
+      "description": "Strawberry Vanilla Donut Cake is a delightful cake snack that brings together the sweet taste of strawberry and the familiar flavour of vanilla in every bite. With its distinctive donut shape and appealing strawberry-vanilla combination, it offers a simple yet enjoyable sweet treat for cake and snack lovers. The balanced flavour makes it easy to enjoy whenever you are in the mood for something sweet and satisfying.",
+      "highlights": [
+        "Strawberry Vanilla Donut Cake is a soft, donut-shaped cake snack that combines the sweet flavours of strawberry and vanilla in a fun and convenient format.",
+        "It can be enjoyed as an everyday snack, during school or office breaks, with tea or coffee, or whenever you want a quick sweet treat.",
+        "Its familiar strawberry vanilla flavour and convenient donut format make it suitable for a wide range of age groups."
+      ],
+      "ingredients": null,
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": null
+    },
+    "Besan Ladoo": {
+      "source": "https://www.prinitifoods.com/Besanladdoo.php",
+      "officialTitle": "Dry Fruit Besan Ladoo",
+      "shortDescription": "Dry Fruit Besan Ladoo is made using gram pulse flour combined with almonds, cashews, and selected seeds to deliver a deep, roasted flavour with gentle sweetness.",
+      "description": "Dry Fruit Besan Ladoo is made using gram pulse flour combined with almonds, cashews, and selected seeds to deliver a deep, roasted flavour with gentle sweetness. The taste develops gradually, starting with rich besan notes and finishing with a smooth, nutty depth that feels satisfying without being overpowering. The texture remains soft and compact, making the ladoo easy to consume while still feeling substantial.",
+      "highlights": [
+        "The ladoo delivers a roasted besan taste balanced with mild sweetness and nutty depth from almonds, cashews, and seeds, creating a warm and satisfying eating experience.",
+        "Its familiar flavour profile and filling texture make it suitable for regular consumption as part of breakfast routines, mid-day snacks, or evening tea-time."
+      ],
+      "ingredients": "Gram pulse flour, almonds, cashews and selected seeds",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from direct sunlight.",
+      "shelfLife": "Up to 6 months"
+    },
+    "Gulab Jamun": {
+      "source": "https://www.prinitifoods.com/gulab-jamun.php",
+      "officialTitle": "Gulab Jamun",
+      "shortDescription": "Priniti Gulab Jamun is a classic Indian dessert prepared to deliver a soft, melt-in-the-mouth texture with a rich, indulgent sweetness.",
+      "description": "Priniti Gulab Jamun is a classic Indian dessert prepared to deliver a soft, melt-in-the-mouth texture with a rich, indulgent sweetness. Made using carefully selected milk solids and gently soaked in sugar syrup, each gulab jamun offers a balanced taste that feels comforting and celebratory at the same time. The dumplings absorb the syrup evenly, resulting in a uniform flavour and smooth bite from the outside to the core.",
+      "highlights": [
+        "Priniti Gulab Jamun has a rich, sweet flavour with a soft texture.",
+        "It can be served directly from the pack or slightly warmed before serving.",
+        "Gulab Jamun is widely preferred during festivals, celebrations, and family gatherings."
+      ],
+      "ingredients": "Milk solids and sugar syrup",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place.",
+      "shelfLife": null
+    },
+    "Panjeeri Ladoo": {
+      "source": "https://www.prinitifoods.com/panjeeriLadoo.php",
+      "officialTitle": "Dry Fruit Panjeeri Ladoo",
+      "shortDescription": "Dry Fruit Panjeeri Ladoo is prepared using whole wheat and enriched with almonds, cashews, and selected seeds to deliver a rich, nutty, and satisfying taste.",
+      "description": "Dry Fruit Panjeeri Ladoo is prepared using whole wheat and enriched with almonds, cashews, and selected seeds to deliver a rich, nutty, and satisfying taste. Each bite offers mild sweetness balanced with roasted grain notes and the earthy depth of dry fruits, while the texture remains soft yet filling without feeling heavy.",
+      "highlights": [
+        "Dry Fruit Panjeeri Ladoo offers a warm, nutty, and mildly sweet taste with roasted whole wheat notes balanced by the richness of almonds, cashews, and seeds, creating a comforting and filling eating experience.",
+        "The familiar taste profile and filling texture make it suitable for regular consumption across age groups within households."
+      ],
+      "ingredients": "Whole wheat, almonds, cashews and selected seeds",
+      "allergenNote": null,
+      "storage": null,
+      "shelfLife": "6 months"
+    },
+    "Rasgulla": {
+      "source": "https://www.prinitifoods.com/rasgulla.php",
+      "officialTitle": "Rasgulla",
+      "shortDescription": "Priniti Rasgulla captures the soft, spongy charm of this classic Indian sweet, crafted using cottage cheese (chhena) soaked in light sugar syrup with a gentle hint of rose water.",
+      "description": "Priniti Rasgulla captures the soft, spongy charm of this classic Indian sweet, crafted using cottage cheese (chhena) soaked in light sugar syrup with a gentle hint of rose water. Each piece offers a smooth, airy bite that absorbs sweetness evenly, creating a balanced and comforting taste experience. The texture remains tender yet structured, allowing the rasgulla to hold its shape while delivering a melt-in-the-mouth feel. Designed for everyday indulgence as well as festive moments, it fits naturally into dessert plates, gifting boxes, and family gatherings. Its familiar flavour profile and dependable quality make it a trusted choice across age groups and occasions.",
+      "highlights": [
+        "Priniti Rasgulla is made using soft chhena soaked in light sugar syrup with a subtle rose note.",
+        "Rasgulla works well as a post-meal dessert, during family gatherings, or as a light sweet treat in the evening."
+      ],
+      "ingredients": "Cottage cheese (chhena), sugar syrup and rose water",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place.",
+      "shelfLife": null
+    },
+    "Soan Papdi": {
+      "source": "https://www.prinitifoods.com/milk-soan-papdi.php",
+      "officialTitle": "Soan Papdi",
+      "shortDescription": "Priniti Soan Papdi is crafted using refined wheat flour, gram flour, sugar, almonds, pistachios, and aromatic cardamom to create a light, flaky mithai with a rich and traditional taste.",
+      "description": "Priniti Soan Papdi is crafted using refined wheat flour, gram flour, sugar, almonds, pistachios, and aromatic cardamom to create a light, flaky mithai with a rich and traditional taste. Each piece gently separates into fine layers that melt on the palate, releasing soft sweetness balanced with nutty depth and warm spice notes. The dry fruits add both texture and visual appeal, giving the product a festive and indulgent character.",
+      "highlights": [
+        "Priniti Soan Papdi is known for its light, flaky structure that separates into fine layers.",
+        "The combination of refined wheat flour, gram flour, sugar, almonds, pistachios, and aromatic cardamom creates a balanced flavour profile.",
+        "Its classic appeal, flaky texture, and dry fruit garnish make it well suited for festivals, family gatherings, and gifting."
+      ],
+      "ingredients": "Refined wheat flour, gram flour, sugar, almonds, pistachios and cardamom",
+      "allergenNote": null,
+      "storage": "Store in a cool, dry place away from moisture. After opening, keep in an air-tight container.",
+      "shelfLife": null
+    }
+  }
+}

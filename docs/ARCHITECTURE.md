@@ -69,8 +69,19 @@ Same tokens and visual language as the reference; these extend it rather than re
 | Product page: decorated gallery with hover zoom, pack-size cards, assurances (facts only) and delivery placeholder, info grid and accordions, reviews block with empty state, "More from", "Explore the range", sticky mobile buy bar | `templates/product.php`, `inc/components/commerce.php`, `interactions.ts` |
 | Header category menu with thumbnails; footer with newsletter/social band and Policies column | `template-parts/layout/desktop-nav.php`, `footer.php`, `inc/config.php` |
 
-| Campaign pieces (v0.4.0): promo strip (`priniti_promo_strip`, copy via `priniti_promo_strip_messages` filter), hero stage of real packs with vector accents (`priniti_hero_stage`), sample testimonials (`priniti_sample_reviews` filter; real WooCommerce reviews replace them automatically), Instagram feed (`priniti_section_instagram`) | `inc/components/campaign.php` |
+| Campaign pieces (v0.4.0): promo strip (`priniti_promo_strip`, copy via `priniti_promo_strip_messages` filter), sample testimonials (`priniti_sample_reviews` filter; real WooCommerce reviews replace them automatically), Instagram feed (`priniti_section_instagram`) | `inc/components/campaign.php` |
 | Category art (eyebrow, fallback copy, accents per category; `priniti_category_art` filter), pack stage (`priniti_pack_stage`), multi-view product gallery (`priniti_product_gallery`) | `inc/components/commerce.php`, `inc/components/decor.php`, `interactions.ts` |
+
+| Homepage hero slider (v0.6.0): exactly three slides from `priniti_hero_slides()` (filterable): Namkeen, Chips & CharChare, Cookies & Donut Cakes. Real catalog products by slug, "Starting at" from their live prices, Shop + Explore Products CTAs | `inc/components/campaign.php` (`priniti_section_hero_slider`), `interactions.ts` (`initHeroSlider`) |
+| Category showcase (v0.6.0): curated products per category for the category hero (`priniti_category_showcase` filter); category images fall back to the first showcase product when the term has no thumbnail (`priniti_category_with_image`) | `inc/catalog.php`, `templates/category.php` |
+| Header logo in a white rounded container (official SVG, aspect ratio kept); compact footer whose link groups collapse on phones (`initFooter`) | `template-parts/layout/header.php`, `logo.php`, `footer.php`, `interactions.ts` |
+
+**Hero slider.** All slides share one grid cell, so the hero never changes height (no CLS). Slide 1 is server-rendered visible with a
+high-priority first image and works without JavaScript; slides 2 and 3 keep their image URLs in `data-hero-src` until the page has
+loaded. Autoplay every 3 s (`data-interval`), cross-fade, pause on hover, keyboard focus and hidden tabs, no autoplay with reduced
+motion; dots, previous/next and swipe. Inactive slides are `inert` and `aria-hidden`. Each slide has an optional `background` image
+slot drawn behind the packs: use it only for scenery (for example an AI-generated background with no packaging or logo). Packs and
+the logo always come from the official images.
 
 Catalog pages show 12 products (`PRINITI_PAGE_SIZE`), so 2-, 3- and 4-column grids end on full rows.
 
@@ -87,7 +98,7 @@ copy with `add_filter( 'priniti_promo_strip_messages', '__return_empty_array' );
 photo (a labelled close-up crop and the pack on a Priniti backdrop); these are labelled on the page and in their alt text.
 
 Data rules: these components only display existing product data. Missing ingredients, nutrition, storage and highlights read
-"Coming soon"; ratings and reviews appear only when real WooCommerce reviews exist; unpriced products show "Price coming soon"
+"Information coming soon"; ratings and reviews appear only when real WooCommerce reviews exist; unpriced products show "Price coming soon"
 and an enquiry link instead of a cart button.
 
 ## E-commerce pricing (Ecomm Item List)
@@ -109,6 +120,20 @@ The master list is `tools/import/data/ecomm-item-list.csv`, a CSV snapshot of "E
   synonyms) and reviewed decisions for near-misses, never silent fuzzy guesses. `npm test` covers the pricing examples.
 - **Local preview.** `npx tsx tools/dev/export-catalog.ts --ecomm` builds the local catalog from the same reconciliation;
   the local cart mock calls priniti-core's own pricing function.
+
+## Official product information
+
+`tools/import/data/official-content.json` holds product copy taken only from the official product pages on www.prinitifoods.com
+(built by `tools/import/scripts/build-official-content.py` from saved pages; run it with `python3 -I`). Per product: short and full
+description (consumer copy only; trade and distributor wording is dropped), up to three highlights (from the page's FAQ answers),
+key ingredients as described on the page, allergen note where the page gives one, storage and shelf life, and the source URL.
+The official site publishes no nutrition values, so nutrition reads "Information coming soon" everywhere; so do fields of
+products whose official page is missing or unusable (listed in the PR). `npm run ecomm:content` is a dry run;
+`PRINITI_IMPORT_ALLOW_WRITE=1 npm run ecomm:content -- --apply` writes description, short description, highlights, ingredients,
+storage and `_priniti_content_source` only (never prices, variations, images or categories).
+
+The product page reads: title, gallery, pack size and 1/2/3 packs, Add to cart / Buy now, assurances and delivery, description and
+highlights, then accordions (Ingredients open; Nutrition, Pack sizes, Storage, Shipping & Delivery), related products, reviews.
 
 ## Content and data
 

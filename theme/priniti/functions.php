@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'PRINITI_VERSION', '0.5.0' );
+define( 'PRINITI_VERSION', '0.6.0' );
 define( 'PRINITI_DIR', get_template_directory() );
 define( 'PRINITI_URI', get_template_directory_uri() );
 
