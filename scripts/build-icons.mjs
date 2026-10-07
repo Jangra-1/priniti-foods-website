@@ -13,6 +13,7 @@ const dynamic = [
   "shopping-bag", "badge-check", "package", "truck", "package-check", "check", // order journey
   "info", "triangle-alert", // form notices
   "headphones", "phone", "globe", "mail", "map-pin", "user", // contact cards, account dashboard tiles
+  "message-square-text", "coffee", "popcorn", "flame", "gift", "zap", // product details, empty states, mood tiles
 ];
 
 const found = new Set(dynamic);

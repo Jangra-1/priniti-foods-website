@@ -154,37 +154,125 @@ function initTabs() {
   });
 }
 
+/**
+ * Product gallery: a scroll-snap track (native swipe on touch), thumbnails, previous / next and dots,
+ * all kept in sync with whichever slide is in view.
+ */
 function initGallery() {
   document.querySelectorAll<HTMLElement>("[data-priniti-gallery]").forEach((root) => {
-    const main = root.querySelector<HTMLImageElement>("[data-gallery-main] img");
-    const thumbs = root.querySelectorAll<HTMLButtonElement>("[data-gallery-thumb]");
-    thumbs.forEach((thumb) =>
-      thumb.addEventListener("click", () => {
-        const img = JSON.parse(thumb.dataset.galleryThumb ?? "{}") as { src: string; srcset?: string; alt: string };
-        if (main && img.src) {
-          main.src = img.src;
-          if (img.srcset) main.srcset = img.srcset;
-          else main.removeAttribute("srcset");
-          main.alt = img.alt;
-        }
-        thumbs.forEach((t) => {
-          const on = t === thumb;
-          t.setAttribute("aria-current", String(on));
-          swap(t, on, t.dataset.onClass, t.dataset.offClass);
+    const track = root.querySelector<HTMLElement>("[data-gallery-track]");
+    if (!track) return;
+    const slides = Array.from(track.children) as HTMLElement[];
+    const thumbs = root.querySelectorAll<HTMLButtonElement>("[data-gallery-go]");
+    const dots = root.querySelectorAll<HTMLElement>("[data-gallery-dot]");
+    const prev = root.querySelector<HTMLButtonElement>("[data-gallery-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-gallery-next]");
+    const hint = root.querySelector<HTMLElement>("[data-zoom-hint]");
+    let current = 0;
+
+    const go = (i: number) => {
+      const target = Math.max(0, Math.min(slides.length - 1, i));
+      track.scrollTo({ left: target * track.clientWidth, behavior: "smooth" });
+    };
+    const mark = (i: number) => {
+      current = i;
+      thumbs.forEach((t, n) => {
+        t.setAttribute("aria-current", String(n === i));
+        swap(t, n === i, t.dataset.onClass, t.dataset.offClass);
+      });
+      dots.forEach((d, n) => {
+        d.classList.toggle("w-5", n === i);
+        d.classList.toggle("bg-ink", n === i);
+        d.classList.toggle("w-1.5", n !== i);
+        d.classList.toggle("bg-ink/25", n !== i);
+      });
+      if (prev) prev.disabled = i === 0;
+      if (next) next.disabled = i === slides.length - 1;
+      if (hint) hint.hidden = !slides[i]?.hasAttribute("data-zoom");
+    };
+
+    let frame = 0;
+    track.addEventListener(
+      "scroll",
+      () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          const i = Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+          if (i !== current) mark(i);
         });
-      }),
+      },
+      { passive: true },
     );
+    thumbs.forEach((t) => t.addEventListener("click", () => go(Number(t.dataset.galleryGo))));
+    prev?.addEventListener("click", () => go(current - 1));
+    next?.addEventListener("click", () => go(current + 1));
+    track.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") go(current + 1);
+      if (e.key === "ArrowLeft") go(current - 1);
+    });
+    mark(0);
+  });
+}
+
+/** Hover zoom on the product image (fine pointers only): scale around the pointer position. */
+function initZoom() {
+  if (!window.matchMedia("(pointer: fine)").matches) return;
+  document.querySelectorAll<HTMLElement>("[data-zoom]").forEach((box) => {
+    const img = () => box.querySelector<HTMLImageElement>("img");
+    box.addEventListener("pointermove", (e) => {
+      const el = img();
+      if (!el) return;
+      const r = box.getBoundingClientRect();
+      el.style.transformOrigin = `${((e.clientX - r.left) / r.width) * 100}% ${((e.clientY - r.top) / r.height) * 100}%`;
+      el.style.transform = "scale(1.8)";
+      box.style.cursor = "zoom-in";
+    });
+    box.addEventListener("pointerleave", () => {
+      const el = img();
+      if (el) el.style.transform = "";
+    });
   });
 }
 
 function initPurchasePanel() {
   document.querySelectorAll<HTMLElement>("[data-priniti-purchase]").forEach((root) => {
+    const sticky = document.querySelector<HTMLElement>("[data-sticky-buy]");
+    const activePanel = () => root.querySelector<HTMLElement>("[data-variant-panel]:not([hidden])");
+    const syncSticky = () => {
+      if (!sticky) return;
+      const price = activePanel()?.dataset.stickyPrice;
+      sticky.querySelectorAll<HTMLButtonElement>("[data-sticky-action]").forEach((b) => (b.disabled = !price));
+      const out = sticky.querySelector("[data-sticky-price-out]");
+      if (out) out.textContent = price ?? "Price coming soon";
+    };
     root.querySelectorAll<HTMLInputElement>('input[name="priniti-pack"]').forEach((radio) =>
       radio.addEventListener("change", () => {
         root.querySelectorAll<HTMLElement>("[data-variant-panel]").forEach((p) => (p.hidden = p.dataset.variantPanel !== radio.value));
         root.querySelectorAll<HTMLElement>("[data-variant-only]").forEach((p) => (p.hidden = p.dataset.variantOnly !== radio.value));
+        syncSticky();
       }),
     );
+
+    // Sticky mobile buy bar: shown while the panel's own buttons are scrolled out of view; its buttons
+    // press the visible panel's buttons, so cart behaviour stays in one place.
+    if (sticky) {
+      syncSticky();
+      sticky.querySelectorAll<HTMLButtonElement>("[data-sticky-action]").forEach((b) =>
+        b.addEventListener("click", () => {
+          const sel = b.dataset.stickyAction === "buy" ? "[data-priniti-buy-now]" : "[data-priniti-add]";
+          activePanel()?.querySelector<HTMLButtonElement>(sel)?.click();
+        }),
+      );
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          const below = entry.boundingClientRect.top < 0;
+          sticky.hidden = entry.isIntersecting || !below;
+          document.body.classList.toggle("has-sticky-buy", !sticky.hidden);
+        },
+        { threshold: 0 },
+      );
+      io.observe(root);
+    }
   });
 
   document.querySelectorAll<HTMLElement>("[data-qty]").forEach((group) => {
@@ -204,6 +292,27 @@ function initPurchasePanel() {
   });
 }
 
+/** Subtle reveal for sections marked data-reveal (CSS in app.css; skipped for reduced motion). */
+function initReveal() {
+  const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
+  if (!items.length) return;
+  if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    items.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-visible");
+          io.unobserve(e.target);
+        }
+      }),
+    { rootMargin: "0px 0px -8% 0px" },
+  );
+  items.forEach((el) => io.observe(el));
+}
+
 export function initInteractions() {
   initCartButtons();
   initWishlist();
@@ -212,4 +321,6 @@ export function initInteractions() {
   initTabs();
   initGallery();
   initPurchasePanel();
+  initZoom();
+  initReveal();
 }

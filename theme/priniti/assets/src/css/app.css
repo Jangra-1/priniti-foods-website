@@ -56,6 +56,22 @@
   @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 }
 
+/*
+ * Theme extensions (not in the reference): warm cream surface and the campaign animations
+ * (slow stamp spin, gentle float, promo marquee). All are disabled by the reduced-motion rule below.
+ */
+@theme {
+  --color-cream: #fff6ea;
+  --animate-spin-slow: spin-slow 24s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-delayed: float 7s ease-in-out 1.5s infinite;
+  --animate-marquee: marquee 38s linear infinite;
+
+  @keyframes spin-slow { to { transform: rotate(360deg); } }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+}
+
 @layer base {
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body { overflow-x: clip; background: var(--color-canvas); color: var(--color-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
@@ -168,4 +184,30 @@
 
   /* Screen-reader text WooCommerce uses */
   .screen-reader-text { @apply sr-only; }
+}
+
+/*
+ * Reveal-on-scroll (interactions.ts initReveal). Only hidden once the head script has marked the page as
+ * JS-capable; a delayed fallback animation shows the content anyway if the islands bundle never runs.
+ */
+@layer components {
+  .js [data-reveal]:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: reveal-fallback 0s 3s forwards;
+  }
+  [data-reveal] { transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1), transform 600ms cubic-bezier(0.22, 1, 0.36, 1); }
+  @keyframes reveal-fallback { to { opacity: 1; transform: none; } }
+
+  /* Keep the footer clear of the sticky mobile buy bar on product pages. */
+  body.has-sticky-buy { padding-bottom: 4.75rem; }
+  @media (min-width: 64rem) { body.has-sticky-buy { padding-bottom: 0; } }
+
+  /* Loading skeleton shimmer for placeholders. */
+  .skeleton {
+    background: linear-gradient(90deg, var(--color-line) 25%, var(--color-canvas) 37%, var(--color-line) 63%);
+    background-size: 400% 100%;
+    animation: skeleton 1.4s ease infinite;
+  }
+  @keyframes skeleton { from { background-position: 100% 50%; } to { background-position: 0 50%; } }
 }

@@ -63,6 +63,8 @@ add_action(
 	'wp_head',
 	static function (): void {
 		echo '<meta name="theme-color" content="#f7f8fb">' . "\n";
+		// Marks the page as JS-capable before first paint, so reveal-on-scroll never flashes content.
+		echo "<script>document.documentElement.classList.add('js')</script>\n";
 	},
 	1
 );

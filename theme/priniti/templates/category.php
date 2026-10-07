@@ -12,7 +12,9 @@ $category   = priniti_get_category( $term->slug );
 $categories = priniti_get_categories();
 $filters    = priniti_parse_filters( $_GET ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $index      = max( 0, (int) array_search( $term->slug, array_column( $categories, 'slug' ), true ) );
-$count      = priniti_category_counts()[ $term->slug ] ?? 0;
+$counts     = priniti_category_counts();
+$count      = $counts[ $term->slug ] ?? 0;
+$featured   = priniti_get_products( array( 'category' => $term->slug, 'limit' => 4 ) );
 $published  = $category ? $category['published'] : true;
 $category ??= array(
 	'name'        => $term->name,
@@ -33,19 +35,26 @@ get_header();
 		),
 		'mb-4'
 	);
-	priniti_category_banner( $category, $index, $count );
+	priniti_category_banner( $category, $index, $count, $featured );
+	priniti_category_pills( $categories, $counts, $term->slug, 'mt-5' );
 	?>
 	<?php if ( ! $published ) : ?>
-		<div class="mt-8 flex flex-col items-center gap-4 rounded-card border border-dashed border-line bg-surface px-6 py-14 text-center">
-			<p class="font-display text-xl font-semibold"><?php echo esc_html( $category['name'] . ' are coming soon' ); ?></p>
-			<p class="max-w-md text-ink-soft"><?php echo esc_html( sprintf( 'There are no %s to show yet. They will appear here as soon as they are available in the online store.', strtolower( $category['name'] ) ) ); ?></p>
-			<?php priniti_button_link( priniti_url( '/shop' ), 'Browse all products' ); ?>
-		</div>
+		<?php
+		priniti_empty_state(
+			'package',
+			$category['name'] . ' are coming soon',
+			sprintf( 'There are no %s to show yet. They will appear here as soon as they are available in the online store.', strtolower( $category['name'] ) ),
+			array( 'href' => priniti_url( '/shop' ), 'label' => 'Browse all products' ),
+			'mt-8'
+		);
+		?>
 	<?php else : ?>
-		<div class="mt-8 lg:mt-10">
+		<div id="products" class="mt-8 scroll-mt-28 lg:mt-10">
 			<?php priniti_catalog_view( (string) $category['href'], $filters, $categories, $term->slug ); ?>
 		</div>
 	<?php endif; ?>
+	<?php priniti_snack_box_strip( $term->slug ); ?>
+	<?php priniti_related_categories( $categories, $counts, $term->slug ); ?>
 </div>
 <?php
 get_footer();

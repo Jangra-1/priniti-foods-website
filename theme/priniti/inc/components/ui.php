@@ -58,6 +58,7 @@ function priniti_section_heading( array $a ): void {
 function priniti_badge_classes( string $tone = 'neutral', string $extra = 'px-2.5 py-1 text-xs' ): string {
 	$tones = array(
 		'brand'   => 'bg-brand text-white',
+		'tint'    => 'bg-brand-tint text-brand',
 		'navy'    => 'bg-navy text-white',
 		'leaf'    => 'bg-leaf-tint text-leaf',
 		'neutral' => 'bg-ink/8 text-ink-soft',
@@ -285,4 +286,28 @@ function priniti_button_link( string $href, string $label_html, string $variant 
 		priniti_attrs( $attrs ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		$label_html // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- callers pass escaped text + theme icons.
 	);
+}
+
+/**
+ * Empty / coming-soon state: an icon in a tinted circle, a title, a line of copy and an optional action.
+ *
+ * @param array{href:string,label:string}|null $action
+ */
+function priniti_empty_state( string $icon, string $title, string $text = '', ?array $action = null, string $class = '' ): void {
+	?>
+	<div class="<?php echo esc_attr( priniti_cx( 'relative flex flex-col items-center gap-3 overflow-hidden rounded-[1.5rem] border border-dashed border-line bg-surface px-6 py-12 text-center', $class ) ); ?>">
+		<?php priniti_decor( 'dots', '-left-4 -top-4 size-24 text-line' ); ?>
+		<?php priniti_decor( 'sparkle', 'right-[18%] top-8 size-4 text-brand/40' ); ?>
+		<span class="relative flex size-14 items-center justify-center rounded-full bg-brand-tint text-brand"><?php priniti_the_icon( $icon, 'size-6' ); ?></span>
+		<p class="relative font-display text-lg font-semibold"><?php echo esc_html( $title ); ?></p>
+		<?php if ( $text ) : ?>
+			<p class="relative max-w-md text-sm text-ink-soft sm:text-base"><?php echo esc_html( $text ); ?></p>
+		<?php endif; ?>
+		<?php
+		if ( $action ) {
+			priniti_button_link( $action['href'], esc_html( $action['label'] ), 'outline', 'md', 'relative mt-2' );
+		}
+		?>
+	</div>
+	<?php
 }

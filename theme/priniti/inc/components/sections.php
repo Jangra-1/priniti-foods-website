@@ -38,23 +38,23 @@ function priniti_section_hero( array $products, array $categories ): void {
 	$line2 = implode( ' ', $parts );
 	$free  = priniti_site_config()['commerce']['free_shipping_threshold'];
 
-	$tag = static function ( array $p, string $class ): void {
-		?>
-		<a href="<?php echo esc_url( $p['href'] ); ?>" class="<?php echo esc_attr( priniti_cx( 'absolute z-10 hidden max-w-[9.5rem] rounded-xl bg-surface px-3 py-2 shadow-lift transition-transform hover:-translate-y-0.5 sm:block', $class ) ); ?>">
-			<span class="block text-[10px] font-bold uppercase tracking-wide text-brand"><?php echo esc_html( $p['categoryName'] ); ?></span>
-			<span class="mt-0.5 block font-display text-xs font-semibold leading-snug"><?php echo esc_html( $p['name'] ); ?></span>
-		</a>
-		<?php
-	};
 	?>
-	<section aria-labelledby="hero-heading" class="relative overflow-hidden bg-linear-to-br from-brand-tint via-blush to-surface">
-		<?php priniti_container_open( 'grid items-center gap-6 py-8 sm:py-10 lg:grid-cols-[1.1fr_1fr] lg:gap-6 lg:py-10' ); ?>
+	<section aria-labelledby="hero-heading" class="relative overflow-hidden bg-linear-to-br from-cream via-blush to-brand-tint">
+		<?php
+		priniti_decor( 'dots', 'left-[38%] top-8 hidden size-28 text-brand/15 lg:block' );
+		priniti_decor( 'sparkle', 'left-[46%] top-[22%] hidden size-5 text-brand/60 lg:block' );
+		priniti_decor( 'sparkle', 'left-[4%] bottom-[12%] size-3 text-navy/40' );
+		priniti_decor( 'leaf', 'left-[44%] bottom-[14%] hidden size-10 rotate-12 text-leaf/25 lg:block' );
+		priniti_decor( 'grain', 'right-[3%] top-[10%] hidden h-20 w-10 -rotate-12 text-lime/50 xl:block' );
+		priniti_decor( 'wave', 'inset-x-0 bottom-0 h-6 w-full text-surface sm:h-8' );
+		?>
+		<?php priniti_container_open( 'relative grid items-center gap-6 py-8 sm:py-10 lg:grid-cols-[1fr_1.05fr] lg:gap-8 lg:py-12' ); ?>
 			<div class="max-w-xl">
 				<p class="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 text-[13px] font-semibold shadow-card">
 					<?php priniti_the_icon( 'sparkles', 'size-4 text-brand' ); ?>
 					Swad Mein No.1
 				</p>
-				<h1 id="hero-heading" class="mt-4 font-display text-[2.25rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-5xl xl:text-[3.25rem]">
+				<h1 id="hero-heading" class="mt-4 font-display text-[2.25rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem] xl:text-[3.9rem]">
 					<span class="block"><?php echo esc_html( $line1 ); ?></span>
 					<?php if ( $line2 ) : ?>
 						<span class="block text-brand"><?php echo esc_html( $line2 ); ?></span>
@@ -77,21 +77,8 @@ function priniti_section_hero( array $products, array $categories ): void {
 				<?php endif; ?>
 			</div>
 
-			<div class="relative mx-auto aspect-square w-full max-w-[26rem] xl:max-w-[29rem]">
-				<div aria-hidden="true" class="absolute inset-0 rounded-full border-2 border-dashed border-brand/25"></div>
-				<div aria-hidden="true" class="absolute inset-[5%] overflow-hidden rounded-full bg-brand">
-					<div class="absolute -right-[12%] -top-[12%] size-[62%] rounded-full bg-navy"></div>
-					<div class="absolute -bottom-[18%] -left-[12%] size-[52%] rounded-full bg-brand-dark"></div>
-				</div>
-				<?php priniti_pack_fan( $products, 'absolute -inset-x-[3%] bottom-[18%] top-[10%] size-auto', true ); ?>
-				<?php
-				if ( isset( $products[0] ) ) {
-					$tag( $products[0], '-left-1 top-[12%] lg:-left-6' );
-				}
-				if ( isset( $products[3] ) ) {
-					$tag( $products[3], '-right-1 bottom-[12%] lg:-right-6' );
-				}
-				?>
+			<div class="relative">
+				<?php priniti_hero_stage( $products, $categories ); ?>
 			</div>
 		<?php priniti_container_close(); ?>
 	</section>
@@ -100,7 +87,7 @@ function priniti_section_hero( array $products, array $categories ): void {
 
 function priniti_section_categories( array $categories, array $counts ): void {
 	?>
-	<section id="categories" aria-labelledby="categories-heading" class="scroll-mt-24 bg-surface py-8 lg:py-10">
+	<section id="categories" aria-labelledby="categories-heading" class="scroll-mt-24 bg-surface py-8 lg:py-10" data-reveal>
 		<?php priniti_container_open(); ?>
 			<?php
 			priniti_section_heading(
@@ -128,7 +115,7 @@ function priniti_section_featured_products( string $eyebrow, string $title, stri
 	$tabs = array_slice( $tabs, 0, 4, true );
 	$pill = static fn ( bool $on ) => priniti_cx( 'inline-flex min-h-8 items-center rounded-full px-3.5 text-[13px] font-semibold transition-colors', $on ? 'bg-brand text-white' : 'bg-surface text-ink ring-1 ring-line hover:text-brand hover:ring-brand/50' );
 	?>
-	<section aria-labelledby="featured-products-heading" class="bg-canvas py-8 lg:py-10" data-priniti-tabs data-on-class="bg-brand text-white" data-off-class="bg-surface text-ink ring-1 ring-line hover:text-brand hover:ring-brand/50">
+	<section aria-labelledby="featured-products-heading" class="bg-canvas py-8 lg:py-10" data-priniti-tabs data-on-class="bg-brand text-white" data-off-class="bg-surface text-ink ring-1 ring-line hover:text-brand hover:ring-brand/50" data-reveal>
 		<?php priniti_container_open(); ?>
 			<div class="mb-5 flex flex-col gap-3 lg:mb-6 lg:flex-row lg:items-end lg:justify-between">
 				<div>
@@ -159,7 +146,7 @@ function priniti_section_why(): void {
 	$why   = priniti_data( 'home' )['why'];
 	$icons = array( 'wheat' => 'wheat', 'smile' => 'smile', 'sparkles' => 'sparkles', 'handshake' => 'handshake', 'grid' => 'layout-grid' );
 	?>
-	<section aria-labelledby="why-heading" class="bg-ink py-10 text-white lg:py-12">
+	<section aria-labelledby="why-heading" class="bg-ink py-10 text-white lg:py-12" data-reveal>
 		<?php priniti_container_open(); ?>
 			<div class="flex flex-col items-center text-center">
 				<?php priniti_eyebrow( 'Why choose us', 'mb-2', 'lime' ); ?>
@@ -184,11 +171,17 @@ function priniti_section_promo_banner( ?string $badge, array $combos, array $vis
 	$parts = preg_split( '/(?<=\.)\s+/', $promo['headline'] );
 	$first = array_shift( $parts );
 	?>
-	<section aria-labelledby="promo-heading" class="bg-canvas py-4 lg:py-6">
+	<section aria-labelledby="promo-heading" class="bg-canvas py-4 lg:py-6" data-reveal>
 		<?php priniti_container_open(); ?>
 			<div class="relative isolate grid items-center gap-5 overflow-hidden rounded-3xl bg-brand px-6 py-8 text-white sm:px-8 lg:grid-cols-[1.1fr_1fr] lg:px-12 lg:py-8">
 				<div aria-hidden="true" class="absolute -right-24 -top-28 -z-10 size-80 rounded-full bg-white/10 sm:size-[26rem]"></div>
 				<div aria-hidden="true" class="absolute -bottom-32 -left-20 -z-10 size-72 rounded-full bg-brand-dark/60"></div>
+				<?php
+				priniti_decor( 'dots', 'left-[42%] top-6 -z-10 hidden size-24 text-white/15 md:block' );
+				priniti_decor( 'burst', 'right-[44%] bottom-6 -z-10 hidden size-14 text-lime/70 motion-safe:animate-spin-slow lg:block' );
+				priniti_decor( 'sparkle', 'left-6 top-6 -z-10 size-4 text-white/70' );
+				priniti_decor( 'squiggle', 'bottom-5 left-8 -z-10 h-4 w-20 text-white/25' );
+				?>
 				<div class="max-w-xl">
 					<?php if ( $badge ) : ?>
 						<span class="mb-3 inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-xs font-semibold"><?php echo esc_html( $badge ); ?></span>
@@ -234,13 +227,15 @@ function priniti_section_promo_tiles( array $tiles ): void {
 	}
 	$tones = array( 'navy' => 'bg-navy', 'leaf' => 'bg-leaf' );
 	?>
-	<section aria-label="Shop sweets and bakery" class="bg-canvas py-4 lg:py-6">
+	<section aria-label="Shop sweets and bakery" class="bg-canvas py-4 lg:py-6" data-reveal>
 		<?php priniti_container_open(); ?>
 			<ul role="list" class="grid gap-3 md:grid-cols-2 md:gap-4">
 				<?php foreach ( $shown as $t ) : ?>
 					<li>
-						<div class="<?php echo esc_attr( priniti_cx( 'relative isolate flex h-full min-h-44 overflow-hidden rounded-3xl p-5 text-white sm:p-6', $tones[ $t['tone'] ] ) ); ?>">
+						<div class="<?php echo esc_attr( priniti_cx( 'relative isolate flex h-full min-h-52 overflow-hidden rounded-3xl p-5 text-white sm:min-h-56 sm:p-7', $tones[ $t['tone'] ] ) ); ?>">
 							<div aria-hidden="true" class="absolute -right-16 -top-20 -z-10 size-64 rounded-full bg-white/10"></div>
+							<?php priniti_decor( 'dots', 'left-[44%] top-4 -z-10 size-20 text-white/15' ); ?>
+							<?php priniti_decor( 'navy' === $t['tone'] ? 'flower' : 'cookie', 'bottom-4 left-[46%] -z-10 size-10 text-white/15' ); ?>
 							<div class="relative z-10 flex max-w-[62%] flex-col justify-between gap-4 sm:max-w-[58%]">
 								<div>
 									<p class="text-[11px] font-bold uppercase tracking-[0.16em] text-white/75"><?php echo esc_html( $t['eyebrow'] ); ?></p>
@@ -249,8 +244,8 @@ function priniti_section_promo_tiles( array $tiles ): void {
 								</div>
 								<a href="<?php echo esc_url( $t['href'] ); ?>" class="inline-flex w-fit items-center gap-2 rounded-xl bg-white/20 px-4 py-2 text-xs font-semibold sm:text-sm backdrop-blur-sm transition-colors hover:bg-white hover:text-ink"><?php echo esc_html( $t['cta'] ); ?><?php priniti_the_icon( 'arrow-right', 'size-4' ); ?></a>
 							</div>
-							<div class="absolute bottom-0 right-3 aspect-[3/4] w-[32%] max-w-32 translate-y-[6%] drop-shadow-xl sm:right-6">
-								<?php priniti_product_image( $t['products'][0]['images'][0] ?? null, $t['products'][0]['name'], '(min-width:768px) 20vw, 38vw', 'bg-transparent p-0' ); ?>
+							<div aria-hidden="true" class="absolute -bottom-3 -right-2 w-[52%] max-w-80 sm:right-0">
+								<?php priniti_pack_stage( $t['products'], 'navy' === $t['tone'] ? 'lime' : 'brand', 'aspect-[6/5] [&>svg]:hidden' ); ?>
 							</div>
 						</div>
 					</li>
@@ -264,7 +259,7 @@ function priniti_section_promo_tiles( array $tiles ): void {
 function priniti_section_featured_product( array $product ): void {
 	$variant = priniti_purchasable_variant( $product );
 	?>
-	<section aria-labelledby="featured-heading" class="bg-surface py-8 lg:py-10">
+	<section aria-labelledby="featured-heading" class="bg-surface py-8 lg:py-10" data-reveal>
 		<?php priniti_container_open(); ?>
 			<div class="grid items-center gap-5 overflow-hidden rounded-3xl bg-blush p-4 sm:p-6 md:grid-cols-2 lg:gap-10 lg:p-8">
 				<div class="relative aspect-[5/4] overflow-hidden rounded-2xl bg-surface">
@@ -321,7 +316,7 @@ function priniti_add_to_cart_button( array $product, ?array $variant, array $opt
 function priniti_section_reviews( array $reviews ): void {
 	$copy = priniti_data( 'home' )['reviews'];
 	?>
-	<section aria-labelledby="reviews-heading" class="bg-surface py-8 lg:py-10">
+	<section aria-labelledby="reviews-heading" class="bg-surface py-8 lg:py-10" data-reveal>
 		<?php priniti_container_open(); ?>
 			<?php priniti_section_heading( array( 'id' => 'reviews-heading', 'eyebrow' => 'Customer love', 'title' => $copy['heading'], 'align' => 'center', 'class' => 'mb-5' ) ); ?>
 			<?php if ( ! $reviews ) : ?>
@@ -350,7 +345,7 @@ function priniti_section_reviews( array $reviews ): void {
  */
 function priniti_section_stats( string $title, string $description, array $stats ): void {
 	?>
-	<section aria-labelledby="stats-heading" class="relative isolate overflow-hidden bg-brand py-9 text-white lg:py-10">
+	<section aria-labelledby="stats-heading" class="relative isolate overflow-hidden bg-brand py-9 text-white lg:py-10" data-reveal>
 		<div aria-hidden="true" class="absolute -right-20 -top-24 -z-10 size-80 rounded-full bg-navy"></div>
 		<div aria-hidden="true" class="absolute -bottom-28 left-10 -z-10 size-64 rounded-full bg-brand-dark/60"></div>
 		<?php priniti_container_open(); ?>
@@ -375,7 +370,7 @@ function priniti_section_stats( string $title, string $description, array $stats
 function priniti_section_brand_story( array $products ): void {
 	$story = priniti_data( 'home' )['brandStory'];
 	?>
-	<section aria-labelledby="story-heading" class="bg-canvas py-8 lg:py-12">
+	<section aria-labelledby="story-heading" class="bg-canvas py-8 lg:py-12" data-reveal>
 		<?php priniti_container_open( 'grid items-center gap-6 lg:grid-cols-2 lg:gap-12' ); ?>
 			<div class="max-w-lg">
 				<?php priniti_eyebrow( 'Our story', 'mb-3' ); ?>
@@ -402,7 +397,7 @@ function priniti_section_newsletter(): void {
 	$copy   = priniti_data( 'home' )['newsletter'];
 	$result = function_exists( 'priniti_core_form_result' ) ? priniti_core_form_result( 'newsletter' ) : null;
 	?>
-	<section id="newsletter" aria-labelledby="newsletter-heading" class="scroll-mt-24 bg-blush py-9 lg:py-12">
+	<section id="newsletter" aria-labelledby="newsletter-heading" class="scroll-mt-24 bg-blush py-9 lg:py-12" data-reveal>
 		<?php priniti_container_open(); ?>
 			<div class="mx-auto flex max-w-2xl flex-col items-center text-center">
 				<span class="flex size-11 items-center justify-center rounded-xl bg-brand text-white shadow-soft"><?php priniti_the_icon( 'mail', 'size-5' ); ?></span>
@@ -443,7 +438,7 @@ function priniti_section_social( array $products ): void {
 	$tiles = array_slice( array_values( array_filter( $products, static fn ( $p ) => ! empty( $p['images'][0] ) ) ), 0, (int) $copy['tileCount'] );
 	$links = array_filter( priniti_site_config()['social'], static fn ( $s ) => ! empty( $s['href'] ) );
 	?>
-	<section aria-labelledby="social-heading" class="bg-surface py-8 lg:py-10">
+	<section aria-labelledby="social-heading" class="bg-surface py-8 lg:py-10" data-reveal>
 		<?php priniti_container_open(); ?>
 			<?php priniti_section_heading( array( 'id' => 'social-heading', 'eyebrow' => 'Stay connected', 'title' => $copy['heading'], 'description' => $copy['description'], 'align' => 'center', 'class' => 'mb-5' ) ); ?>
 			<ul role="list" aria-hidden="true" class="grid grid-cols-3 gap-2 sm:gap-3 lg:grid-cols-6">
@@ -460,6 +455,126 @@ function priniti_section_social( array $products ): void {
 					<p class="text-sm text-ink-soft">Social profile links are coming soon.</p>
 				<?php endif; ?>
 			</div>
+		<?php priniti_container_close(); ?>
+	</section>
+	<?php
+}
+
+/**
+ * "Snacks for every mood": discovery tiles that route moods to existing categories. Moods with no
+ * published category are skipped, so every tile leads somewhere real.
+ */
+function priniti_section_moods( array $categories, array $counts ): void {
+	$by_slug = array_column( $categories, null, 'slug' );
+	$moods   = array(
+		array( 'title' => 'Tea-time', 'text' => 'Cookies and rusk for your chai', 'icon' => 'coffee', 'slugs' => array( 'cookies', 'rusk' ), 'tone' => 'bg-lime-tint text-leaf' ),
+		array( 'title' => 'Movie night', 'text' => 'Popcorn and potato chips', 'icon' => 'popcorn', 'slugs' => array( 'popcorn', 'potato-chips' ), 'tone' => 'bg-brand-tint text-brand' ),
+		array( 'title' => 'Spicy cravings', 'text' => 'Traditional namkeen', 'icon' => 'flame', 'slugs' => array( 'indian-traditional-namkeen', 'namkeen' ), 'tone' => 'bg-brand-tint text-brand-dark' ),
+		array( 'title' => 'Festive treats', 'text' => 'Sweets for celebrations', 'icon' => 'gift', 'slugs' => array( 'sweets' ), 'tone' => 'bg-navy-tint text-navy' ),
+		array( 'title' => 'Kids’ favourites', 'text' => 'Puffs, fryums and rings', 'icon' => 'smile', 'slugs' => array( 'puffs-fryums', 'ringo-star' ), 'tone' => 'bg-leaf-tint text-leaf' ),
+		array( 'title' => 'Crunchy munchies', 'text' => 'CharChare sticks', 'icon' => 'zap', 'slugs' => array( 'charchare' ), 'tone' => 'bg-navy-tint text-navy' ),
+	);
+	$tiles = array();
+	foreach ( $moods as $m ) {
+		foreach ( $m['slugs'] as $slug ) {
+			$match = $by_slug[ $slug ] ?? null;
+			if ( ! $match ) {
+				foreach ( $categories as $c ) {
+					if ( str_starts_with( $c['slug'], $slug ) ) {
+						$match = $c;
+						break;
+					}
+				}
+			}
+			if ( $match && ! empty( $counts[ $match['slug'] ] ) ) {
+				$tiles[] = $m + array( 'category' => $match );
+				break;
+			}
+		}
+	}
+	if ( count( $tiles ) < 3 ) {
+		return;
+	}
+	?>
+	<section aria-labelledby="moods-heading" class="bg-surface py-10 lg:py-14" data-reveal>
+		<?php priniti_container_open(); ?>
+			<?php priniti_section_heading( array( 'id' => 'moods-heading', 'eyebrow' => 'Pick your craving', 'title' => 'Snacks for Every Mood', 'align' => 'center', 'class' => 'mb-6 lg:mb-8' ) ); ?>
+			<ul role="list" class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4">
+				<?php foreach ( $tiles as $t ) : ?>
+					<li>
+						<a href="<?php echo esc_url( $t['category']['href'] ); ?>" class="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-canvas p-4 ring-1 ring-line/70 transition duration-300 hover:-translate-y-1 hover:bg-surface hover:shadow-lift">
+							<?php priniti_decor( 'blob', '-right-10 -top-10 size-28 text-surface transition-transform duration-500 group-hover:scale-110' ); ?>
+							<span class="<?php echo esc_attr( priniti_cx( 'relative flex size-11 items-center justify-center rounded-xl', $t['tone'] ) ); ?>"><?php priniti_the_icon( $t['icon'], 'size-5' ); ?></span>
+							<span class="relative mt-4 font-display text-base font-bold leading-tight"><?php echo esc_html( $t['title'] ); ?></span>
+							<span class="relative mt-1 text-xs leading-snug text-ink-soft"><?php echo esc_html( $t['text'] ); ?></span>
+							<span class="relative mt-3 inline-flex items-center gap-1 text-xs font-semibold text-brand"><?php echo esc_html( 'Shop ' . $t['category']['name'] ); ?><?php priniti_the_icon( 'arrow-right', 'size-3.5 transition-transform group-hover:translate-x-0.5' ); ?></span>
+						</a>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		<?php priniti_container_close(); ?>
+	</section>
+	<?php
+}
+
+/**
+ * "Shop Priniti snacks on the go": the online store works on any phone. A CSS phone frame shows real packs.
+ * No app-store badges: there is no app.
+ */
+function priniti_section_on_the_go( array $products ): void {
+	$packs = array_slice( array_values( array_filter( $products, static fn ( $p ) => ! empty( $p['images'][0] ) ) ), 0, 4 );
+	?>
+	<section aria-labelledby="otg-heading" class="relative overflow-hidden bg-navy py-10 text-white lg:py-14" data-reveal>
+		<?php
+		priniti_decor( 'blob', '-left-24 -top-24 size-96 text-navy-dark' );
+		priniti_decor( 'dots', 'right-[8%] top-8 size-28 text-white/10' );
+		priniti_decor( 'ring', 'bottom-[-4rem] right-[30%] size-56 text-white/10' );
+		priniti_decor( 'sparkle', 'left-[46%] top-10 size-5 text-lime' );
+		?>
+		<?php priniti_container_open( 'relative grid items-center gap-10 md:grid-cols-[1.2fr_1fr]' ); ?>
+			<div>
+				<p class="text-xs font-bold uppercase tracking-[0.16em] text-lime">Order from your phone</p>
+				<h2 id="otg-heading" class="mt-3 font-display text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">Shop Priniti Snacks<br class="hidden sm:block"> On The Go</h2>
+				<p class="mt-3 max-w-md text-white/80">The Priniti store works on any phone: browse the range, add to cart and track your order wherever you are.</p>
+				<ul role="list" class="mt-6 grid max-w-md gap-3 sm:grid-cols-2">
+					<?php foreach ( array( array( 'search', 'Find snacks fast' ), array( 'shopping-bag', 'Quick cart & checkout' ), array( 'package-check', 'Track your order' ), array( 'heart', 'Save favourites' ) ) as $f ) : ?>
+						<li class="flex items-center gap-2.5 text-sm font-medium"><span class="flex size-8 items-center justify-center rounded-lg bg-white/10"><?php priniti_the_icon( $f[0], 'size-4' ); ?></span><?php echo esc_html( $f[1] ); ?></li>
+					<?php endforeach; ?>
+				</ul>
+				<div class="mt-7 flex flex-wrap gap-3">
+					<?php
+					priniti_button_link( priniti_url( '/shop' ), priniti_icon( 'shopping-cart', 'size-4' ) . 'Start shopping', 'primary', 'md', 'h-12 px-6' );
+					priniti_button_link( priniti_url( '/track-order' ), 'Track an order', 'outline', 'md', 'h-12 border-white/40 bg-transparent px-6 text-white hover:border-white hover:bg-white/10' );
+					?>
+				</div>
+			</div>
+			<?php if ( $packs ) : ?>
+				<div aria-hidden="true" class="relative mx-auto w-56 sm:w-64">
+					<div class="absolute -inset-8 rounded-full bg-brand/30 blur-3xl"></div>
+					<div class="relative rounded-[2.5rem] border-[6px] border-ink bg-ink p-1.5 shadow-lift">
+						<div class="overflow-hidden rounded-[2rem] bg-canvas">
+							<div class="flex items-center justify-between bg-surface px-4 py-3">
+								<?php $logo = priniti_site_config()['logo']; ?>
+								<?php if ( $logo ) : ?>
+									<img src="<?php echo esc_url( $logo['src'] ); ?>" alt="" class="h-5 w-auto">
+								<?php else : ?>
+									<span class="font-display text-xs font-extrabold text-brand">Priniti</span>
+								<?php endif; ?>
+								<?php priniti_the_icon( 'shopping-bag', 'size-4 text-ink' ); ?>
+							</div>
+							<div class="grid grid-cols-2 gap-2 p-2.5">
+								<?php foreach ( $packs as $p ) : ?>
+									<div class="rounded-xl bg-surface p-1.5 shadow-card">
+										<div class="relative aspect-square rounded-lg bg-blush"><img src="<?php echo esc_url( $p['images'][0]['thumb'] ?: $p['images'][0]['src'] ); ?>" alt="" loading="lazy" class="absolute inset-0 size-full object-contain p-1.5"></div>
+										<p class="mt-1 truncate text-[9px] font-semibold text-ink"><?php echo esc_html( $p['name'] ); ?></p>
+									</div>
+								<?php endforeach; ?>
+							</div>
+							<div class="px-2.5 pb-3"><div class="flex h-8 items-center justify-center rounded-full bg-brand text-[10px] font-semibold text-white">Add to cart</div></div>
+						</div>
+					</div>
+				</div>
+			<?php endif; ?>
 		<?php priniti_container_close(); ?>
 	</section>
 	<?php

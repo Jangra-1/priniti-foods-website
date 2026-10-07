@@ -14,7 +14,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const PRINITI_PAGE_SIZE = 8; // data/site.ts catalog.pageSize
+// 12 fills whole rows in every grid (2, 3 and 4 columns); the reference used 8 (data/site.ts catalog.pageSize).
+const PRINITI_PAGE_SIZE = 12;
 
 /* -------------------------------------------------------------------------
  * Products

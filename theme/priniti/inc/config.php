@@ -87,14 +87,25 @@ function priniti_navigation(): array {
 				'info' => array( $links['about'], $links['contact'], $track ),
 			),
 			'footer'  => array(
-				'shop'    => array( $links['shop'] ),
+				'shop'    => array(
+					array( 'label' => 'All products', 'path' => '/shop' ),
+					array( 'label' => 'Search', 'path' => '/search' ),
+					array( 'label' => 'Cart', 'path' => '/cart' ),
+					array( 'label' => 'My account', 'path' => '/account' ),
+				),
 				'support' => array(
 					$links['contact'],
 					$track,
-					array( 'label' => 'Shipping Policy', 'path' => '/shipping-policy' ),
-					array( 'label' => 'Return Policy', 'path' => '/return-policy' ),
+					array( 'label' => 'Login', 'path' => '/login' ),
+					array( 'label' => 'Create account', 'path' => '/signup' ),
+				),
+				'company' => array(
+					array( 'label' => 'About us', 'path' => '/about' ),
+					$links['contact'],
 				),
 				'legal'   => array(
+					array( 'label' => 'Shipping Policy', 'path' => '/shipping-policy' ),
+					array( 'label' => 'Return Policy', 'path' => '/return-policy' ),
 					array( 'label' => 'Privacy Policy', 'path' => '/privacy-policy' ),
 					array( 'label' => 'Terms & Conditions', 'path' => '/terms' ),
 				),
