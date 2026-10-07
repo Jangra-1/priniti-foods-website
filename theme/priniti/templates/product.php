@@ -68,7 +68,7 @@ priniti_json_ld( priniti_product_json_ld( $product ) );
 
 	<div class="mt-5 grid gap-8 lg:mt-6 lg:grid-cols-[1.05fr_1fr] lg:gap-12 xl:gap-16">
 		<div class="flex flex-col gap-3 lg:sticky lg:top-24 lg:self-start" data-priniti-gallery>
-			<div class="<?php echo esc_attr( priniti_cx( 'relative aspect-square overflow-hidden rounded-[1.75rem] ring-1 ring-line/70 lg:aspect-[1/1]', priniti_tint_for_index( $cat_index ) ) ); ?>" data-gallery-main data-zoom>
+			<div class="<?php echo esc_attr( priniti_cx( 'relative aspect-square overflow-hidden rounded-[1.75rem] ring-1 ring-line/70 sm:aspect-[4/3] lg:aspect-square', priniti_tint_for_index( $cat_index ) ) ); ?>" data-gallery-main data-zoom>
 				<?php priniti_decor_backdrop( $tone ); ?>
 				<?php priniti_product_image( $images[0] ?? null, $product['name'], '(min-width:1024px) 50vw, 94vw', 'p-8 drop-shadow-[0_18px_24px_rgb(21_26_46/0.18)] transition-transform duration-200 ease-out group-hover:scale-100 sm:p-12', true, 'bg-transparent' ); ?>
 				<?php if ( $product['badges'] ) : ?>
@@ -165,14 +165,14 @@ priniti_json_ld( priniti_product_json_ld( $product ) );
 								</div>
 							</div>
 						<?php endif; ?>
-						<div class="flex flex-col gap-3 sm:flex-row sm:items-center" <?php echo $can_buy ? 'data-buy-actions' : ''; ?>>
+						<div class="grid grid-cols-[1fr_auto] items-center gap-3 sm:flex" <?php echo $can_buy ? 'data-buy-actions' : ''; ?>>
 							<?php if ( $can_buy ) : ?>
 								<?php priniti_add_to_cart_button( $product, $v, array( 'size' => 'lg', 'full_width' => true, 'class' => 'sm:flex-1', 'open_cart' => true ) ); ?>
-								<button type="button" data-priniti-buy-now="<?php echo esc_attr( priniti_cart_payload( $product, $v ) ); ?>" class="<?php echo esc_attr( priniti_button_classes( 'dark', 'lg', false, 'sm:flex-1' ) ); ?>">Buy now</button>
+								<button type="button" data-priniti-buy-now="<?php echo esc_attr( priniti_cart_payload( $product, $v ) ); ?>" class="<?php echo esc_attr( priniti_button_classes( 'dark', 'lg', false, 'order-last col-span-2 sm:order-none sm:flex-1' ) ); ?>">Buy now</button>
 							<?php else : ?>
 								<?php priniti_button_link( priniti_url( '/contact' ), priniti_icon( 'message-square-text', 'size-4' ) . 'Ask about this product', 'outline', 'lg', 'w-full sm:flex-1' ); ?>
 							<?php endif; ?>
-							<?php priniti_wishlist_button( $product, 'size-12 self-start border border-line sm:self-auto' ); ?>
+							<?php priniti_wishlist_button( $product, 'size-12 border border-line' ); ?>
 						</div>
 					</div>
 				<?php endforeach; ?>

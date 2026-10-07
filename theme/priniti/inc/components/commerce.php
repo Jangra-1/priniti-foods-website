@@ -646,10 +646,10 @@ function priniti_product_assurances(): void {
 		array( 'icon' => 'headphones', 'title' => 'Need help?', 'text' => 'Contact our team', 'href' => priniti_url( '/contact' ) ),
 	);
 	?>
-	<ul role="list" class="grid grid-cols-1 gap-2.5 min-[420px]:grid-cols-2">
+	<ul role="list" class="grid grid-cols-2 gap-2.5">
 		<?php foreach ( $items as $i ) : ?>
 			<li>
-				<a href="<?php echo esc_url( $i['href'] ); ?>" class="flex h-full items-center gap-3 rounded-2xl bg-surface p-3 ring-1 ring-line/70 transition hover:-translate-y-0.5 hover:shadow-card">
+				<a href="<?php echo esc_url( $i['href'] ); ?>" class="flex h-full flex-col items-start gap-2 rounded-2xl bg-surface p-3 ring-1 ring-line/70 transition hover:-translate-y-0.5 hover:shadow-card min-[440px]:flex-row min-[440px]:items-center min-[440px]:gap-3">
 					<span class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-navy-tint text-navy"><?php priniti_the_icon( $i['icon'], 'size-[18px]' ); ?></span>
 					<span class="min-w-0">
 						<span class="block text-[13px] font-semibold leading-tight"><?php echo esc_html( $i['title'] ); ?></span>
