@@ -67,35 +67,7 @@ priniti_json_ld( priniti_product_json_ld( $product ) );
 	?>
 
 	<div class="mt-5 grid gap-8 lg:mt-6 lg:grid-cols-[1.05fr_1fr] lg:gap-12 xl:gap-16">
-		<div class="flex flex-col gap-3 lg:sticky lg:top-24 lg:self-start" data-priniti-gallery>
-			<div class="<?php echo esc_attr( priniti_cx( 'relative aspect-square overflow-hidden rounded-[1.75rem] ring-1 ring-line/70 sm:aspect-[4/3] lg:aspect-square', priniti_tint_for_index( $cat_index ) ) ); ?>" data-gallery-main data-zoom>
-				<?php priniti_decor_backdrop( $tone ); ?>
-				<?php priniti_product_image( $images[0] ?? null, $product['name'], '(min-width:1024px) 50vw, 94vw', 'p-8 drop-shadow-[0_18px_24px_rgb(21_26_46/0.18)] transition-transform duration-200 ease-out group-hover:scale-100 sm:p-12', true, 'bg-transparent' ); ?>
-				<?php if ( $product['badges'] ) : ?>
-					<div class="absolute left-4 top-4 flex flex-col items-start gap-1.5">
-						<?php foreach ( $product['badges'] as $badge ) : ?>
-							<span class="<?php echo esc_attr( priniti_badge_classes( 'new' === $badge ? 'leaf' : 'navy', 'px-2.5 py-1 text-xs shadow-card' ) ); ?>"><?php echo esc_html( PRINITI_BADGE_LABELS[ $badge ] ?? $badge ); ?></span>
-						<?php endforeach; ?>
-					</div>
-				<?php endif; ?>
-				<?php if ( $images ) : ?>
-					<span aria-hidden="true" class="absolute bottom-3 right-3 hidden items-center gap-1.5 rounded-full bg-surface/90 px-3 py-1 text-xs font-medium text-ink-soft shadow-card [@media(pointer:fine)]:inline-flex">
-						<?php priniti_the_icon( 'search', 'size-3.5' ); ?>Hover to zoom
-					</span>
-				<?php endif; ?>
-			</div>
-			<?php if ( count( $images ) > 1 ) : ?>
-				<ul role="list" class="flex gap-2 overflow-x-auto scrollbar-none" aria-label="<?php echo esc_attr( $product['name'] . ' images' ); ?>">
-					<?php foreach ( $images as $i => $img ) : ?>
-						<li class="shrink-0">
-							<button type="button" data-gallery-thumb="<?php echo esc_attr( (string) wp_json_encode( $img ) ); ?>" aria-label="<?php echo esc_attr( sprintf( 'Show image %d of %d', $i + 1, count( $images ) ) ); ?>" aria-current="<?php echo 0 === $i ? 'true' : 'false'; ?>" data-on-class="border-navy ring-2 ring-navy/20" data-off-class="border-line hover:border-ink" class="<?php echo esc_attr( priniti_cx( 'relative block size-20 overflow-hidden rounded-xl border bg-surface transition', 0 === $i ? 'border-navy ring-2 ring-navy/20' : 'border-line hover:border-ink' ) ); ?>">
-								<img src="<?php echo esc_url( $img['thumb'] ?: $img['src'] ); ?>" alt="" loading="lazy" class="absolute inset-0 size-full object-contain p-1.5">
-							</button>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-			<?php endif; ?>
-		</div>
+		<?php priniti_product_gallery( $product, $cat_index, $tone ); ?>
 
 		<div class="flex flex-col gap-6">
 			<div>
@@ -170,7 +142,7 @@ priniti_json_ld( priniti_product_json_ld( $product ) );
 								<?php priniti_add_to_cart_button( $product, $v, array( 'size' => 'lg', 'full_width' => true, 'class' => 'sm:flex-1', 'open_cart' => true ) ); ?>
 								<button type="button" data-priniti-buy-now="<?php echo esc_attr( priniti_cart_payload( $product, $v ) ); ?>" class="<?php echo esc_attr( priniti_button_classes( 'dark', 'lg', false, 'order-last col-span-2 sm:order-none sm:flex-1' ) ); ?>">Buy now</button>
 							<?php else : ?>
-								<?php priniti_button_link( priniti_url( '/contact' ), priniti_icon( 'message-square-text', 'size-4' ) . 'Ask about this product', 'outline', 'lg', 'w-full sm:flex-1' ); ?>
+								<?php priniti_button_link( priniti_url( '/contact' ), priniti_icon( 'message-square-text', 'size-4' ) . 'Ask about this product', 'outline', 'lg', 'w-full whitespace-nowrap px-4 text-[15px] sm:flex-1 sm:px-8 sm:text-base' ); ?>
 							<?php endif; ?>
 							<?php priniti_wishlist_button( $product, 'size-12 border border-line' ); ?>
 						</div>

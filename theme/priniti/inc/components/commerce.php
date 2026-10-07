@@ -138,7 +138,6 @@ function priniti_card_add_button( array $product, ?array $variant ): void {
  * ProductCard (server-rendered; interactivity via data hooks).
  */
 function priniti_product_card( array $product, string $class = '' ): void {
-	$variant     = priniti_default_variant( $product );
 	$purchasable = priniti_purchasable_variant( $product );
 	$off         = priniti_discount( $purchasable );
 	$packs       = priniti_pack_labels( $product );
@@ -166,9 +165,7 @@ function priniti_product_card( array $product, string $class = '' ): void {
 			<?php if ( $product['categoryHref'] ) : ?>
 				<a href="<?php echo esc_url( $product['categoryHref'] ); ?>" class="relative z-10 line-clamp-1 w-fit text-[10px] font-bold uppercase tracking-wide text-brand transition-colors hover:text-brand-dark"><?php echo esc_html( $product['categoryName'] ); ?></a>
 			<?php endif; ?>
-			<?php if ( $variant ) : ?>
-				<p class="text-[11px] leading-tight text-ink-soft"><?php echo esc_html( $packs ? implode( ' · ', $packs ) : 'Pack size to be confirmed' ); ?></p>
-			<?php endif; ?>
+			<p class="text-[11px] leading-tight text-ink-soft"><?php echo esc_html( $packs ? implode( ' · ', $packs ) : 'Pack size to be confirmed' ); ?></p>
 
 			<h3 class="line-clamp-2 font-display text-sm font-semibold leading-snug sm:text-[15px]">
 				<a href="<?php echo esc_url( $product['href'] ); ?>" class="card-link outline-none after:absolute after:inset-0"><?php echo esc_html( $product['name'] ); ?></a>
@@ -310,23 +307,88 @@ function priniti_category_card_list( array $categories, array $counts ): void {
 }
 
 /** CategoryBanner. */
+/**
+ * Visual personality per category: an eyebrow, a fallback line of copy (used only when the category has no
+ * description of its own) and the vector accents drawn around the packs. Matched by slug prefix; editable through
+ * the `priniti_category_art` filter. Copy describes the occasion, never the product (no ingredient or health claims).
+ */
+function priniti_category_art( string $slug, string $name ): array {
+	$art = array(
+		'cookies'      => array( 'Tea-time bakery', 'Priniti cookies for chai breaks, lunch boxes and sharing.', array( 'cookie', 'grain', 'dots' ) ),
+		'rusk'         => array( 'Chai partner', 'Priniti rusk for your morning and evening chai.', array( 'grain', 'cookie', 'dots' ) ),
+		'indian'       => array( 'Indian classics', 'Traditional Priniti namkeen for tea-time, travel and family gatherings.', array( 'chili', 'leaf', 'dots' ) ),
+		'namkeen'      => array( 'Indian classics', 'Traditional Priniti namkeen for tea-time, travel and family gatherings.', array( 'chili', 'leaf', 'dots' ) ),
+		'potato'       => array( 'Crunch time', 'Priniti potato chips in bold flavours for movie nights and parties.', array( 'burst', 'zigzag', 'dots' ) ),
+		'charchare'    => array( 'Crunchy sticks', 'CharChare sticks for anytime snack cravings.', array( 'zigzag', 'burst', 'dots' ) ),
+		'popcorn'      => array( 'Movie night', 'Priniti popcorn for movie nights and get-togethers.', array( 'burst', 'confetti', 'dots' ) ),
+		'puffs'        => array( 'Fun snacking', 'Colourful Priniti puffs and fryums for playful snack breaks.', array( 'confetti', 'burst', 'dots' ) ),
+		'ringo'        => array( 'Ring of fun', 'Ringo Star rings for snack-time fun with friends.', array( 'confetti', 'squiggle', 'dots' ) ),
+		'sweets'       => array( 'Festive mithai', 'Priniti sweets for festivals, celebrations and gifting.', array( 'flower', 'sparkle', 'dots' ) ),
+		'donut'        => array( 'Sweet bakes', 'Priniti donut cakes are on their way to the online store.', array( 'confetti', 'sparkle', 'dots' ) ),
+	);
+	$match = array( 'Priniti category', sprintf( 'Explore Priniti %s for every snack moment.', $name ), array( 'sparkle', 'squiggle', 'dots' ) );
+	foreach ( $art as $prefix => $a ) {
+		if ( str_starts_with( $slug, $prefix ) ) {
+			$match = $a;
+			break;
+		}
+	}
+	return (array) apply_filters(
+		'priniti_category_art',
+		array(
+			'eyebrow' => $match[0],
+			'text'    => $match[1],
+			'accents' => $match[2],
+		),
+		$slug
+	);
+}
+
+/** Draws a category's vector accents around its hero composition. */
+function priniti_category_accents( array $accents, string $tone ): void {
+	// Natural colours per accent (crumbs look like crumbs, leaves are green); the dot grid follows the tone.
+	$colour = array(
+		'cookie'   => 'text-[#d9a25f]',
+		'grain'    => 'text-[#c9a23a]',
+		'chili'    => 'text-brand',
+		'leaf'     => 'text-leaf',
+		'burst'    => 'text-[#f5b301]',
+		'zigzag'   => 'text-brand/60',
+		'confetti' => 'text-brand/70',
+		'flower'   => 'text-[#f08c00]',
+		'sparkle'  => 'text-brand',
+		'squiggle' => 'text-navy/40',
+		'dots'     => 'navy' === $tone ? 'text-navy/25' : 'text-ink/15',
+	);
+	$spots = array(
+		'left-[54%] top-[10%] size-10 -rotate-12 motion-safe:animate-float',
+		'right-[4%] top-[14%] size-12 rotate-12 motion-safe:animate-float-delayed',
+		'bottom-[8%] left-[50%] size-24',
+	);
+	foreach ( array_slice( $accents, 0, 3 ) as $i => $kind ) {
+		$size = in_array( $kind, array( 'squiggle', 'zigzag' ), true ) ? 'h-5 w-20' : '';
+		$grain = 'grain' === $kind ? 'h-14 w-7' : '';
+		priniti_decor( $kind, priniti_cx( 'hidden md:block', $spots[ $i ], $size, $grain, $colour[ $kind ] ?? 'text-brand' ) );
+	}
+}
+
 function priniti_category_banner( array $category, int $index, int $count, array $products = array() ): void {
-	$tone  = priniti_tone_for_index( $index );
-	$packs = array_slice( array_values( array_filter( $products, static fn ( $p ) => ! empty( $p['images'][0] ) ) ), 0, 3 );
-	$text  = $category['description'] ?: sprintf( 'Explore Priniti %s, packed and ready for every snack moment.', $category['name'] );
+	$tone = priniti_tone_for_index( $index );
+	$art  = priniti_category_art( (string) $category['slug'], (string) $category['name'] );
+	$text = $category['description'] ?: $art['text'];
+	$has  = (bool) array_filter( $products, static fn ( $p ) => ! empty( $p['images'][0] ) );
 	?>
 	<div class="<?php echo esc_attr( priniti_cx( 'relative overflow-hidden rounded-[2rem]', priniti_tint_for_index( $index ) ) ); ?>">
 		<?php
-		priniti_decor( 'blob', priniti_cx( '-right-24 -top-28 hidden size-[30rem] md:block', 'text-surface/70' ) );
-		priniti_decor( 'dots', priniti_cx( 'bottom-5 left-[46%] hidden size-28 md:block', 'navy' === $tone ? 'text-navy/15' : 'text-ink/10' ) );
-		priniti_decor( 'sparkle', 'right-[38%] top-8 hidden size-5 text-brand/60 md:block' );
+		priniti_decor( 'blob', '-right-24 -top-32 hidden size-[34rem] text-surface/60 md:block' );
 		priniti_decor( 'squiggle', 'bottom-6 left-6 h-4 w-20 text-brand/30 sm:left-10' );
+		priniti_category_accents( $art['accents'], $tone );
 		?>
-		<div class="relative grid items-center gap-4 md:grid-cols-[1.25fr_1fr]">
+		<div class="relative grid items-center gap-2 md:grid-cols-[1.1fr_1fr]">
 			<div class="relative z-10 px-6 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12">
-				<?php priniti_eyebrow( 'Priniti category', 'mb-3' ); ?>
+				<?php priniti_eyebrow( $art['eyebrow'], 'mb-3' ); ?>
 				<h1 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl"><?php echo esc_html( $category['name'] ); ?></h1>
-				<p class="mt-3 max-w-lg text-base leading-relaxed text-ink-soft"><?php echo esc_html( $text ); ?></p>
+				<p class="mt-3 max-w-lg text-base leading-relaxed text-ink-soft sm:text-lg"><?php echo esc_html( $text ); ?></p>
 				<div class="mt-6 flex flex-wrap items-center gap-3">
 					<?php if ( $count > 0 ) : ?>
 						<?php priniti_button_link( '#products', 'Shop ' . esc_html( $category['name'] ) . priniti_icon( 'arrow-right', 'size-4' ), 'primary', 'md', 'h-11 px-5' ); ?>
@@ -337,11 +399,9 @@ function priniti_category_banner( array $category, int $index, int $count, array
 					</p>
 				</div>
 			</div>
-			<?php if ( $packs ) : ?>
-				<div aria-hidden="true" class="relative mx-auto -mt-4 h-52 w-full max-w-sm sm:h-60 md:mt-0 md:h-72 md:max-w-none lg:h-80">
-					<div class="absolute left-1/2 top-1/2 size-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface/80 sm:size-56 lg:size-64"></div>
-					<?php priniti_decor( 'ring', 'left-1/2 top-1/2 size-60 -translate-x-1/2 -translate-y-1/2 text-ink/15 sm:size-72 lg:size-80' ); ?>
-					<?php priniti_pack_fan( count( $packs ) >= 3 ? $packs : array_pad( $packs, 3, $packs[0] ), 'mx-auto max-w-lg', true ); ?>
+			<?php if ( $has ) : ?>
+				<div class="relative mx-auto -mt-6 w-full max-w-md px-4 pb-4 md:mt-0 md:max-w-none md:px-0 md:pb-0 lg:pr-6">
+					<?php priniti_pack_stage( $products, $tone, '', true ); ?>
 				</div>
 			<?php elseif ( $category['image'] ) : ?>
 				<div aria-hidden="true" class="relative mx-auto h-52 w-full max-w-xs md:h-72">
@@ -382,11 +442,13 @@ function priniti_category_pills( array $categories, array $counts, string $curre
 /** Compact branded hero for /shop. */
 function priniti_shop_hero( string $heading, int $total, array $products ): void {
 	?>
-	<div class="relative overflow-hidden rounded-[2rem] bg-linear-to-br from-brand-tint via-blush to-surface ring-1 ring-line/60">
+	<div class="relative overflow-hidden rounded-[2rem] bg-linear-to-br from-cream via-blush to-brand-tint ring-1 ring-line/60">
 		<?php
 		priniti_decor( 'blob', '-right-20 -top-32 hidden size-[28rem] text-brand/10 md:block' );
 		priniti_decor( 'dots', 'left-[44%] top-6 hidden size-24 text-brand/15 md:block' );
 		priniti_decor( 'sparkle', 'left-[52%] bottom-10 hidden size-4 text-navy/40 md:block' );
+		priniti_decor( 'chili', 'right-[38%] top-[16%] hidden size-9 -rotate-12 text-brand motion-safe:animate-float lg:block' );
+		priniti_decor( 'leaf', 'right-[3%] bottom-[20%] hidden size-9 rotate-12 text-leaf/70 motion-safe:animate-float-delayed lg:block' );
 		priniti_decor( 'leaf', 'right-4 bottom-4 size-8 text-leaf/30 md:hidden' );
 		?>
 		<div class="relative grid items-center md:grid-cols-[1.3fr_1fr]">
@@ -399,11 +461,9 @@ function priniti_shop_hero( string $heading, int $total, array $products ): void
 					<?php echo esc_html( sprintf( '%d %s', $total, 1 === $total ? 'product' : 'products' ) ); ?>
 				</p>
 			</div>
-			<?php if ( count( $products ) >= 3 ) : ?>
-				<div aria-hidden="true" class="relative hidden h-64 md:block lg:h-72">
-					<div class="absolute left-1/2 top-1/2 size-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand lg:size-64"></div>
-					<div class="absolute left-[58%] top-[18%] size-20 rounded-full bg-navy"></div>
-					<?php priniti_pack_fan( $products, 'mx-auto max-w-sm', true ); ?>
+			<?php if ( $products ) : ?>
+				<div class="relative hidden w-full max-w-md justify-self-center md:block lg:max-w-lg lg:pr-6">
+					<?php priniti_pack_stage( $products, 'brand', '', true ); ?>
 				</div>
 			<?php endif; ?>
 		</div>
@@ -749,5 +809,134 @@ function priniti_snack_box_strip( string $exclude_category = '' ): void {
 			<?php endif; ?>
 		</div>
 	</aside>
+	<?php
+}
+
+/**
+ * Gallery items for a product page: every real product photo, topped up to three views with presentation views
+ * made from the first official photo (a close-up crop and the pack on a Priniti backdrop). Those views are labelled
+ * as such on the page and in their alt text; they are never presented as separate product photographs.
+ *
+ * @return array<int, array{kind:string, image:?array, label:string, note:string}>
+ */
+function priniti_gallery_items( array $product ): array {
+	$items = array();
+	foreach ( $product['images'] as $i => $img ) {
+		$items[] = array(
+			'kind'  => 'photo',
+			'image' => $img,
+			'label' => 0 === $i ? 'Front view' : sprintf( 'Photo %d', $i + 1 ),
+			'note'  => '',
+		);
+	}
+	if ( ! $items ) {
+		return array(
+			array(
+				'kind'  => 'photo',
+				'image' => null,
+				'label' => 'Image coming soon',
+				'note'  => '',
+			),
+		);
+	}
+	$first = $product['images'][0];
+	if ( count( $items ) < 3 ) {
+		$items[] = array(
+			'kind'  => 'detail',
+			'image' => $first,
+			'label' => 'Close-up',
+			'note'  => 'Close-up of the product photo',
+		);
+	}
+	if ( count( $items ) < 3 ) {
+		$items[] = array(
+			'kind'  => 'scene',
+			'image' => $first,
+			'label' => 'On a Priniti backdrop',
+			'note'  => 'Product photo on a Priniti backdrop',
+		);
+	}
+	return $items;
+}
+
+/** Product gallery: swipeable slides, thumbnails, previous / next, hover zoom on photos (interactions.ts). */
+function priniti_product_gallery( array $product, int $cat_index, string $tone ): void {
+	$items = priniti_gallery_items( $product );
+	$total = count( $items );
+	$name  = $product['name'];
+	$alt   = static function ( array $item ) use ( $name ): string {
+		if ( 'photo' === $item['kind'] ) {
+			return $item['image']['alt'] ?? '' ?: $name;
+		}
+		return $name . ': ' . lcfirst( $item['note'] );
+	};
+	?>
+	<div class="flex min-w-0 flex-col gap-3 lg:sticky lg:top-24 lg:self-start" data-priniti-gallery aria-roledescription="carousel" aria-label="<?php echo esc_attr( $name . ' images' ); ?>">
+		<div class="relative">
+			<ul role="list" tabindex="0" data-gallery-track class="focus-visible:outline-offset-4 scrollbar-none flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain rounded-[1.75rem] ring-1 ring-line/70">
+				<?php foreach ( $items as $i => $item ) : ?>
+					<li role="group" aria-roledescription="slide" aria-label="<?php echo esc_attr( sprintf( '%d of %d: %s', $i + 1, $total, $item['label'] ) ); ?>" class="<?php echo esc_attr( priniti_cx( 'relative aspect-square w-full shrink-0 snap-center overflow-hidden sm:aspect-[4/3] lg:aspect-square', 'scene' === $item['kind'] ? 'bg-linear-to-br from-navy to-navy-dark' : ( 'detail' === $item['kind'] ? 'bg-surface' : priniti_tint_for_index( $cat_index ) ) ) ); ?>" <?php echo 'photo' === $item['kind'] && $item['image'] ? 'data-zoom' : ''; ?>>
+						<?php if ( 'photo' === $item['kind'] ) : ?>
+							<?php priniti_decor_backdrop( $tone ); ?>
+							<?php priniti_product_image( $item['image'] ? array_merge( $item['image'], array( 'alt' => $alt( $item ) ) ) : null, $name, '(min-width:1024px) 50vw, 94vw', 'p-8 drop-shadow-[0_18px_24px_rgb(21_26_46/0.18)] transition-transform duration-200 ease-out group-hover:scale-100 sm:p-12', 0 === $i, 'bg-transparent' ); ?>
+						<?php elseif ( 'detail' === $item['kind'] ) : ?>
+							<img src="<?php echo esc_url( $item['image']['src'] ); ?>" <?php echo ! empty( $item['image']['srcset'] ) ? 'srcset="' . esc_attr( $item['image']['srcset'] ) . '"' : ''; ?> sizes="(min-width:1024px) 50vw, 94vw" alt="<?php echo esc_attr( $alt( $item ) ); ?>" loading="lazy" decoding="async" class="absolute inset-0 size-full scale-[1.9] object-contain [transform-origin:50%_34%]">
+						<?php else : ?>
+							<div aria-hidden="true">
+								<?php
+								priniti_decor( 'arch', 'bottom-[12%] left-[20%] h-[78%] w-[60%] text-brand' );
+								priniti_decor( 'dots', 'left-[6%] top-[8%] size-24 text-white/15' );
+								priniti_decor( 'chili', 'left-[10%] top-[34%] size-10 -rotate-12 text-brand' );
+								priniti_decor( 'leaf', 'right-[8%] top-[24%] size-10 rotate-12 text-leaf' );
+								priniti_decor( 'sparkle', 'right-[16%] bottom-[30%] size-4 text-lime' );
+								?>
+								<div class="absolute bottom-[6%] left-[14%] h-[14%] w-[72%] rounded-[50%] bg-cream shadow-[0_24px_36px_-16px_rgb(0_0_0/0.5)]"></div>
+							</div>
+							<img src="<?php echo esc_url( $item['image']['src'] ); ?>" <?php echo ! empty( $item['image']['srcset'] ) ? 'srcset="' . esc_attr( $item['image']['srcset'] ) . '"' : ''; ?> sizes="(min-width:1024px) 40vw, 80vw" alt="<?php echo esc_attr( $alt( $item ) ); ?>" loading="lazy" decoding="async" class="absolute bottom-[12%] left-1/2 h-[72%] w-auto -translate-x-1/2 object-contain drop-shadow-[0_20px_22px_rgb(0_0_0/0.35)]">
+							<?php priniti_decor_stamp( 'Swad Mein No.1 • Priniti Foods • ', 'right-[5%] top-[5%] size-16 sm:size-20' ); ?>
+						<?php endif; ?>
+						<?php if ( $item['note'] ) : ?>
+							<span class="absolute bottom-3 left-3 rounded-full bg-surface/90 px-3 py-1 text-xs font-medium text-ink-soft shadow-card"><?php echo esc_html( $item['note'] ); ?></span>
+						<?php endif; ?>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+
+			<?php if ( $product['badges'] ) : ?>
+				<div class="pointer-events-none absolute left-4 top-4 flex flex-col items-start gap-1.5">
+					<?php foreach ( $product['badges'] as $badge ) : ?>
+						<span class="<?php echo esc_attr( priniti_badge_classes( 'new' === $badge ? 'leaf' : 'navy', 'px-2.5 py-1 text-xs shadow-card' ) ); ?>"><?php echo esc_html( PRINITI_BADGE_LABELS[ $badge ] ?? $badge ); ?></span>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
+			<span aria-hidden="true" data-zoom-hint class="pointer-events-none absolute bottom-3 right-3 hidden items-center gap-1.5 rounded-full bg-surface/90 px-3 py-1 text-xs font-medium text-ink-soft shadow-card [@media(pointer:fine)]:inline-flex">
+				<?php priniti_the_icon( 'search', 'size-3.5' ); ?>Hover to zoom
+			</span>
+			<?php if ( $total > 1 ) : ?>
+				<button type="button" data-gallery-prev aria-label="Previous image" class="absolute left-3 top-1/2 hidden size-10 -translate-y-1/2 items-center justify-center rounded-full bg-surface/95 text-ink shadow-card transition hover:bg-ink hover:text-white disabled:opacity-0 sm:flex"><?php priniti_the_icon( 'chevron-left', 'size-5' ); ?></button>
+				<button type="button" data-gallery-next aria-label="Next image" class="absolute right-3 top-1/2 hidden size-10 -translate-y-1/2 items-center justify-center rounded-full bg-surface/95 text-ink shadow-card transition hover:bg-ink hover:text-white disabled:opacity-0 sm:flex"><?php priniti_the_icon( 'chevron-right', 'size-5' ); ?></button>
+				<div aria-hidden="true" class="absolute inset-x-0 bottom-3 flex justify-center gap-1.5 sm:hidden">
+					<?php foreach ( $items as $i => $item ) : ?>
+						<span data-gallery-dot class="<?php echo esc_attr( priniti_cx( 'h-1.5 rounded-full transition-all', 0 === $i ? 'w-5 bg-ink' : 'w-1.5 bg-ink/25' ) ); ?>"></span>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
+		</div>
+
+		<?php if ( $total > 1 ) : ?>
+			<ul role="list" class="flex gap-2 overflow-x-auto scrollbar-none" aria-label="<?php echo esc_attr( 'Choose an image of ' . $name ); ?>">
+				<?php foreach ( $items as $i => $item ) : ?>
+					<li class="shrink-0">
+						<button type="button" data-gallery-go="<?php echo esc_attr( (string) $i ); ?>" aria-label="<?php echo esc_attr( sprintf( 'Show image %d of %d: %s', $i + 1, $total, $item['label'] ) ); ?>" aria-current="<?php echo 0 === $i ? 'true' : 'false'; ?>" data-on-class="border-navy ring-2 ring-navy/20" data-off-class="border-line hover:border-ink" class="<?php echo esc_attr( priniti_cx( 'group/thumb relative block size-20 overflow-hidden rounded-xl border transition sm:size-24', 'scene' === $item['kind'] ? 'bg-navy' : 'bg-surface', 0 === $i ? 'border-navy ring-2 ring-navy/20' : 'border-line hover:border-ink' ) ); ?>">
+							<?php if ( $item['image'] ) : ?>
+								<img src="<?php echo esc_url( $item['image']['thumb'] ?: $item['image']['src'] ); ?>" alt="" loading="lazy" class="<?php echo esc_attr( priniti_cx( 'absolute inset-0 size-full object-contain p-1.5', 'detail' === $item['kind'] ? 'scale-[1.9] p-0 [transform-origin:50%_34%]' : '' ) ); ?>">
+							<?php endif; ?>
+							<span class="absolute inset-x-0 bottom-0 bg-ink/70 px-1 py-0.5 text-center text-[9px] font-semibold leading-tight text-white"><?php echo esc_html( $item['label'] ); ?></span>
+						</button>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		<?php endif; ?>
+	</div>
 	<?php
 }

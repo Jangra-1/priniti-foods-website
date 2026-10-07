@@ -38,16 +38,8 @@ function priniti_section_hero( array $products, array $categories ): void {
 	$line2 = implode( ' ', $parts );
 	$free  = priniti_site_config()['commerce']['free_shipping_threshold'];
 
-	$tag = static function ( array $p, string $class ): void {
-		?>
-		<a href="<?php echo esc_url( $p['href'] ); ?>" class="<?php echo esc_attr( priniti_cx( 'absolute z-10 hidden max-w-[9.5rem] rounded-xl bg-surface px-3 py-2 shadow-lift transition-transform hover:-translate-y-0.5 sm:block', $class ) ); ?>">
-			<span class="block text-[10px] font-bold uppercase tracking-wide text-brand"><?php echo esc_html( $p['categoryName'] ); ?></span>
-			<span class="mt-0.5 block font-display text-xs font-semibold leading-snug"><?php echo esc_html( $p['name'] ); ?></span>
-		</a>
-		<?php
-	};
 	?>
-	<section aria-labelledby="hero-heading" class="relative overflow-hidden bg-linear-to-br from-brand-tint via-blush to-surface">
+	<section aria-labelledby="hero-heading" class="relative overflow-hidden bg-linear-to-br from-cream via-blush to-brand-tint">
 		<?php
 		priniti_decor( 'dots', 'left-[38%] top-8 hidden size-28 text-brand/15 lg:block' );
 		priniti_decor( 'sparkle', 'left-[46%] top-[22%] hidden size-5 text-brand/60 lg:block' );
@@ -56,13 +48,13 @@ function priniti_section_hero( array $products, array $categories ): void {
 		priniti_decor( 'grain', 'right-[3%] top-[10%] hidden h-20 w-10 -rotate-12 text-lime/50 xl:block' );
 		priniti_decor( 'wave', 'inset-x-0 bottom-0 h-6 w-full text-surface sm:h-8' );
 		?>
-		<?php priniti_container_open( 'relative grid items-center gap-6 py-8 sm:py-10 lg:grid-cols-[1.1fr_1fr] lg:gap-6 lg:py-10' ); ?>
+		<?php priniti_container_open( 'relative grid items-center gap-6 py-8 sm:py-10 lg:grid-cols-[1fr_1.05fr] lg:gap-8 lg:py-12' ); ?>
 			<div class="max-w-xl">
 				<p class="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 text-[13px] font-semibold shadow-card">
 					<?php priniti_the_icon( 'sparkles', 'size-4 text-brand' ); ?>
 					Swad Mein No.1
 				</p>
-				<h1 id="hero-heading" class="mt-4 font-display text-[2.25rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-5xl xl:text-[3.25rem]">
+				<h1 id="hero-heading" class="mt-4 font-display text-[2.25rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem] xl:text-[3.9rem]">
 					<span class="block"><?php echo esc_html( $line1 ); ?></span>
 					<?php if ( $line2 ) : ?>
 						<span class="block text-brand"><?php echo esc_html( $line2 ); ?></span>
@@ -85,32 +77,8 @@ function priniti_section_hero( array $products, array $categories ): void {
 				<?php endif; ?>
 			</div>
 
-			<div class="relative mx-auto aspect-square w-full max-w-[26rem] xl:max-w-[29rem]">
-				<div aria-hidden="true" class="absolute inset-0 rounded-full border-2 border-dashed border-brand/25"></div>
-				<div aria-hidden="true" class="absolute inset-[5%] overflow-hidden rounded-full bg-brand">
-					<div class="absolute -right-[12%] -top-[12%] size-[62%] rounded-full bg-navy"></div>
-					<div class="absolute -bottom-[18%] -left-[12%] size-[52%] rounded-full bg-brand-dark"></div>
-				</div>
-				<?php priniti_pack_fan( $products, 'absolute -inset-x-[3%] bottom-[18%] top-[10%] size-auto', true ); ?>
-				<?php
-				if ( isset( $products[0] ) ) {
-					$tag( $products[0], '-left-1 top-[12%] lg:-left-6' );
-				}
-				if ( isset( $products[3] ) ) {
-					$tag( $products[3], '-right-1 bottom-[12%] lg:-right-6' );
-				}
-				$total = array_sum( priniti_category_counts() );
-				?>
-				<?php if ( $total ) : ?>
-					<p class="absolute -right-1 top-[6%] z-10 flex items-center gap-2 rounded-2xl bg-surface px-3 py-2 shadow-lift sm:right-[4%]">
-						<span class="flex size-8 items-center justify-center rounded-full bg-brand text-white"><?php priniti_the_icon( 'shopping-bag', 'size-4' ); ?></span>
-						<span class="leading-tight"><span class="block font-display text-sm font-extrabold tabular-nums"><?php echo esc_html( (string) $total ); ?></span><span class="block text-[11px] text-ink-soft">snacks online</span></span>
-					</p>
-				<?php endif; ?>
-				<p class="absolute -left-1 bottom-[4%] z-10 flex items-center gap-2 rounded-2xl bg-surface px-3 py-2 shadow-lift sm:left-[6%]">
-					<span class="flex size-8 items-center justify-center rounded-full bg-navy text-white"><?php priniti_the_icon( 'layout-grid', 'size-4' ); ?></span>
-					<span class="leading-tight"><span class="block font-display text-sm font-extrabold tabular-nums"><?php echo esc_html( (string) count( $categories ) ); ?></span><span class="block text-[11px] text-ink-soft">categories</span></span>
-				</p>
+			<div class="relative">
+				<?php priniti_hero_stage( $products, $categories ); ?>
 			</div>
 		<?php priniti_container_close(); ?>
 	</section>
@@ -208,6 +176,12 @@ function priniti_section_promo_banner( ?string $badge, array $combos, array $vis
 			<div class="relative isolate grid items-center gap-5 overflow-hidden rounded-3xl bg-brand px-6 py-8 text-white sm:px-8 lg:grid-cols-[1.1fr_1fr] lg:px-12 lg:py-8">
 				<div aria-hidden="true" class="absolute -right-24 -top-28 -z-10 size-80 rounded-full bg-white/10 sm:size-[26rem]"></div>
 				<div aria-hidden="true" class="absolute -bottom-32 -left-20 -z-10 size-72 rounded-full bg-brand-dark/60"></div>
+				<?php
+				priniti_decor( 'dots', 'left-[42%] top-6 -z-10 hidden size-24 text-white/15 md:block' );
+				priniti_decor( 'burst', 'right-[44%] bottom-6 -z-10 hidden size-14 text-lime/70 motion-safe:animate-spin-slow lg:block' );
+				priniti_decor( 'sparkle', 'left-6 top-6 -z-10 size-4 text-white/70' );
+				priniti_decor( 'squiggle', 'bottom-5 left-8 -z-10 h-4 w-20 text-white/25' );
+				?>
 				<div class="max-w-xl">
 					<?php if ( $badge ) : ?>
 						<span class="mb-3 inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-xs font-semibold"><?php echo esc_html( $badge ); ?></span>
@@ -258,8 +232,10 @@ function priniti_section_promo_tiles( array $tiles ): void {
 			<ul role="list" class="grid gap-3 md:grid-cols-2 md:gap-4">
 				<?php foreach ( $shown as $t ) : ?>
 					<li>
-						<div class="<?php echo esc_attr( priniti_cx( 'relative isolate flex h-full min-h-44 overflow-hidden rounded-3xl p-5 text-white sm:p-6', $tones[ $t['tone'] ] ) ); ?>">
+						<div class="<?php echo esc_attr( priniti_cx( 'relative isolate flex h-full min-h-52 overflow-hidden rounded-3xl p-5 text-white sm:min-h-56 sm:p-7', $tones[ $t['tone'] ] ) ); ?>">
 							<div aria-hidden="true" class="absolute -right-16 -top-20 -z-10 size-64 rounded-full bg-white/10"></div>
+							<?php priniti_decor( 'dots', 'left-[44%] top-4 -z-10 size-20 text-white/15' ); ?>
+							<?php priniti_decor( 'navy' === $t['tone'] ? 'flower' : 'cookie', 'bottom-4 left-[46%] -z-10 size-10 text-white/15' ); ?>
 							<div class="relative z-10 flex max-w-[62%] flex-col justify-between gap-4 sm:max-w-[58%]">
 								<div>
 									<p class="text-[11px] font-bold uppercase tracking-[0.16em] text-white/75"><?php echo esc_html( $t['eyebrow'] ); ?></p>
@@ -268,8 +244,8 @@ function priniti_section_promo_tiles( array $tiles ): void {
 								</div>
 								<a href="<?php echo esc_url( $t['href'] ); ?>" class="inline-flex w-fit items-center gap-2 rounded-xl bg-white/20 px-4 py-2 text-xs font-semibold sm:text-sm backdrop-blur-sm transition-colors hover:bg-white hover:text-ink"><?php echo esc_html( $t['cta'] ); ?><?php priniti_the_icon( 'arrow-right', 'size-4' ); ?></a>
 							</div>
-							<div class="absolute bottom-0 right-3 aspect-[3/4] w-[32%] max-w-32 translate-y-[6%] drop-shadow-xl sm:right-6">
-								<?php priniti_product_image( $t['products'][0]['images'][0] ?? null, $t['products'][0]['name'], '(min-width:768px) 20vw, 38vw', 'bg-transparent p-0' ); ?>
+							<div aria-hidden="true" class="absolute -bottom-3 -right-2 w-[52%] max-w-80 sm:right-0">
+								<?php priniti_pack_stage( $t['products'], 'navy' === $t['tone'] ? 'lime' : 'brand', 'aspect-[6/5] [&>svg]:hidden' ); ?>
 							</div>
 						</div>
 					</li>

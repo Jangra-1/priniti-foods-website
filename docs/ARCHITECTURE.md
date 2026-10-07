@@ -69,6 +69,23 @@ Same tokens and visual language as the reference; these extend it rather than re
 | Product page: decorated gallery with hover zoom, pack-size cards, assurances (facts only) and delivery placeholder, info grid and accordions, reviews block with empty state, "More from", "Explore the range", sticky mobile buy bar | `templates/product.php`, `inc/components/commerce.php`, `interactions.ts` |
 | Header category menu with thumbnails; footer with newsletter/social band and Policies column | `template-parts/layout/desktop-nav.php`, `footer.php`, `inc/config.php` |
 
+| Campaign pieces (v0.4.0): promo strip (`priniti_promo_strip`, copy via `priniti_promo_strip_messages` filter), hero stage of real packs with vector accents (`priniti_hero_stage`), sample testimonials (`priniti_sample_reviews` filter; real WooCommerce reviews replace them automatically), Instagram feed (`priniti_section_instagram`) | `inc/components/campaign.php` |
+| Category art (eyebrow, fallback copy, accents per category; `priniti_category_art` filter), pack stage (`priniti_pack_stage`), multi-view product gallery (`priniti_product_gallery`) | `inc/components/commerce.php`, `inc/components/decor.php`, `interactions.ts` |
+
+Catalog pages show 12 products (`PRINITI_PAGE_SIZE`), so 2-, 3- and 4-column grids end on full rows.
+
+**Instagram feed.** Uses the official Instagram API (graph.instagram.com `/me/media`) with a long-lived token for the brand's
+professional account. Add `define( 'PRINITI_INSTAGRAM_TOKEN', '…' );` to `wp-config.php` on the server (never commit it) and set the
+Instagram profile URL in `inc/config.php` (`social`). Posts are cached for an hour. Tokens last 60 days; refresh with
+`https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=…`. Until a token exists the section shows a
+labelled "Feed coming soon" placeholder (no fake posts).
+
+**Promo strip.** Display only: it does not create a coupon. Before launch either set up a matching WooCommerce coupon or change/remove the
+copy with `add_filter( 'priniti_promo_strip_messages', '__return_empty_array' );`.
+
+**Product gallery.** Shows every real product photo. When a product has fewer than three, it adds views made from the first official
+photo (a labelled close-up crop and the pack on a Priniti backdrop); these are labelled on the page and in their alt text.
+
 Data rules: these components only display existing product data. Missing ingredients, nutrition, storage and highlights read
 "Coming soon"; ratings and reviews appear only when real WooCommerce reviews exist; unpriced products show "Price coming soon"
 and an enquiry link instead of a cart button.

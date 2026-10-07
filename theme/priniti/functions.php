@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'PRINITI_VERSION', '0.3.0' );
+define( 'PRINITI_VERSION', '0.4.0' );
 define( 'PRINITI_DIR', get_template_directory() );
 define( 'PRINITI_URI', get_template_directory_uri() );
 
@@ -23,6 +23,7 @@ require PRINITI_DIR . '/inc/components/decor.php';
 require PRINITI_DIR . '/inc/components/commerce.php';
 require PRINITI_DIR . '/inc/components/catalog.php';
 require PRINITI_DIR . '/inc/components/sections.php';
+require PRINITI_DIR . '/inc/components/campaign.php';
 require PRINITI_DIR . '/inc/components/pages.php';
 require PRINITI_DIR . '/inc/routes.php';
 require PRINITI_DIR . '/inc/seo.php';

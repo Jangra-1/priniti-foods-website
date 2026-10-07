@@ -17,8 +17,6 @@ $hero_packs = priniti_get_products_by_slugs( $merch['heroSlugs'] );
 $story      = priniti_get_products_by_slugs( $merch['storySlugs'] );
 $picks      = priniti_get_products_by_slugs( $merch['curatedPicks']['slugs'] );
 $range      = priniti_get_products_by_slugs( $merch['explore']['slugs'] );
-$sweets     = priniti_get_products_by_slugs( $merch['sweetsBakery']['slugs'] );
-$featured   = priniti_get_products_by_slugs( array( $merch['featured']['slug'] ) );
 $combos     = priniti_get_products( array( 'category' => 'combos', 'limit' => 3 ) );
 $promo      = priniti_data( 'home' )['promo'];
 
@@ -26,7 +24,7 @@ $carousel = $best
 	? array( 'eyebrow' => 'Top picks', 'title' => 'Best Sellers', 'items' => $best )
 	: array( 'eyebrow' => 'From every category', 'title' => $merch['explore']['title'], 'items' => $range );
 
-$tile = static function ( string $slug, string $eyebrow, string $title, string $cta, string $tone ) use ( $sweets ): array {
+$tile = static function ( string $slug, string $eyebrow, string $title, string $cta, string $tone ): array {
 	$cat = priniti_get_category( $slug );
 	return array(
 		'eyebrow'  => $eyebrow,
@@ -34,7 +32,7 @@ $tile = static function ( string $slug, string $eyebrow, string $title, string $
 		'cta'      => $cta,
 		'tone'     => $tone,
 		'href'     => $cat['href'] ?? priniti_url( '/shop' ),
-		'products' => array_values( array_filter( $sweets, static fn ( $p ) => $p['categorySlug'] === $slug ) ),
+		'products' => priniti_get_products( array( 'category' => $slug, 'limit' => 3 ) ),
 	);
 };
 
@@ -43,6 +41,7 @@ get_header();
 priniti_json_ld( priniti_organization_json_ld() );
 priniti_json_ld( priniti_website_json_ld() );
 
+priniti_promo_strip();
 priniti_section_hero( $hero_packs, $categories );
 priniti_section_categories( $categories, $counts );
 priniti_section_featured_products( 'Handpicked for you', 'Featured Products', priniti_url( '/shop' ), $picks );
@@ -87,10 +86,7 @@ if ( $new ) :
 	<?php
 endif;
 
-if ( $featured ) {
-	priniti_section_featured_product( $featured[0] );
-}
-priniti_section_reviews( priniti_featured_reviews() );
+priniti_section_testimonials( priniti_featured_reviews( 4 ) );
 priniti_section_stats(
 	'The Priniti range',
 	'Snacks, sweets and bakery from one brand.',
@@ -104,6 +100,6 @@ priniti_section_moods( $categories, $counts );
 priniti_section_brand_story( $story );
 priniti_section_on_the_go( $range ? $range : $hero_packs );
 priniti_section_newsletter();
-priniti_section_social( $range );
+priniti_section_instagram();
 
 get_footer();

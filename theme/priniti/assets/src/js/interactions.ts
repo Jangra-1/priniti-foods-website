@@ -154,26 +154,63 @@ function initTabs() {
   });
 }
 
+/**
+ * Product gallery: a scroll-snap track (native swipe on touch), thumbnails, previous / next and dots,
+ * all kept in sync with whichever slide is in view.
+ */
 function initGallery() {
   document.querySelectorAll<HTMLElement>("[data-priniti-gallery]").forEach((root) => {
-    const main = root.querySelector<HTMLImageElement>("[data-gallery-main] img");
-    const thumbs = root.querySelectorAll<HTMLButtonElement>("[data-gallery-thumb]");
-    thumbs.forEach((thumb) =>
-      thumb.addEventListener("click", () => {
-        const img = JSON.parse(thumb.dataset.galleryThumb ?? "{}") as { src: string; srcset?: string; alt: string };
-        if (main && img.src) {
-          main.src = img.src;
-          if (img.srcset) main.srcset = img.srcset;
-          else main.removeAttribute("srcset");
-          main.alt = img.alt;
-        }
-        thumbs.forEach((t) => {
-          const on = t === thumb;
-          t.setAttribute("aria-current", String(on));
-          swap(t, on, t.dataset.onClass, t.dataset.offClass);
+    const track = root.querySelector<HTMLElement>("[data-gallery-track]");
+    if (!track) return;
+    const slides = Array.from(track.children) as HTMLElement[];
+    const thumbs = root.querySelectorAll<HTMLButtonElement>("[data-gallery-go]");
+    const dots = root.querySelectorAll<HTMLElement>("[data-gallery-dot]");
+    const prev = root.querySelector<HTMLButtonElement>("[data-gallery-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-gallery-next]");
+    const hint = root.querySelector<HTMLElement>("[data-zoom-hint]");
+    let current = 0;
+
+    const go = (i: number) => {
+      const target = Math.max(0, Math.min(slides.length - 1, i));
+      track.scrollTo({ left: target * track.clientWidth, behavior: "smooth" });
+    };
+    const mark = (i: number) => {
+      current = i;
+      thumbs.forEach((t, n) => {
+        t.setAttribute("aria-current", String(n === i));
+        swap(t, n === i, t.dataset.onClass, t.dataset.offClass);
+      });
+      dots.forEach((d, n) => {
+        d.classList.toggle("w-5", n === i);
+        d.classList.toggle("bg-ink", n === i);
+        d.classList.toggle("w-1.5", n !== i);
+        d.classList.toggle("bg-ink/25", n !== i);
+      });
+      if (prev) prev.disabled = i === 0;
+      if (next) next.disabled = i === slides.length - 1;
+      if (hint) hint.hidden = !slides[i]?.hasAttribute("data-zoom");
+    };
+
+    let frame = 0;
+    track.addEventListener(
+      "scroll",
+      () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          const i = Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+          if (i !== current) mark(i);
         });
-      }),
+      },
+      { passive: true },
     );
+    thumbs.forEach((t) => t.addEventListener("click", () => go(Number(t.dataset.galleryGo))));
+    prev?.addEventListener("click", () => go(current - 1));
+    next?.addEventListener("click", () => go(current + 1));
+    track.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") go(current + 1);
+      if (e.key === "ArrowLeft") go(current - 1);
+    });
+    mark(0);
   });
 }
 
