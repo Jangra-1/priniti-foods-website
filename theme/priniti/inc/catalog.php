@@ -131,6 +131,7 @@ function priniti_product_view( WC_Product $product ): array {
 		'featured'     => $product->is_featured(),
 		'date'         => $product->get_date_created() ? $product->get_date_created()->getTimestamp() : 0,
 		'description'  => wp_strip_all_tags( (string) $product->get_description() ) ?: null,
+		'shortDescription' => wp_strip_all_tags( (string) $product->get_short_description() ) ?: null,
 		'highlights'   => $meta( '_priniti_highlights' ),
 		'ingredients'  => $meta( '_priniti_ingredients' ),
 		'nutrition'    => $meta( '_priniti_nutrition' ),
@@ -606,9 +607,90 @@ function priniti_get_categories( bool $include_unpublished = false ): array {
 	static $all = null;
 	if ( null === $all ) {
 		$pre = apply_filters( 'priniti_pre_categories', null );
-		$all = is_array( $pre ) ? $pre : priniti_load_categories();
+		$all = array_map( 'priniti_category_with_image', is_array( $pre ) ? $pre : priniti_load_categories() );
 	}
 	return $include_unpublished ? $all : array_values( array_filter( $all, static fn ( $c ) => $c['published'] ) );
+}
+
+/**
+ * Representative products per category (product slugs, best first): the category's cover image in menus and cards,
+ * and the first picks for its hero. Every slug must belong to that category; unknown slugs are skipped.
+ */
+function priniti_category_showcase( string $category_slug ): array {
+	$map = array(
+		'indian-traditional-namkeen' => array( 'bhujia', 'aloo-bhujia', 'bombay-mix', 'cornflakes-mixture', 'navratan-mixture', 'kaju-mixture' ),
+		'potato-chips'               => array( 'chips-classic-salted', 'chips-cream-n-onion', 'chips-masala-punch', 'potato-chips-spicy-masti', 'chips-tomato-punch' ),
+		'charchare-sticks'           => array( 'charchare-mast-masala', 'charchare-tangy-tomato' ),
+		'popcorn'                    => array( 'popcorn-butter-salted' ),
+		'puffs-fryums'               => array( 'puff-hot-spicy', 'chiji-noodles', 'puffcorn', 'roll-n-roll', 'veg-biryani', 'tomato-katori', 'manchurian-fried-rice', 'chilli-storm' ),
+		'ringo-star-rings'           => array( 'ringo-star-tangy-tomato' ),
+		'rusk'                       => array( 'rusk' ),
+		'sweets'                     => array( 'soan-papdi', 'gulab-jamun', 'rasgulla' ),
+		'cookies'                    => array( 'jeera-cookies', 'ajwain-cookies', 'badam-cookies', 'kaju-cookies' ),
+		'donut-cakes'                => array( 'choco-vanilla-donut-cake', 'strawberry-vanilla-donut-cake' ),
+	);
+	return (array) apply_filters( 'priniti_category_showcase', $map[ $category_slug ] ?? array(), $category_slug );
+}
+
+/** Showcase products of a category that exist, belong to it and have an image, topped up with its other imaged products. */
+function priniti_category_showcase_products( string $category_slug, int $limit = 4 ): array {
+	$picked = array();
+	foreach ( priniti_category_showcase( $category_slug ) as $slug ) {
+		$p = priniti_get_product( $slug );
+		if ( $p && $p['categorySlug'] === $category_slug && ! empty( $p['images'] ) ) {
+			$picked[ $p['id'] ] = $p;
+		}
+	}
+	foreach ( priniti_catalog() as $p ) {
+		if ( count( $picked ) >= $limit ) {
+			break;
+		}
+		if ( $p['categorySlug'] === $category_slug && ! empty( $p['images'] ) ) {
+			$picked[ $p['id'] ] ??= $p;
+		}
+	}
+	return array_slice( array_values( $picked ), 0, $limit );
+}
+
+/**
+ * Category-level images bundled with the theme (assets/images/categories), used when the WooCommerce category has no
+ * thumbnail. Official Priniti artwork only, resized: donut-cakes is the official Choco Vanilla Donut Cake pack
+ * (www.prinitifoods.com/images/choco-vanilla-donut.png). Filterable.
+ */
+function priniti_category_images(): array {
+	return (array) apply_filters(
+		'priniti_category_images',
+		array(
+			'donut-cakes' => array(
+				'src'   => PRINITI_URI . '/assets/images/categories/donut-cakes.webp',
+				'thumb' => PRINITI_URI . '/assets/images/categories/donut-cakes-thumb.webp',
+				'alt'   => 'Priniti Choco Vanilla Donut Cake pack',
+			),
+		)
+	);
+}
+
+/**
+ * A category's image: its WooCommerce thumbnail; else the theme's category image (priniti_category_images); else its
+ * first showcase product. Menus and cards never show "Image pending".
+ */
+function priniti_category_with_image( array $category ): array {
+	if ( empty( $category['image'] ) ) {
+		$own = priniti_category_images()[ (string) $category['slug'] ] ?? null;
+		if ( $own ) {
+			$category['image'] = $own;
+			return $category;
+		}
+		$p = priniti_category_showcase_products( (string) $category['slug'], 1 )[0] ?? null;
+		if ( $p ) {
+			$category['image'] = array(
+				'src'   => $p['images'][0]['src'],
+				'thumb' => $p['images'][0]['thumb'] ?? $p['images'][0]['src'],
+				'alt'   => $category['name'],
+			);
+		}
+	}
+	return $category;
 }
 
 function priniti_load_categories(): array {

@@ -19,15 +19,15 @@ $nav = priniti_navigation();
 	data-scrolled-class="border-line bg-surface/95 shadow-soft backdrop-blur"
 	class="priniti-sticky-header sticky top-0 z-40 border-b transition-[background-color,box-shadow,border-color] duration-200 border-line/70 bg-surface"
 >
-	<div class="<?php echo esc_attr( priniti_container_classes( 'grid grid-cols-[1fr_auto_1fr] items-center gap-2 transition-[height] duration-200 lg:flex lg:justify-between lg:gap-6 h-14' ) ); ?>">
+	<div class="<?php echo esc_attr( priniti_container_classes( 'grid grid-cols-[1fr_auto_1fr] items-center gap-2 transition-[height] duration-200 lg:flex lg:justify-between lg:gap-6 h-16 lg:h-[4.5rem]' ) ); ?>">
 		<div class="lg:hidden">
 			<button type="button" aria-label="<?php esc_attr_e( 'Open menu', 'priniti' ); ?>" data-priniti-open="mobile-nav" class="<?php echo esc_attr( priniti_icon_button_classes( 'size-9', '-ml-2' ) ); ?>">
 				<?php priniti_the_icon( 'menu', 'size-5' ); ?>
 			</button>
 		</div>
 
-		<a href="<?php echo esc_url( priniti_url( '/' ) ); ?>" aria-label="<?php esc_attr_e( 'Priniti Foods home', 'priniti' ); ?>" class="justify-self-center rounded-lg lg:justify-self-auto">
-			<?php priniti_part( 'layout/logo' ); ?>
+		<a href="<?php echo esc_url( priniti_url( '/' ) ); ?>" aria-label="<?php esc_attr_e( 'Priniti Foods home', 'priniti' ); ?>" class="inline-flex items-center justify-self-center rounded-2xl bg-white px-2 py-1 shadow-card ring-1 ring-line/70 transition hover:shadow-soft lg:justify-self-auto">
+			<?php priniti_part( 'layout/logo', array( 'class' => 'h-10 sm:h-11 lg:h-12' ) ); ?>
 		</a>
 
 		<?php priniti_part( 'layout/desktop-nav', array( 'items' => $nav['desktop'] ) ); ?>

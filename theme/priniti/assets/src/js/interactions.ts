@@ -327,6 +327,109 @@ function initReveal() {
   items.forEach((el) => io.observe(el));
 }
 
+/** Footer link groups: collapsible on phones, always open from md up (where the summary is not clickable). */
+function initFooter() {
+  const sections = document.querySelectorAll<HTMLDetailsElement>("[data-footer-section]");
+  if (!sections.length) return;
+  const mq = window.matchMedia("(min-width: 48rem)");
+  const sync = () => sections.forEach((d) => (d.open = mq.matches));
+  sync();
+  mq.addEventListener("change", sync);
+}
+
+/**
+ * Homepage hero slider: slides share one grid cell (no layout shift) and cross-fade. Autoplays every data-interval ms,
+ * pauses on hover, focus and hidden tabs, never autoplays under reduced motion, and supports dots, prev/next and swipe.
+ * Slides 2+ keep their image URLs in data-hero-src until the page has loaded, so slide 1 gets the bandwidth.
+ */
+function initHeroSlider() {
+  document.querySelectorAll<HTMLElement>("[data-hero-slider]").forEach((root) => {
+    const slides = [...root.querySelectorAll<HTMLElement>("[data-hero-slide]")];
+    const dots = [...root.querySelectorAll<HTMLButtonElement>("[data-hero-dot]")];
+    if (slides.length < 2) return;
+    const interval = Number(root.dataset.interval) || 3000;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let current = 0;
+    let timer: number | undefined;
+    let hovered = false;
+    let focused = false;
+
+    const loadImages = () =>
+      root.querySelectorAll<HTMLImageElement>("img[data-hero-src]").forEach((img) => {
+        if (img.dataset.heroSrcset) img.srcset = img.dataset.heroSrcset;
+        img.src = img.dataset.heroSrc!;
+        img.removeAttribute("data-hero-src");
+      });
+    if (document.readyState === "complete") loadImages();
+    else window.addEventListener("load", loadImages, { once: true });
+
+    const show = (index: number) => {
+      current = (index + slides.length) % slides.length;
+      loadImages(); // A visitor may get to slide 2 before the load event.
+      slides.forEach((slide, i) => {
+        const on = i === current;
+        slide.classList.toggle("opacity-0", !on);
+        slide.classList.toggle("pointer-events-none", !on);
+        slide.classList.toggle("opacity-100", on);
+        slide.inert = !on;
+        if (on) slide.removeAttribute("aria-hidden");
+        else slide.setAttribute("aria-hidden", "true");
+        slide.querySelectorAll("a[href]").forEach((a) => (on ? a.removeAttribute("tabindex") : a.setAttribute("tabindex", "-1")));
+      });
+      dots.forEach((dot, i) => {
+        const on = i === current;
+        dot.setAttribute("aria-current", String(on));
+        dot.classList.toggle("w-6", on);
+        dot.classList.toggle("bg-brand", on);
+        dot.classList.toggle("w-2", !on);
+        dot.classList.toggle("bg-ink/25", !on);
+      });
+    };
+    const stop = () => {
+      window.clearInterval(timer);
+      timer = undefined;
+    };
+    const start = () => {
+      stop();
+      if (!reduced && !hovered && !focused && !document.hidden) timer = window.setInterval(() => show(current + 1), interval);
+    };
+    const go = (index: number) => {
+      show(index);
+      start(); // Restart the countdown after a manual change.
+    };
+
+    root.querySelector("[data-hero-prev]")?.addEventListener("click", () => go(current - 1));
+    root.querySelector("[data-hero-next]")?.addEventListener("click", () => go(current + 1));
+    dots.forEach((dot) => dot.addEventListener("click", () => go(Number(dot.dataset.heroDot))));
+    root.addEventListener("mouseenter", () => ((hovered = true), stop()));
+    root.addEventListener("mouseleave", () => ((hovered = false), start()));
+    // Keyboard focus pauses; focus left behind by a mouse or touch tap on the controls does not.
+    root.addEventListener("focusin", (e) => {
+      focused = (e.target as Element).matches(":focus-visible");
+      if (focused) stop();
+    });
+    root.addEventListener("focusout", (e) => {
+      if (!root.contains(e.relatedTarget as Node | null)) (focused = false), start();
+    });
+    document.addEventListener("visibilitychange", start);
+
+    let x0: number | null = null;
+    let y0 = 0;
+    root.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "mouse") (x0 = e.clientX), (y0 = e.clientY);
+    }, { passive: true });
+    root.addEventListener("pointerup", (e) => {
+      if (x0 === null) return;
+      const dx = e.clientX - x0;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(e.clientY - y0)) go(current + (dx < 0 ? 1 : -1));
+      x0 = null;
+    }, { passive: true });
+    root.addEventListener("pointercancel", () => (x0 = null));
+
+    start();
+  });
+}
+
 export function initInteractions() {
   initCartButtons();
   initWishlist();
@@ -337,4 +440,6 @@ export function initInteractions() {
   initPurchasePanel();
   initZoom();
   initReveal();
+  initFooter();
+  initHeroSlider();
 }

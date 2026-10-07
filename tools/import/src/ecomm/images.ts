@@ -48,7 +48,7 @@ export function imageInfo(bytes: Uint8Array): { type: "png" | "jpeg"; width: num
 
 const MIN_SIDE = 300;
 // Named after the detected type, not the URL: some official ".jpg" URLs serve PNG data.
-const fileName = (product: string, type: "png" | "jpeg") => `priniti-${product.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-official.${type === "png" ? "png" : "jpg"}`;
+export const fileName = (product: string, type: "png" | "jpeg") => `priniti-${product.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-official.${type === "png" ? "png" : "jpg"}`;
 
 export async function fetchImages(outDir: string) {
   mkdirSync(outDir, { recursive: true });

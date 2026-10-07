@@ -10,7 +10,10 @@ import { categories } from "../../reference/nextjs/data/categories.ts";
 import { comboProducts } from "../../reference/nextjs/data/combos.ts";
 import { products } from "../../reference/nextjs/data/products.ts";
 import { applyTestPricing } from "../../reference/nextjs/data/test-prices.ts";
+import { existsSync } from "node:fs";
 import { RENAMES } from "../import/src/ecomm/apply.ts";
+import { loadContent } from "../import/src/ecomm/content.ts";
+import { fileName, loadImageMap } from "../import/src/ecomm/images.ts";
 import { loadItems } from "../import/src/ecomm/plan.ts";
 import { reconcile } from "../import/src/ecomm/reconcile.ts";
 
@@ -81,16 +84,36 @@ if (process.argv.includes("--ecomm")) {
   const r = reconcile(loadItems(), asLive);
   if (r.problems.length) throw new Error(r.problems.join("\n"));
   let newId = 5000;
+  // Same official images and product information as the live store (build/official-images is served at /official).
+  const official = loadImageMap().products;
+  const content = loadContent();
+  const officialImage = (name: string) => {
+    const e = official[name];
+    if (!e?.url || !e.verified) return [];
+    const file = (["png", "jpeg"] as const).map((t) => fileName(name, t)).find((f) => existsSync(`build/official-images/${f}`));
+    return file ? [{ src: `${base}/official/${file}`, thumb: `${base}/official/${file}`, srcset: "", alt: `${name} pack by Priniti Foods` }] : [];
+  };
   out = r.products.map((planned) => {
     const ref = catalog.find((p) => p.id === planned.live?.id);
     const id = ref?.id ?? newId++;
     const slug = ref?.slug ?? planned.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
     const category = cats.find((c) => c.slug === planned.category)!;
+    const name = (ref && RENAMES[ref.id]) || planned.name;
+    const c = content[name];
     return {
-      ...(ref ?? { ...catalog[0], images: [], description: null, badges: [], featured: false, highlights: null, ingredients: null, nutrition: null, storage: null, shippingNote: null, faqs: null, rating: null, reviewCount: 0 }),
+      ...(ref ?? { ...catalog[0], images: officialImage(name), description: null, badges: [], featured: false, highlights: null, ingredients: null, nutrition: null, storage: null, shippingNote: null, faqs: null, rating: null, reviewCount: 0 }),
+      ...(c
+        ? {
+            description: c.description,
+            shortDescription: c.shortDescription,
+            highlights: c.highlights.length ? c.highlights : null,
+            ingredients: [c.ingredients ? `${c.ingredients}.` : "", c.allergenNote ?? ""].filter(Boolean).join(" ") || null,
+            storage: [c.storage ?? "", c.shelfLife ? `Shelf life: ${c.shelfLife.charAt(0).toLowerCase()}${c.shelfLife.slice(1)}.` : ""].filter(Boolean).join(" ") || null,
+          }
+        : {}),
       id,
       slug,
-      name: (ref && RENAMES[ref.id]) || planned.name,
+      name,
       href: `${base}/product/${slug}/`,
       categorySlug: category.slug,
       categoryName: category.name,

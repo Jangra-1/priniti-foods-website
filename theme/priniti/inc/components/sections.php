@@ -31,60 +31,6 @@ function priniti_href( string $href ): string {
 	return priniti_url( $path ) . ( $query ? '?' . $query : '' );
 }
 
-function priniti_section_hero( array $products, array $categories ): void {
-	$hero  = priniti_data( 'home' )['hero'];
-	$parts = preg_split( '/(?<=,)\s+/', $hero['headline'] );
-	$line1 = array_shift( $parts );
-	$line2 = implode( ' ', $parts );
-	$free  = priniti_site_config()['commerce']['free_shipping_threshold'];
-
-	?>
-	<section aria-labelledby="hero-heading" class="relative overflow-hidden bg-linear-to-br from-cream via-blush to-brand-tint">
-		<?php
-		priniti_decor( 'dots', 'left-[38%] top-8 hidden size-28 text-brand/15 lg:block' );
-		priniti_decor( 'sparkle', 'left-[46%] top-[22%] hidden size-5 text-brand/60 lg:block' );
-		priniti_decor( 'sparkle', 'left-[4%] bottom-[12%] size-3 text-navy/40' );
-		priniti_decor( 'leaf', 'left-[44%] bottom-[14%] hidden size-10 rotate-12 text-leaf/25 lg:block' );
-		priniti_decor( 'grain', 'right-[3%] top-[10%] hidden h-20 w-10 -rotate-12 text-lime/50 xl:block' );
-		priniti_decor( 'wave', 'inset-x-0 bottom-0 h-6 w-full text-surface sm:h-8' );
-		?>
-		<?php priniti_container_open( 'relative grid items-center gap-6 py-8 sm:py-10 lg:grid-cols-[1fr_1.05fr] lg:gap-8 lg:py-12' ); ?>
-			<div class="max-w-xl">
-				<p class="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 text-[13px] font-semibold shadow-card">
-					<?php priniti_the_icon( 'sparkles', 'size-4 text-brand' ); ?>
-					Swad Mein No.1
-				</p>
-				<h1 id="hero-heading" class="mt-4 font-display text-[2.25rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem] xl:text-[3.9rem]">
-					<span class="block"><?php echo esc_html( $line1 ); ?></span>
-					<?php if ( $line2 ) : ?>
-						<span class="block text-brand"><?php echo esc_html( $line2 ); ?></span>
-					<?php endif; ?>
-				</h1>
-				<p class="mt-3 max-w-md text-base leading-relaxed text-ink-soft sm:text-lg"><?php echo esc_html( $hero['subcopy'] ); ?></p>
-				<div class="mt-6 flex flex-col gap-3 sm:flex-row">
-					<?php
-					priniti_button_link( priniti_href( $hero['primaryCta']['href'] ), priniti_icon( 'shopping-cart', 'size-5' ) . esc_html( $hero['primaryCta']['label'] ) . priniti_icon( 'arrow-right', 'size-4' ), 'primary', 'md', 'h-12 px-6 text-[15px]' );
-					priniti_button_link( priniti_href( $hero['secondaryCta']['href'] ), esc_html( $hero['secondaryCta']['label'] ), 'outline', 'md', 'h-12 px-6 text-[15px]' );
-					?>
-				</div>
-				<ul role="list" class="mt-5 flex flex-wrap gap-2" aria-label="Browse categories">
-					<?php foreach ( array_slice( $categories, 0, 5 ) as $c ) : ?>
-						<li><a href="<?php echo esc_url( $c['href'] ); ?>" class="inline-flex min-h-8 items-center rounded-full bg-surface px-3 text-xs font-semibold shadow-card ring-1 ring-line/70 transition-colors hover:text-brand hover:ring-brand/50"><?php echo esc_html( $c['name'] ); ?></a></li>
-					<?php endforeach; ?>
-				</ul>
-				<?php if ( $free ) : ?>
-					<p class="mt-5 text-sm font-medium text-ink-soft"><?php echo esc_html( 'Free shipping on orders above ' . priniti_format_inr( (float) $free ) ); ?></p>
-				<?php endif; ?>
-			</div>
-
-			<div class="relative">
-				<?php priniti_hero_stage( $products, $categories ); ?>
-			</div>
-		<?php priniti_container_close(); ?>
-	</section>
-	<?php
-}
-
 function priniti_section_categories( array $categories, array $counts ): void {
 	?>
 	<section id="categories" aria-labelledby="categories-heading" class="scroll-mt-24 bg-surface py-8 lg:py-10" data-reveal>

@@ -98,9 +98,9 @@
       "note": "Verified: pack reads 'Potato Chips Spicy Masti' (not prd2-chips.png, which is Masala Punch)"
     },
     "Loopyz": {
-      "url": null,
-      "verified": false,
-      "note": "None of the 83 supplied official images shows a Loopyz pack."
+      "url": "https://www.prinitifoods.com/images/loopyz.png",
+      "verified": true,
+      "note": "Verified: pack reads 'Loopyz – Snacks loaded with corn – Masala Twist'; main image of the official Loopyz page (loopyz.php). The URL serves JPEG data."
     }
   }
 }

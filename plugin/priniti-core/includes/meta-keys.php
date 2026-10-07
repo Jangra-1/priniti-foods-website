@@ -28,6 +28,7 @@ final class Priniti_Meta {
 	public const PCS        = '_priniti_pcs';        // int     pieces per sellable unit: 1 = single pack, >1 = "Pack of X"
 	public const WEIGHT     = '_priniti_weight';     // string  net weight of one piece, e.g. "50 g"
 	public const ECOMM_ITEM = '_priniti_ecomm_item'; // string  sheet item name (internal reference, never rendered)
+	public const CONTENT_SOURCE = '_priniti_content_source'; // string official product page the content was taken from (internal)
 
 	// Product category (term meta on `product_cat`).
 	public const HIDE_WHEN_EMPTY = 'priniti_hide_when_empty'; // '1' = hidden from navigation and lists until it has products (Combos)

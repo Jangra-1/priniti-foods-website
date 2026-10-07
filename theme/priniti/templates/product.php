@@ -31,7 +31,7 @@ $related    = priniti_related_products( $product, 4 );
 $categories = priniti_get_categories();
 $cat_index  = max( 0, (int) array_search( $product['categorySlug'], array_column( $categories, 'slug' ), true ) );
 $tone       = priniti_tone_for_index( $cat_index );
-$summary    = $product['description'] ? wp_trim_words( $product['description'], 32 ) : '';
+$summary    = $product['shortDescription'] ?? null ?: ( $product['description'] ? wp_trim_words( $product['description'], 32 ) : '' );
 $max_qty    = (int) priniti_site_config()['commerce']['max_quantity_per_line'];
 
 // "Explore the Priniti range": one product from each other category, so the rail spans the whole range.
@@ -66,11 +66,12 @@ priniti_json_ld( priniti_product_json_ld( $product ) );
 	);
 	?>
 
-	<div class="mt-5 grid gap-8 lg:mt-6 lg:grid-cols-[1.05fr_1fr] lg:gap-12 xl:gap-16">
+	<?php // Phones: title, gallery, purchase panel (the right column dissolves into the grid). Desktop: gallery beside the column. ?>
+	<div class="mt-5 grid gap-6 lg:mt-6 lg:grid-cols-[1.05fr_1fr] lg:gap-12 xl:gap-16">
 		<?php priniti_product_gallery( $product, $cat_index, $tone ); ?>
 
-		<div class="flex flex-col gap-6">
-			<div>
+		<div class="max-lg:contents lg:flex lg:flex-col lg:gap-6">
+			<div class="max-lg:order-first">
 				<a href="<?php echo esc_url( $product['categoryHref'] ); ?>" class="<?php echo esc_attr( priniti_badge_classes( 'tint', 'px-3 py-1.5 text-xs uppercase tracking-wide transition-colors hover:bg-brand hover:text-white' ) ); ?>"><?php echo esc_html( $product['categoryName'] ); ?></a>
 				<h1 class="mt-3 font-display text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl"><?php echo esc_html( $product['name'] ); ?></h1>
 				<?php
@@ -152,8 +153,6 @@ priniti_json_ld( priniti_product_json_ld( $product ) );
 		<?php priniti_product_details( $product ); ?>
 	</div>
 
-	<?php priniti_product_reviews( $product, $reviews ); ?>
-
 	<?php if ( $related ) : ?>
 		<section aria-labelledby="related-heading" class="mt-14 lg:mt-20">
 			<?php priniti_section_heading( array( 'id' => 'related-heading', 'eyebrow' => 'You may also like', 'title' => 'More from ' . $product['categoryName'], 'href' => $product['categoryHref'], 'link_label' => 'View all', 'class' => 'mb-6' ) ); ?>
@@ -164,6 +163,9 @@ priniti_json_ld( priniti_product_json_ld( $product ) );
 			</ul>
 		</section>
 	<?php endif; ?>
+
+	<?php // Reviews follow the related products, so the page reads: details, shipping, related. ?>
+	<?php priniti_product_reviews( $product, $reviews ); ?>
 
 	<?php priniti_snack_box_strip( $product['categorySlug'] ); ?>
 

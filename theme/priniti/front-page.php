@@ -42,7 +42,7 @@ priniti_json_ld( priniti_organization_json_ld() );
 priniti_json_ld( priniti_website_json_ld() );
 
 priniti_promo_strip();
-priniti_section_hero( $hero_packs, $categories );
+priniti_section_hero_slider();
 priniti_section_categories( $categories, $counts );
 priniti_section_featured_products( 'Handpicked for you', 'Featured Products', priniti_url( '/shop' ), $picks );
 priniti_section_why();

@@ -584,7 +584,7 @@ function priniti_product_details( array $product ): void {
 		}
 		return is_string( $v ) ? array_values( array_filter( array_map( 'trim', preg_split( '/\r\n|\n/', $v ) ) ) ) : array();
 	};
-	$soon       = '<p class="text-ink-soft">Coming soon.</p>';
+	$soon       = '<p class="text-ink-soft">Information coming soon.</p>';
 	$highlights = $list( $product['highlights'] );
 	$packs      = priniti_pack_labels( $product );
 	$skus       = array_values( array_unique( array_filter( array_column( $product['variants'], 'sku' ) ) ) );
@@ -597,6 +597,10 @@ function priniti_product_details( array $product ): void {
 	);
 	if ( $skus ) {
 		$info['SKU'] = implode( ', ', $skus );
+	}
+	// Shelf life as published by Priniti (stored at the end of the storage text by the content import).
+	if ( preg_match( '/Shelf life:\s*([^.]+)\./i', (string) $product['storage'], $m ) ) {
+		$info['Shelf life'] = ucfirst( trim( $m[1] ) );
 	}
 
 	$panel = static function ( string $title, string $icon, bool $open, callable $body ): void {
@@ -622,7 +626,7 @@ function priniti_product_details( array $product ): void {
 				<?php priniti_eyebrow( 'About this product', 'mb-3' ); ?>
 				<h3 class="font-display text-xl font-bold sm:text-2xl"><?php echo esc_html( $product['name'] ); ?></h3>
 				<div class="mt-3 leading-relaxed text-ink-soft">
-					<?php echo $product['description'] ? '<p class="max-w-2xl">' . esc_html( $product['description'] ) . '</p>' : '<p>A full description is coming soon.</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo $product['description'] ? '<p class="max-w-2xl">' . esc_html( $product['description'] ) . '</p>' : '<p>Information coming soon.</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</div>
 				<h4 class="mt-6 text-sm font-semibold">Highlights</h4>
 				<?php if ( $highlights ) : ?>
@@ -632,7 +636,7 @@ function priniti_product_details( array $product ): void {
 						<?php endforeach; ?>
 					</ul>
 				<?php else : ?>
-					<p class="mt-1 text-sm text-ink-soft">Coming soon.</p>
+					<p class="mt-1 text-sm text-ink-soft">Information coming soon.</p>
 				<?php endif; ?>
 			</div>
 			<div class="rounded-[1.5rem] bg-navy p-6 text-white shadow-card sm:p-8">
@@ -648,9 +652,23 @@ function priniti_product_details( array $product ): void {
 			</div>
 		</div>
 
-		<div class="mt-4 grid items-start gap-3 md:grid-cols-2 lg:mt-6 lg:gap-4">
+		<div class="mt-4 flex flex-col gap-3 lg:mt-6">
 			<?php
-			$panel( 'Ingredients', 'wheat', false, $prose( $text( $product['ingredients'] ) ) );
+			$panel(
+				'Ingredients',
+				'wheat',
+				true,
+				static function () use ( $product, $text, $soon ): void {
+					$v = $text( $product['ingredients'] );
+					if ( ! $v ) {
+						echo $soon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						return;
+					}
+					echo '<p class="text-xs font-semibold uppercase tracking-wide text-ink-soft">Key ingredients, as described by Priniti</p>';
+					echo '<p class="mt-1 max-w-2xl text-ink">' . esc_html( $v ) . '</p>';
+					echo '<p class="mt-2 text-xs">Refer to the pack for the full ingredient list and allergen information.</p>';
+				}
+			);
 			$panel(
 				'Nutrition information',
 				'info',
@@ -678,17 +696,24 @@ function priniti_product_details( array $product ): void {
 				'Pack sizes',
 				'package',
 				false,
-				static function () use ( $packs ): void {
-					if ( ! $packs ) {
-						echo '<p>Pack size to be confirmed.</p>';
+				static function () use ( $product ): void {
+					$sizes = array_values( array_filter( $product['variants'], static fn ( $v ) => '' !== (string) $v['label'] ) );
+					if ( ! $sizes ) {
+						echo '<p>Information coming soon.</p>';
 						return;
 					}
-					echo '<p>Available in ' . esc_html( implode( ' and ', $packs ) ) . ( count( $packs ) > 1 ? ' packs. Choose your pack size above.' : ' packs.' ) . '</p>';
+					echo '<ul role="list" class="flex flex-col divide-y divide-line">';
+					foreach ( $sizes as $v ) {
+						$kind  = priniti_is_pack_of( $v ) ? sprintf( 'Pack of %d', $v['pcs'] ) : ( priniti_is_multipack( $v ) ? 'Single pack · 2 or 3 packs get 12% off' : '' );
+						$price = priniti_is_purchasable( $v ) ? priniti_format_inr( (float) $v['price'] ) : 'Price coming soon';
+						echo '<li class="flex flex-wrap items-baseline justify-between gap-x-4 py-2"><span><span class="font-semibold text-ink">' . esc_html( $v['label'] ) . '</span>' . ( $kind ? ' <span class="text-xs">' . esc_html( $kind ) . '</span>' : '' ) . '</span><span class="font-semibold tabular-nums text-ink">' . esc_html( $price ) . '</span></li>';
+					}
+					echo '</ul>';
 				}
 			);
 			$panel( 'Storage', 'sparkles', false, $prose( $text( $product['storage'] ) ) );
 			$panel(
-				'Shipping and delivery',
+				'Shipping & Delivery',
 				'truck',
 				false,
 				static function () use ( $product, $text ): void {

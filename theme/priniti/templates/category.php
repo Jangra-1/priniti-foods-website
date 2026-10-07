@@ -14,7 +14,7 @@ $filters    = priniti_parse_filters( $_GET ); // phpcs:ignore WordPress.Security
 $index      = max( 0, (int) array_search( $term->slug, array_column( $categories, 'slug' ), true ) );
 $counts     = priniti_category_counts();
 $count      = $counts[ $term->slug ] ?? 0;
-$featured   = priniti_get_products( array( 'category' => $term->slug, 'limit' => 4 ) );
+$featured   = priniti_category_showcase_products( $term->slug, 4 );
 $published  = $category ? $category['published'] : true;
 $category ??= array(
 	'name'        => $term->name,
