@@ -652,9 +652,35 @@ function priniti_category_showcase_products( string $category_slug, int $limit =
 	return array_slice( array_values( $picked ), 0, $limit );
 }
 
-/** Fills a category's missing image from its showcase product, so menus and cards never show "Image pending". */
+/**
+ * Category-level images bundled with the theme (assets/images/categories), used when the WooCommerce category has no
+ * thumbnail. Official Priniti artwork only, resized: donut-cakes is the official Choco Vanilla Donut Cake pack
+ * (www.prinitifoods.com/images/choco-vanilla-donut.png). Filterable.
+ */
+function priniti_category_images(): array {
+	return (array) apply_filters(
+		'priniti_category_images',
+		array(
+			'donut-cakes' => array(
+				'src'   => PRINITI_URI . '/assets/images/categories/donut-cakes.webp',
+				'thumb' => PRINITI_URI . '/assets/images/categories/donut-cakes-thumb.webp',
+				'alt'   => 'Priniti Choco Vanilla Donut Cake pack',
+			),
+		)
+	);
+}
+
+/**
+ * A category's image: its WooCommerce thumbnail; else the theme's category image (priniti_category_images); else its
+ * first showcase product. Menus and cards never show "Image pending".
+ */
 function priniti_category_with_image( array $category ): array {
 	if ( empty( $category['image'] ) ) {
+		$own = priniti_category_images()[ (string) $category['slug'] ] ?? null;
+		if ( $own ) {
+			$category['image'] = $own;
+			return $category;
+		}
 		$p = priniti_category_showcase_products( (string) $category['slug'], 1 )[0] ?? null;
 		if ( $p ) {
 			$category['image'] = array(
