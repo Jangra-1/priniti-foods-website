@@ -84,7 +84,8 @@ Same tokens and visual language as the reference; these extend it rather than re
   baked in: headings, copy and CTAs are HTML.
 - The builder refuses a product that is not in the banner's WooCommerce category; `npm test` checks the manifest
   (3 homepage banners, one per category, category-only products, sizes, file sizes).
-- `person` in banners.json is an optional transparent PNG layer for an approved lifestyle image (none yet).
+- `person` in banners.json is an optional approved lifestyle cut-out (transparent PNG with source and licence); none
+  yet, as no image generation is available here. Specs, slot guide and prompts: `docs/BANNER-PEOPLE.md`.
 - Below 1024 px the HTML text sits above the 1000 x 700 image (on the image's own top colour); from 1024 px the text
   overlays the calm left side of the 1600 x 700 image. Width/height attributes and fixed aspect ratios prevent CLS.
 

@@ -13,7 +13,10 @@ How a banner is made
 - Before using a product the script checks, against the same API, that it belongs to the banner's category, and
   stops if it does not.
 - No text is baked into the images: headings and buttons are HTML on the website.
-- `person` (optional) is a transparent PNG layer for an approved lifestyle image; none is set yet.
+- `person` (optional) is an approved lifestyle cut-out: {"file": "tools/banners/people/<name>.png", "source": "...",
+  "license": "...", "mobile": false}. It must be a transparent PNG with a recorded source and licence. On desktop it
+  stands between the HTML text and the packs (the packs move right); on mobile only when "mobile" is true. The
+  build stops if the person would overlap any pack. See docs/BANNER-PEOPLE.md.
 
 Outputs (theme/priniti/assets/images/banners/):
   <id>-desktop.webp  1600 x 700  packs on the right; the left ~45% stays calm for the HTML text
@@ -436,6 +439,12 @@ SCENES = {
     "donut": dict(inner="#FFD1E0", outer="#F06292", pattern="bokeh", pat="#FFE6EF", stage=("#C2185B", "#7B0D3A"), items=["sprinkle", "strawberry", "choco", "sprinkle", "sparkle", "sprinkle"], dust="#FFFFFF"),
 }
 
+# Layout changes when a lifestyle person is present: the person slot, and the narrower pack zone beside it.
+PERSON = {
+    "desktop": dict(slot=(720, 990), height=0.95, cx=1272, zone=590),
+    "mobile": dict(slot=(10, 330), height=0.86, cx=655, zone=660),
+}
+
 LAYOUTS = {
     # w, h, horizon y, pack centre x, pack baseline y, hero height, zone width for packs, calm text box (x0,y0,x1,y1)
     "desktop": dict(w=1600, h=700, horizon=505, cx=1130, base=640, hero=455, zone=820, calm=(0, 60, 730, 520), sun=(1130, 300)),
@@ -489,8 +498,34 @@ def place(layer, sprite, x, y, blur=0, alpha=1.0, angle=0):
     layer.alpha_composite(sprite, (int(x - sprite.width / 2), int(y - sprite.height / 2)))
 
 
+def load_person(banner):
+    """The banner's approved person cut-out, validated, or None."""
+    spec = banner.get("person")
+    if not spec:
+        return None
+    if not isinstance(spec, dict) or not spec.get("file") or not spec.get("source") or not spec.get("license"):
+        raise SystemExit(f"{banner['id']}: person needs file, source and license (see docs/BANNER-PEOPLE.md)")
+    path = os.path.join(ROOT, spec["file"])
+    if not os.path.abspath(path).startswith(os.path.join(ROOT, "tools", "banners", "people") + os.sep) or not os.path.exists(path):
+        raise SystemExit(f"{banner['id']}: person file must exist under tools/banners/people/: {spec['file']}")
+    im = Image.open(path)
+    if im.mode not in ("RGBA", "LA", "P") or "A" not in im.convert("RGBA").getbands():
+        raise SystemExit(f"{banner['id']}: person must be a transparent PNG")
+    im = im.convert("RGBA")
+    if np.asarray(im.getchannel("A")).min() > 0:
+        raise SystemExit(f"{banner['id']}: person image has no transparent background")
+    box = im.getchannel("A").point(lambda a: 255 if a > 12 else 0).getbbox()
+    return im.crop(box), bool(spec.get("mobile"))
+
+
 def compose(banner, variant, packs):
-    L = LAYOUTS[variant]
+    L = dict(LAYOUTS[variant])
+    person = load_person(banner)
+    if person and (variant == "desktop" or person[1]):
+        P = PERSON[variant]
+        L.update(cx=P["cx"], zone=P["zone"], sun=(P["cx"], L["sun"][1]))
+    else:
+        person, P = None, None
     sc = SCENES[banner["scene"]]
     rnd = random.Random(f"{banner['id']}-{variant}")
     random.seed(f"{banner['id']}-{variant}-sprites")
@@ -508,6 +543,8 @@ def compose(banner, variant, packs):
     front_packs = [im for slug, im in zip(banner["products"], packs) if slug in front_slugs]
     packs = [im for slug, im in zip(banner["products"], packs) if slug not in front_slugs]
     n = len(packs)
+    if person and n > 3:
+        raise SystemExit(f"{banner['id']}: with a person, use at most 3 packs in the main row (products stay dominant)")
     hero = L["hero"] * (0.94 if n >= 4 else 1.0)
     row = []
     for i, (idx, scale) in enumerate(ARRANGE[n]):
@@ -542,6 +579,15 @@ def compose(banner, variant, packs):
         bottom = L["base"] - lift
         placed.append((x - pw * fit / 2 - 26, bottom - ph * fit - 26, x + pw * fit / 2 + 26, bottom + 30))
     pack_rect = (min(r[0] for r in placed), min(r[1] for r in placed), max(r[2] for r in placed), h)
+    person_img = None
+    if person:
+        im = person[0]
+        ph = h * P["height"]
+        maxw = P["slot"][1] - P["slot"][0]
+        scale = min(ph / im.height, maxw / im.width)
+        person_img = im.resize((max(1, int(im.width * scale)), max(1, int(im.height * scale))), Image.LANCZOS)
+        person_xy = (int((P["slot"][0] + P["slot"][1]) / 2 - person_img.width / 2), h - person_img.height)
+        placed.append((person_xy[0] - 10, person_xy[1] - 10, person_xy[0] + person_img.width + 10, h))
     calm = L["calm"]
     spots = []
     tries = 0
@@ -568,12 +614,14 @@ def compose(banner, variant, packs):
             place(front, SPRITES[kind](s), x, y, blur=0, alpha=1.0, angle=rnd.uniform(-40, 40))
     img.alpha_composite(back)
 
-    # --- optional lifestyle person (approved transparent PNG), opposite the packs
-    if banner.get("person") and variant == "desktop":
-        person = Image.open(os.path.join(ROOT, banner["person"])).convert("RGBA")
-        ph = int(h * 0.92)
-        person = person.resize((int(person.width * ph / person.height), ph), Image.LANCZOS)
-        img.alpha_composite(person, (int(L["cx"] - L["zone"] / 2 - person.width), h - ph))
+    # --- optional approved lifestyle person, in its own slot beside the packs (never over them)
+    pack_mask = Image.new("L", (w, h), 0)
+    if person_img is not None:
+        sh = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        cx = person_xy[0] + person_img.width / 2
+        ImageDraw.Draw(sh).ellipse([cx - person_img.width * 0.45, h - 34, cx + person_img.width * 0.45, h + 20], fill=(60, 0, 8, 120))
+        img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(16)))
+        img.alpha_composite(person_img, person_xy)
 
     # --- packs with contact + drop shadows, drawn back (smaller) to front (hero)
     for dx, ph, pw, lift, tilt, im, _ in sorted(boxes, key=lambda b: b[6]):
@@ -595,6 +643,14 @@ def compose(banner, variant, packs):
         ds.alpha_composite(sil, (px + 14, py + 16))
         img.alpha_composite(ds.filter(ImageFilter.GaussianBlur(16)))
         img.alpha_composite(pack, (px, py))
+        pack_mask.paste(pack.getchannel("A"), (px, py), pack.getchannel("A"))
+
+    if person_img is not None:  # the person must never cover or touch a pack
+        pm = Image.new("L", (w, h), 0)
+        pm.paste(person_img.getchannel("A"), person_xy, person_img.getchannel("A"))
+        both = np.minimum(np.asarray(pm), np.asarray(pack_mask)) > 40
+        if both.any():
+            raise SystemExit(f"{banner['id']} ({variant}): the person overlaps a pack ({int(both.sum())} px)")
 
     img.alpha_composite(front)
     return img.convert("RGB")
@@ -629,6 +685,8 @@ def main(only):
                 entry["top"] = "#%02x%02x%02x" % tuple(int(v) for v in top)
             print(f"  -> {name} {im.width}x{im.height} {os.path.getsize(path) // 1024} KB")
         entry["text"] = SCENES[b["scene"]].get("text", "dark")
+        if b.get("person"):
+            entry["person"] = {k: b["person"].get(k) for k in ("file", "source", "license", "mobile")}
         manifest[b["id"]] = entry
     mpath = os.path.join(OUT, "banners.json")
     if only and os.path.exists(mpath):

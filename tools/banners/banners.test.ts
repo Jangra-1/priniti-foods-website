@@ -44,3 +44,21 @@ test("desktop 1600x700 and mobile 1000x700 WebP files exist and stay small", () 
     }
   }
 });
+
+test("lifestyle people (when added) are approved, licensed cut-outs that leave the products dominant", () => {
+  const full = JSON.parse(readFileSync(path.join(ROOT, "tools/banners/banners.json"), "utf8")).banners as {
+    id: string;
+    products: string[];
+    front?: string[];
+    person: null | { file: string; source: string; license: string; mobile?: boolean };
+  }[];
+  for (const b of full) {
+    if (!b.person) continue;
+    assert.ok(b.person.source?.trim() && b.person.license?.trim(), `${b.id}: person needs a source and a licence`);
+    assert.match(b.person.file, /^tools\/banners\/people\/[^/]+\.png$/, `${b.id}: person file must be a PNG in tools/banners/people/`);
+    assert.ok(existsSync(path.join(ROOT, b.person.file)), `${b.id}: ${b.person.file} is missing`);
+    const mainRow = b.products.filter((s) => !(b.front ?? []).includes(s));
+    assert.ok(mainRow.length <= 3, `${b.id}: at most 3 main-row packs with a person`);
+    assert.deepEqual((manifest[b.id] as unknown as { person?: { file: string } }).person?.file, b.person.file, `${b.id}: rebuild the banners after adding a person`);
+  }
+});
