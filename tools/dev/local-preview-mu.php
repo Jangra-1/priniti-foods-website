@@ -42,7 +42,9 @@ add_action(
 		register_post_type( 'product', array( 'public' => true, 'rewrite' => array( 'slug' => 'product' ), 'label' => 'Products' ) );
 		register_taxonomy( 'product_cat', 'product', array( 'public' => true, 'rewrite' => array( 'slug' => 'category' ) ) );
 
-		if ( get_option( 'priniti_dev_seed' ) === '2' ) {
+		// Re-seed whenever catalog.json lists different products (e.g. after `export-catalog.ts --ecomm`).
+		$seed = md5( implode( ',', array_column( priniti_dev_data()['catalog'], 'slug' ) ) );
+		if ( get_option( 'priniti_dev_seed' ) === $seed ) {
 			return;
 		}
 		foreach ( priniti_dev_data()['categories'] as $c ) {
@@ -60,7 +62,7 @@ add_action(
 				wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_name' => $slug, 'post_title' => $title ) );
 			}
 		}
-		update_option( 'priniti_dev_seed', '2' );
+		update_option( 'priniti_dev_seed', $seed );
 		delete_option( 'priniti_rewrite_version' );
 	}
 );
@@ -101,6 +103,11 @@ function priniti_dev_find_variant( int $id ): ?array {
 	return null;
 }
 
+/** Same per-line limit as priniti-core: 3 for single packs (the 1/2/3 selector), otherwise 10. */
+function priniti_dev_max_qty( array $v ): int {
+	return 1 === ( $v['pcs'] ?? null ) ? 3 : 10;
+}
+
 function priniti_dev_cart_response(): WP_REST_Response {
 	$out   = array();
 	$total = 0;
@@ -111,7 +118,12 @@ function priniti_dev_cart_response(): WP_REST_Response {
 			continue;
 		}
 		[ $p, $v ] = $found;
-		$price     = (int) round( ( $v['price'] ?? 0 ) * 100 );
+		$unit      = (float) ( $v['price'] ?? 0 );
+		// Single packs: the real cart prices 2-3 packs with priniti-core's multi-pack rule; use the same function.
+		if ( 1 === ( $v['pcs'] ?? null ) && function_exists( 'priniti_core_multipack_unit_price' ) ) {
+			$unit = priniti_core_multipack_unit_price( (float) $v['unitMrp'], (int) $it['qty'] );
+		}
+		$price     = (int) round( $unit * 100 );
 		$regular   = (int) round( ( $v['mrp'] ?? $v['price'] ?? 0 ) * 100 );
 		$out[]     = array(
 			'key'             => $key,
@@ -122,7 +134,7 @@ function priniti_dev_cart_response(): WP_REST_Response {
 			'images'          => $p['images'] ? array( array( 'src' => $p['images'][0]['src'], 'thumbnail' => $p['images'][0]['src'], 'alt' => $p['images'][0]['alt'] ) ) : array(),
 			'variation'       => $v['attributes'],
 			'item_data'       => ( ! $v['attributes'] && $v['label'] ) ? array( array( 'name' => 'Pack size', 'value' => $v['label'] ) ) : array(),
-			'quantity_limits' => array( 'minimum' => 1, 'maximum' => 10, 'multiple_of' => 1, 'editable' => true ),
+			'quantity_limits' => array( 'minimum' => 1, 'maximum' => priniti_dev_max_qty( $v ), 'multiple_of' => 1, 'editable' => true ),
 			'prices'          => array( 'price' => (string) $price, 'regular_price' => (string) $regular, 'sale_price' => (string) $price, 'currency_minor_unit' => 2 ),
 		);
 		$total += $price * (int) $it['qty'];
@@ -150,8 +162,9 @@ add_action(
 				$items = priniti_dev_cart_items();
 				$key   = 'k' . (int) $r['id'];
 				$qty   = ( $items[ $key ]['qty'] ?? 0 ) + max( 1, (int) $r['quantity'] );
-				if ( $qty > 10 ) {
-					return new WP_Error( 'woocommerce_rest_cart_invalid_quantity', 'You can add up to 10 of each item.', array( 'status' => 400 ) );
+				$max   = priniti_dev_max_qty( $found[1] );
+				if ( $qty > $max ) {
+					return new WP_Error( 'woocommerce_rest_cart_invalid_quantity', ( 3 === $max ? 'You can add up to 3 packs of this size (2 or 3 packs are 12% off).' : sprintf( 'You can add up to %d of each item.', $max ) ), array( 'status' => 400 ) );
 				}
 				$items[ $key ] = array( 'id' => (int) $r['id'], 'qty' => $qty );
 				update_option( 'priniti_dev_cart2', $items );
@@ -164,7 +177,8 @@ add_action(
 			static function ( WP_REST_Request $r ) {
 				$items = priniti_dev_cart_items();
 				if ( isset( $items[ $r['key'] ] ) ) {
-					$items[ $r['key'] ]['qty'] = max( 1, min( 10, (int) $r['quantity'] ) );
+					$found                     = priniti_dev_find_variant( (int) $items[ $r['key'] ]['id'] );
+					$items[ $r['key'] ]['qty'] = max( 1, min( $found ? priniti_dev_max_qty( $found[1] ) : 10, (int) $r['quantity'] ) );
 				}
 				update_option( 'priniti_dev_cart2', $items );
 				return priniti_dev_cart_response();

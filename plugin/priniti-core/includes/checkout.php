@@ -120,9 +120,19 @@ add_action(
 
 add_filter(
 	'woocommerce_quantity_input_max',
-	static fn ( $max ) => ( '' === $max || $max < 0 || $max > PRINITI_CORE_MAX_QTY ) ? PRINITI_CORE_MAX_QTY : $max
+	static function ( $max, $product = null ) {
+		$limit = $product ? priniti_core_max_quantity( $product ) : PRINITI_CORE_MAX_QTY;
+		return ( '' === $max || $max < 0 || $max > $limit ) ? $limit : $max;
+	},
+	10,
+	2
 );
-add_filter( 'woocommerce_store_api_product_quantity_maximum', static fn ( $max ) => min( (int) $max, PRINITI_CORE_MAX_QTY ) );
+add_filter(
+	'woocommerce_store_api_product_quantity_maximum',
+	static fn ( $max, $product = null ) => min( (int) $max, $product ? priniti_core_max_quantity( $product ) : PRINITI_CORE_MAX_QTY ),
+	10,
+	2
+);
 add_filter(
 	'woocommerce_add_to_cart_validation',
 	static function ( $passed, $product_id, $quantity, $variation_id = 0 ) {
@@ -130,15 +140,20 @@ add_filter(
 			return $passed;
 		}
 		$target  = $variation_id ? (int) $variation_id : (int) $product_id;
+		$limit   = priniti_core_max_quantity( wc_get_product( $target ) );
 		$in_cart = 0;
 		foreach ( WC()->cart->get_cart() as $item ) {
 			if ( (int) ( $item['variation_id'] ?: $item['product_id'] ) === $target ) {
 				$in_cart += (int) $item['quantity'];
 			}
 		}
-		if ( $in_cart + (int) $quantity > PRINITI_CORE_MAX_QTY ) {
-			/* translators: %d: maximum quantity per product */
-			wc_add_notice( sprintf( __( 'You can add up to %d of each item.', 'priniti-core' ), PRINITI_CORE_MAX_QTY ), 'error' );
+		if ( $in_cart + (int) $quantity > $limit ) {
+			$message = priniti_core_is_multipack_eligible( wc_get_product( $target ) )
+				/* translators: %d: maximum number of packs */
+				? sprintf( __( 'You can add up to %d packs of this size (2 or 3 packs are 12%% off).', 'priniti-core' ), $limit )
+				/* translators: %d: maximum quantity per product */
+				: sprintf( __( 'You can add up to %d of each item.', 'priniti-core' ), $limit );
+			wc_add_notice( $message, 'error' );
 			return false;
 		}
 		return $passed;

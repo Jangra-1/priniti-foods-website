@@ -23,6 +23,12 @@ final class Priniti_Meta {
 	public const SOURCE_ID      = '_priniti_source_id';      // string         reference id, e.g. "prn-aloo-bhujia" (import idempotency)
 	public const INTERNAL_NOTES = '_priniti_internal_notes'; // string[]       data-quality notes: NEVER rendered on the storefront
 
+	// Sellable unit (product or variation), from the e-commerce item list (see includes/pack-pricing.php).
+	public const MRP        = '_priniti_mrp';        // number  MRP of one piece
+	public const PCS        = '_priniti_pcs';        // int     pieces per sellable unit: 1 = single pack, >1 = "Pack of X"
+	public const WEIGHT     = '_priniti_weight';     // string  net weight of one piece, e.g. "50 g"
+	public const ECOMM_ITEM = '_priniti_ecomm_item'; // string  sheet item name (internal reference, never rendered)
+
 	// Product category (term meta on `product_cat`).
 	public const HIDE_WHEN_EMPTY = 'priniti_hide_when_empty'; // '1' = hidden from navigation and lists until it has products (Combos)
 	public const ORIGIN          = 'priniti_origin';          // 'official' | 'ecommerce'

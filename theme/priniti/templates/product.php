@@ -95,7 +95,7 @@ priniti_json_ld( priniti_product_json_ld( $product ) );
 							<?php foreach ( $labelled as $v ) : ?>
 								<label class="relative cursor-pointer">
 									<input type="radio" name="priniti-pack" value="<?php echo esc_attr( (string) $v['id'] ); ?>" class="peer sr-only" <?php checked( $selected && $selected['id'] === $v['id'] ); ?>>
-									<span class="flex min-h-16 min-w-32 flex-col justify-center rounded-2xl border-2 border-line bg-surface px-4 py-2.5 transition hover:border-ink/40 peer-checked:border-navy peer-checked:bg-navy-tint peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand">
+									<span class="flex min-h-16 min-w-32 flex-col justify-center rounded-2xl border-2 border-line bg-surface py-2.5 pl-4 pr-9 transition hover:border-ink/40 peer-checked:border-navy peer-checked:bg-navy-tint peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand">
 										<span class="font-display text-lg font-bold leading-tight"><?php echo esc_html( $v['label'] ); ?></span>
 										<span class="text-xs text-ink-soft"><?php echo esc_html( priniti_is_purchasable( $v ) ? priniti_format_inr( (float) $v['price'] ) : 'Price coming soon' ); ?></span>
 									</span>
@@ -121,13 +121,7 @@ priniti_json_ld( priniti_product_json_ld( $product ) );
 					?>
 					<div class="flex flex-col gap-5" data-variant-panel="<?php echo esc_attr( (string) ( $v['id'] ?? 0 ) ); ?>" <?php echo $can_buy ? 'data-sticky-price="' . esc_attr( priniti_format_inr( (float) $v['price'] ) ) . '"' : ''; ?> <?php echo $active ? '' : 'hidden'; ?>>
 						<?php if ( $can_buy ) : ?>
-							<div class="border-t border-line pt-5">
-								<?php priniti_price_display( (float) ( $v['mrp'] ?? $v['price'] ), (float) $v['price'], 'lg' ); ?>
-							</div>
-							<div class="flex items-center gap-3">
-								<span class="text-sm font-semibold">Quantity</span>
-								<?php priniti_quantity_selector( $product['name'], $max_qty ); ?>
-							</div>
+							<?php priniti_purchase_options( $product, $v, $max_qty ); ?>
 						<?php else : ?>
 							<div class="flex items-start gap-3 rounded-2xl border border-dashed border-line bg-canvas p-4">
 								<span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-tint text-brand"><?php priniti_the_icon( 'info', 'size-4' ); ?></span>

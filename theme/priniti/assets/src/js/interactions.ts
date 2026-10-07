@@ -245,6 +245,20 @@ function initPurchasePanel() {
       const out = sticky.querySelector("[data-sticky-price-out]");
       if (out) out.textContent = price ?? "Price coming soon";
     };
+    // 1 / 2 / 3 Packs: the choice is the cart quantity (priniti-core applies the multi-pack price in the cart).
+    root.querySelectorAll<HTMLElement>("[data-pack-options]").forEach((group) => {
+      const panel = group.closest<HTMLElement>("[data-variant-panel]");
+      const qty = group.querySelector<HTMLElement>("[data-qty-value]");
+      const total = group.querySelector<HTMLElement>("[data-pack-total-out]");
+      group.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((radio) =>
+        radio.addEventListener("change", () => {
+          if (qty) qty.textContent = radio.value;
+          if (total) total.textContent = radio.dataset.packTotal ?? "";
+          if (panel && radio.dataset.packTotal) panel.dataset.stickyPrice = radio.dataset.packTotal;
+          syncSticky();
+        }),
+      );
+    });
     root.querySelectorAll<HTMLInputElement>('input[name="priniti-pack"]').forEach((radio) =>
       radio.addEventListener("change", () => {
         root.querySelectorAll<HTMLElement>("[data-variant-panel]").forEach((p) => (p.hidden = p.dataset.variantPanel !== radio.value));
