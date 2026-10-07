@@ -1,0 +1,26 @@
+{
+  "source": "https://www.prinitifoods.com/ (official image URLs supplied by the owner, 2026-10-07)",
+  "rules": "Only products listed here get an image. An entry is applied only after its downloaded artwork has been checked visually against the product (verified: true). Products that already have an image keep it.",
+  "products": {
+    "Choco Vanilla Donut Cake": { "url": "https://www.prinitifoods.com/images/choco-vanilla-donut.png", "verified": false, "note": "filename match" },
+    "Strawberry Vanilla Donut Cake": { "url": "https://www.prinitifoods.com/images/Strawberry-vanilla-donut.png", "verified": false, "note": "filename match" },
+    "Chilli Storm": { "url": "https://www.prinitifoods.com/images/chilli-storm.png", "verified": false, "note": "filename match" },
+    "Roll N Roll": { "url": "https://www.prinitifoods.com/new-images/Rollnroll.png", "verified": false, "note": "filename match" },
+    "Manchurian Fried Rice": { "url": "https://www.prinitifoods.com/images/manchurian-fried-rice.png", "verified": false, "note": "filename match" },
+    "Mintoze Baby Ring": { "url": "https://www.prinitifoods.com/images/mintoze.png", "verified": false, "note": "filename match" },
+    "Tomato Katori": { "url": "https://www.prinitifoods.com/images/tomato-katori.png", "verified": false, "note": "filename match" },
+    "Puffcorn": { "url": "https://www.prinitifoods.com/images/puff-corn.png", "verified": false, "note": "filename match" },
+    "Veg Biryani": { "url": "https://www.prinitifoods.com/new-images/Vegbriyani.png", "verified": false, "note": "filename match (spelling 'briyani')" },
+    "Boondi Masala": { "url": "https://www.prinitifoods.com/images/boondi-masala.png", "verified": false, "note": "filename match" },
+    "Cocktail Mix": { "url": "https://www.prinitifoods.com/new-images/Cocktail_mix.png", "verified": false, "note": "filename match" },
+    "Jhatpat Bhel": { "url": "https://www.prinitifoods.com/new-images/jhatpat.png", "verified": false, "note": "filename match" },
+    "Salted Peanuts": { "url": "https://www.prinitifoods.com/images/salted-peenut.png", "verified": false, "note": "filename match (spelling 'peenut'); tasty-penuts.png is Tasty Nuts" },
+    "Bhujia": { "url": "https://www.prinitifoods.com/images/new-bikaneri-bhujia.png", "verified": false, "note": "candidate: Bikaneri Bhujia artwork; alternative images/products/bikaneri-bhujia.png. Confirm the pack is plain bhujia, not Aloo Bhujia" },
+    "Cornflakes": { "url": "https://www.prinitifoods.com/images/cornflakes.png", "verified": false, "note": "candidate; alternative images/products/cornflakes.png. Must be the plain Cornflakes pack" },
+    "Cornflakes Mixture": { "url": "https://www.prinitifoods.com/new-images/Cornflakes-Namkeen.png", "verified": false, "note": "candidate: 'Cornflakes Namkeen' artwork; confirm it reads Cornflakes Mixture" },
+    "Chiji Noodles": { "url": "https://www.prinitifoods.com/new-images/noodles-snacks.jpg", "verified": false, "note": "ambiguous: noodles-snacks.jpg or Noodles.jpg; confirm the pack says Chiji and is not the existing Noodles product" },
+    "Puff Hot Spicy": { "url": "https://www.prinitifoods.com/images/puffs.png", "verified": false, "note": "ambiguous: puffs.png; confirm Hot Spicy flavour (tangy-tomato-puff.png is Puff Tangy Tomato)" },
+    "Potato Chips Spicy Masti": { "url": "https://www.prinitifoods.com/images/products/prd2-chips.png", "verified": false, "note": "ambiguous: prd2-chips.png; confirm Spicy Masti flavour" },
+    "Loopyz": { "url": null, "verified": false, "note": "no URL clearly named for Loopyz; check new-images/mastu.png and images/puffs.png artwork" }
+  }
+}

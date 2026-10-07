@@ -22,6 +22,7 @@
     "test": "tsx --test tools/import/src/ecomm/*.test.ts",
     "ecomm:plan": "NODE_USE_ENV_PROXY=1 tsx tools/import/src/cli.ts ecomm-plan",
     "ecomm:apply": "NODE_USE_ENV_PROXY=1 tsx tools/import/src/cli.ts ecomm-apply",
+    "ecomm:images": "NODE_USE_ENV_PROXY=1 tsx tools/import/src/cli.ts ecomm-images",
     "import:apply": "NODE_USE_ENV_PROXY=1 tsx tools/import/src/cli.ts apply"
   },
   "dependencies": {

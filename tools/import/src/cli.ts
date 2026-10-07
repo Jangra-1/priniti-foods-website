@@ -4,6 +4,7 @@ import { runApply } from "./apply.ts";
 import { runPlan } from "./plan.ts";
 import { runEcommPlan } from "./ecomm/plan.ts";
 import { runEcommApply, verify } from "./ecomm/apply.ts";
+import { applyImages, fetchImages } from "./ecomm/images.ts";
 
 /**
  * Priniti catalog import CLI.
@@ -20,6 +21,9 @@ import { runEcommApply, verify } from "./ecomm/apply.ts";
  *   npm run ecomm:apply                 dry run: print every write it would make
  *   npm run ecomm:apply -- --apply      write prices, packs and missing products (needs PRINITI_IMPORT_ALLOW_WRITE=1)
  *   npm run ecomm:apply -- --verify     read-only: check live prices and pack data against the sheet
+ *   npm run ecomm:images -- fetch --dir D   download and validate the official images (for visual verification)
+ *   npm run ecomm:images -- apply --dir D [--apply]
+ *     assign VERIFIED official images to products without one (dry run unless --apply + PRINITI_IMPORT_ALLOW_WRITE=1)
  */
 const [command, ...flags] = process.argv.slice(2);
 
@@ -53,6 +57,19 @@ async function main() {
       }
       await runEcommApply({ dryRun: !flags.includes("--apply") });
       return;
+    case "ecomm-images": {
+      const dir = flags.includes("--dir") ? flags[flags.indexOf("--dir") + 1] : "build/official-images";
+      if (flags[0] === "fetch") await fetchImages(dir);
+      else if (flags[0] === "apply") {
+        if (flags.includes("--apply") && !importConfig.writesAllowed) {
+          console.error("Refusing to write: --apply needs PRINITI_IMPORT_ALLOW_WRITE=1.");
+          process.exitCode = 1;
+          return;
+        }
+        await applyImages({ dryRun: !flags.includes("--apply"), dir });
+      } else console.error("Usage: ecomm-images fetch|apply [--dir D] [--apply]");
+      return;
+    }
     default:
       console.error("Usage: tsx tools/import/src/cli.ts plan [--offline]");
       process.exitCode = 1;
