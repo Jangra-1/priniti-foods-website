@@ -30,6 +30,25 @@ final class Priniti_Meta {
 	public const ECOMM_ITEM = '_priniti_ecomm_item'; // string  sheet item name (internal reference, never rendered)
 	public const CONTENT_SOURCE = '_priniti_content_source'; // string official product page the content was taken from (internal)
 
+	// Shipping data (product or variation). Only verified values: never derived from the net weight above.
+	public const SHIP_WEIGHT_G = '_priniti_ship_weight_g'; // int   packed weight of one sellable unit in grams, as weighed
+
+	// iThink Logistics shipment (order meta, includes/ithink/). Never holds credentials.
+	public const ITHINK_STATE        = '_priniti_ithink_state';        // pending|created|uncertain|failed|cancelled
+	public const ITHINK_ENV          = '_priniti_ithink_env';          // staging|production the shipment was sent to
+	public const ITHINK_AWB          = '_priniti_ithink_awb';          // AWB (waybill) number
+	public const ITHINK_COURIER      = '_priniti_ithink_courier';      // courier name returned by iThink
+	public const ITHINK_REFNUM       = '_priniti_ithink_refnum';       // iThink order reference
+	public const ITHINK_TRACKING_URL = '_priniti_ithink_tracking_url'; // https tracking link returned by iThink
+	public const ITHINK_LABEL_URL    = '_priniti_ithink_label_url';    // label PDF link
+	public const ITHINK_PACKAGE      = '_priniti_ithink_package';      // JSON {weight_g, length_cm, width_cm, height_cm} sent
+	public const ITHINK_CREATED_AT   = '_priniti_ithink_created_at';   // ISO time the AWB was issued
+	public const ITHINK_STATUS       = '_priniti_ithink_status';       // last tracking status text
+	public const ITHINK_STATUS_CODE  = '_priniti_ithink_status_code';  // last tracking status code (UD, DL, CN, RT ...)
+	public const ITHINK_EXPECTED     = '_priniti_ithink_expected';     // expected delivery date as returned
+	public const ITHINK_SYNCED_AT    = '_priniti_ithink_synced_at';    // ISO time of the last tracking refresh
+	public const ITHINK_ERROR        = '_priniti_ithink_error';        // last error message (redacted)
+
 	// Product category (term meta on `product_cat`).
 	public const HIDE_WHEN_EMPTY = 'priniti_hide_when_empty'; // '1' = hidden from navigation and lists until it has products (Combos)
 	public const ORIGIN          = 'priniti_origin';          // 'official' | 'ecommerce'

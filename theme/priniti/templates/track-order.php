@@ -1,7 +1,8 @@
 <?php
 /**
  * /track-order (reference/nextjs/app/track-order/page.tsx). Looks up a WooCommerce order by order number plus the
- * billing email or mobile (priniti-core) and shows its stage on the order journey.
+ * billing email or mobile (priniti-core) and shows its stage on the order journey, plus the courier, AWB and courier
+ * status once the order has an iThink shipment (only while that integration is enabled).
  *
  * @package Priniti
  */
@@ -38,6 +39,24 @@ priniti_part( 'layout/page-header', array( 'eyebrow' => 'Order status', 'title' 
 					<div class="rounded-xl bg-canvas p-3"><dt class="text-xs font-bold uppercase tracking-wide text-ink-soft">Status</dt><dd class="mt-1 font-semibold"><?php echo esc_html( $order['status'] ); ?></dd></div>
 					<div class="rounded-xl bg-canvas p-3"><dt class="text-xs font-bold uppercase tracking-wide text-ink-soft">Total</dt><dd class="mt-1 font-semibold tabular-nums"><?php echo esc_html( $order['total'] ); ?></dd></div>
 				</dl>
+				<?php if ( ! empty( $order['shipment'] ) ) : ?>
+					<?php $shipment = $order['shipment']; ?>
+					<dl class="mb-6 grid gap-3 text-sm sm:grid-cols-3">
+						<div class="rounded-xl bg-canvas p-3"><dt class="text-xs font-bold uppercase tracking-wide text-ink-soft">Courier</dt><dd class="mt-1 font-semibold"><?php echo esc_html( '' !== $shipment['courier'] ? ucwords( $shipment['courier'] ) : 'Assigned' ); ?></dd></div>
+						<div class="rounded-xl bg-canvas p-3"><dt class="text-xs font-bold uppercase tracking-wide text-ink-soft">Tracking number (AWB)</dt><dd class="mt-1 font-semibold tabular-nums break-all"><?php echo esc_html( $shipment['awb'] ); ?></dd></div>
+						<div class="rounded-xl bg-canvas p-3"><dt class="text-xs font-bold uppercase tracking-wide text-ink-soft">Courier status</dt><dd class="mt-1 font-semibold"><?php echo esc_html( '' !== $shipment['status'] ? $shipment['status'] : 'Awaiting pickup' ); ?></dd></div>
+					</dl>
+					<?php if ( '' !== $shipment['expected'] || '' !== $shipment['url'] ) : ?>
+						<p class="-mt-3 mb-6 text-center text-sm text-ink-soft">
+							<?php if ( '' !== $shipment['expected'] ) : ?>
+								<?php echo esc_html( 'Expected delivery: ' . $shipment['expected'] ); ?>
+							<?php endif; ?>
+							<?php if ( '' !== $shipment['url'] ) : ?>
+								<a class="ml-2 font-semibold text-brand hover:text-brand-dark" href="<?php echo esc_url( $shipment['url'] ); ?>" target="_blank" rel="noopener noreferrer">Track with the courier</a>
+							<?php endif; ?>
+						</p>
+					<?php endif; ?>
+				<?php endif; ?>
 				<?php if ( $order['closed'] ) : ?>
 					<p class="rounded-xl bg-brand-tint px-4 py-3 text-center text-sm font-semibold text-brand"><?php echo esc_html( $order['closed'] ); ?></p>
 				<?php else : ?>

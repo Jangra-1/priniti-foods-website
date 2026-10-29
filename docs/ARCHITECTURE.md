@@ -160,6 +160,7 @@ highlights, then accordions (Ingredients open; Nutrition, Pack sizes, Storage, S
 | `meta-keys.php`, `product-fields.php`, `category-fields.php`, `admin.php` | The design's product fields (highlights, ingredients, nutrition, storage, shipping note, FAQs, pack size and its source, internal notes) with a "Priniti details" tab in the product editor; category flags (hide while empty, cover product); Settings > Priniti (enquiry email). |
 | `cart.php` | "Pack size" on cart lines and orders for single-size products. |
 | `checkout.php` | One "Full name" field (stored as first/last name), Indian mobile and pincode validation, India only, ship to the billing address, no order notes, 10 per line. |
+| `ithink.php`, `ithink/` | iThink Logistics shipments, off by default (`wp-config.php` constants): verified packed weights, manual shipment creation with duplicate protection, label, cancel, tracking on the order screen and `/track-order`, an optional courier-rate shipping method. See `docs/ITHINK.md`. |
 | `forms.php` | Nonce, honeypot, per-IP rate limits, post/redirect/get messages for the storefront forms. |
 | `accounts.php` | Sign in with email or mobile; sign up (WooCommerce customer with name and mobile). |
 | `contact.php`, `newsletter.php` | Enquiries stored privately and emailed; newsletter subscribers stored, with a hook for an email-marketing integration. |

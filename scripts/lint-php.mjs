@@ -1,9 +1,9 @@
-// Syntax-checks every PHP file in the theme and plugin with `php -l`.
+// Syntax-checks every PHP file in the theme, plugin and PHP tests with `php -l`.
 import { execFileSync } from "node:child_process";
 import { readdirSync, statSync } from "node:fs";
 import path from "node:path";
 
-const roots = ["theme/priniti", "plugin/priniti-core"];
+const roots = ["theme/priniti", "plugin/priniti-core", "tests/php"];
 const skip = new Set(["node_modules", "dist", "vendor"]);
 const files = [];
 const walk = (dir) => {

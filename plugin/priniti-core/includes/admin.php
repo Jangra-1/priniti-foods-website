@@ -1,7 +1,7 @@
 <?php
 /**
  * Admin screens: a "Priniti details" tab on the product editor (the design's product fields), category flags on
- * the product category form, and Settings > Priniti (enquiry email).
+ * the product category form, and Settings > Priniti (enquiry email; integrations add sections after the form).
  *
  * List fields are edited one item per line ("Label | value" for nutrition, "Question | Answer" for FAQs).
  *
@@ -215,7 +215,9 @@ add_action(
 				settings_fields( 'priniti_core' );
 				do_settings_sections( 'priniti-core' );
 				submit_button();
-				echo '</form></div>';
+				echo '</form>';
+				do_action( 'priniti_core_settings_after' );
+				echo '</div>';
 			}
 		);
 	}

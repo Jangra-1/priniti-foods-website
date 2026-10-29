@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Priniti Core
  * Plugin URI: https://shop.prinitifoods.com
- * Description: Store data and business logic for the Priniti Foods storefront: product fields, pack sizes, category flags, checkout rules (India, full name, mobile, pincode), sign-in with email or mobile, sign-up, contact enquiries, newsletter, order tracking and journey statuses. Presentation lives in the "priniti" theme.
- * Version: 0.3.1
+ * Description: Store data and business logic for the Priniti Foods storefront: product fields, pack sizes, category flags, checkout rules (India, full name, mobile, pincode), sign-in with email or mobile, sign-up, contact enquiries, newsletter, order tracking and journey statuses, iThink Logistics shipments (off by default). Presentation lives in the "priniti" theme.
+ * Version: 0.4.0
  * Requires at least: 6.4
  * Requires PHP: 8.1
  * Requires Plugins: woocommerce
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'PRINITI_CORE_VERSION', '0.3.1' );
+define( 'PRINITI_CORE_VERSION', '0.4.0' );
 define( 'PRINITI_CORE_FILE', __FILE__ );
 define( 'PRINITI_CORE_DIR', plugin_dir_path( __FILE__ ) );
 
@@ -34,6 +34,7 @@ require_once PRINITI_CORE_DIR . 'includes/newsletter.php';
 require_once PRINITI_CORE_DIR . 'includes/tracking.php';
 require_once PRINITI_CORE_DIR . 'includes/checkout.php';
 require_once PRINITI_CORE_DIR . 'includes/admin.php';
+require_once PRINITI_CORE_DIR . 'includes/ithink.php';
 
 /**
  * Declare compatibility with WooCommerce High-Performance Order Storage (enabled on the live store).

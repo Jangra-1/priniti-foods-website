@@ -131,15 +131,18 @@ function priniti_core_handle_track(): array {
 		'failed'    => 'Payment for this order did not go through. Please contact Customer Care if you need help.',
 	);
 
+	$data = array(
+		'number' => $order->get_order_number(),
+		'date'   => wc_format_datetime( $order->get_date_created() ),
+		'status' => wc_get_order_status_name( $status ),
+		'total'  => wp_strip_all_tags( $order->get_formatted_order_total() ),
+		'stage'  => priniti_core_order_stage( $status ),
+		'closed' => $closed[ $status ] ?? '',
+	);
+
 	return array(
 		'values' => $values,
-		'order'  => array(
-			'number' => $order->get_order_number(),
-			'date'   => wc_format_datetime( $order->get_date_created() ),
-			'status' => wc_get_order_status_name( $status ),
-			'total'  => wp_strip_all_tags( $order->get_formatted_order_total() ),
-			'stage'  => priniti_core_order_stage( $status ),
-			'closed' => $closed[ $status ] ?? '',
-		),
+		// Integrations may add details, e.g. 'shipment' => {courier, awb, status, expected, url} (includes/ithink/track-order.php).
+		'order'  => (array) apply_filters( 'priniti_core_track_order', $data, $order ),
 	);
 }
