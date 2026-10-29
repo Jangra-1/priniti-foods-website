@@ -1,0 +1,613 @@
+{
+ "home-namkeen": {
+  "kind": "home",
+  "category": "indian-traditional-namkeen",
+  "scene": "namkeen",
+  "products": [
+   {
+    "slug": "bhujia",
+    "name": "Bhujia",
+    "categories": [
+     "indian-traditional-namkeen"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-bhujia-official.png"
+   },
+   {
+    "slug": "aloo-bhujia",
+    "name": "Aloo Bhujia",
+    "categories": [
+     "indian-traditional-namkeen"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-aloo-bhujia-1.webp"
+   },
+   {
+    "slug": "bombay-mix",
+    "name": "Bombay Mix",
+    "categories": [
+     "indian-traditional-namkeen"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-bombay-mix-1.webp"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "home-namkeen-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 82530
+   },
+   "mobile": {
+    "file": "home-namkeen-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 78528
+   }
+  },
+  "top": "#f9b726",
+  "text": "dark"
+ },
+ "home-chips": {
+  "kind": "home",
+  "category": "potato-chips",
+  "scene": "chips",
+  "products": [
+   {
+    "slug": "chips-classic-salted",
+    "name": "Potato Chips Classic Salted",
+    "categories": [
+     "potato-chips"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-chips-classic-salted-1.webp"
+   },
+   {
+    "slug": "chips-cream-n-onion",
+    "name": "Potato Chips Cream ‘n’ Onion",
+    "categories": [
+     "potato-chips"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-chips-cream-n-onion-1.webp"
+   },
+   {
+    "slug": "chips-masala-punch",
+    "name": "Potato Chips Masala Punch",
+    "categories": [
+     "potato-chips"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-chips-masala-punch-1.webp"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "home-chips-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 82952
+   },
+   "mobile": {
+    "file": "home-chips-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 82794
+   }
+  },
+  "top": "#fac237",
+  "text": "dark"
+ },
+ "home-cookies": {
+  "kind": "home",
+  "category": "cookies",
+  "scene": "cookies-home",
+  "products": [
+   {
+    "slug": "ajwain-cookies",
+    "name": "Ajwain Cookies",
+    "categories": [
+     "cookies"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-ajwain-cookies-1.webp"
+   },
+   {
+    "slug": "jeera-cookies",
+    "name": "Jeera Cookies",
+    "categories": [
+     "cookies"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-jeera-cookies-1.webp"
+   },
+   {
+    "slug": "kaju-cookies",
+    "name": "Kaju Cookies",
+    "categories": [
+     "cookies"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-kaju-cookies-1.webp"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "home-cookies-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 72874
+   },
+   "mobile": {
+    "file": "home-cookies-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 68854
+   }
+  },
+  "top": "#f2b05c",
+  "text": "dark"
+ },
+ "category-indian-traditional-namkeen": {
+  "kind": "category",
+  "category": "indian-traditional-namkeen",
+  "scene": "namkeen-festive",
+  "products": [
+   {
+    "slug": "navratan-mixture",
+    "name": "Navratan Mixture",
+    "categories": [
+     "indian-traditional-namkeen"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-navratan-mixture-1.webp"
+   },
+   {
+    "slug": "kaju-mixture",
+    "name": "Kaju Mixture",
+    "categories": [
+     "indian-traditional-namkeen"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-kaju-mixture-1.webp"
+   },
+   {
+    "slug": "bhujia",
+    "name": "Bhujia",
+    "categories": [
+     "indian-traditional-namkeen"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-bhujia-official.png"
+   },
+   {
+    "slug": "cornflakes-mixture",
+    "name": "Cornflakes Mixture",
+    "categories": [
+     "indian-traditional-namkeen"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-cornflakes-mixture-official.png"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "category-indian-traditional-namkeen-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 89864
+   },
+   "mobile": {
+    "file": "category-indian-traditional-namkeen-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 89990
+   }
+  },
+  "top": "#f09d23",
+  "text": "dark"
+ },
+ "category-potato-chips": {
+  "kind": "category",
+  "category": "potato-chips",
+  "scene": "chips-party",
+  "products": [
+   {
+    "slug": "chips-tomato-punch",
+    "name": "Potato Chips Tomato Punch",
+    "categories": [
+     "potato-chips"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-chips-tomato-punch-1.webp"
+   },
+   {
+    "slug": "potato-chips-spicy-masti",
+    "name": "Potato Chips Spicy Masti",
+    "categories": [
+     "potato-chips"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-potato-chips-spicy-masti-official.png"
+   },
+   {
+    "slug": "chips-classic-salted",
+    "name": "Potato Chips Classic Salted",
+    "categories": [
+     "potato-chips"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-chips-classic-salted-1.webp"
+   },
+   {
+    "slug": "chips-cream-n-onion",
+    "name": "Potato Chips Cream ‘n’ Onion",
+    "categories": [
+     "potato-chips"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-chips-cream-n-onion-1.webp"
+   },
+   {
+    "slug": "chips-masala-punch",
+    "name": "Potato Chips Masala Punch",
+    "categories": [
+     "potato-chips"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-chips-masala-punch-1.webp"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "category-potato-chips-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 74270
+   },
+   "mobile": {
+    "file": "category-potato-chips-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 76870
+   }
+  },
+  "top": "#fcbf49",
+  "text": "dark"
+ },
+ "category-charchare-sticks": {
+  "kind": "category",
+  "category": "charchare-sticks",
+  "scene": "charchare",
+  "products": [
+   {
+    "slug": "charchare-mast-masala",
+    "name": "CharChare Mast Masala",
+    "categories": [
+     "charchare-sticks"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-charchare-mast-masala-1.webp"
+   },
+   {
+    "slug": "charchare-tangy-tomato",
+    "name": "CharChare Tangy Tomato",
+    "categories": [
+     "charchare-sticks"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-charchare-tangy-tomato-1.webp"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "category-charchare-sticks-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 76874
+   },
+   "mobile": {
+    "file": "category-charchare-sticks-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 69910
+   }
+  },
+  "top": "#f78a1d",
+  "text": "dark"
+ },
+ "category-popcorn": {
+  "kind": "category",
+  "category": "popcorn",
+  "scene": "popcorn",
+  "products": [
+   {
+    "slug": "popcorn-butter-salted",
+    "name": "Popcorn Butter Salted",
+    "categories": [
+     "popcorn"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-popcorn-butter-salted-1.webp"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "category-popcorn-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 42318
+   },
+   "mobile": {
+    "file": "category-popcorn-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 39716
+   }
+  },
+  "top": "#700b1e",
+  "text": "light"
+ },
+ "category-puffs-fryums": {
+  "kind": "category",
+  "category": "puffs-fryums",
+  "scene": "puffs",
+  "products": [
+   {
+    "slug": "jungle-masti",
+    "name": "Jungle Masti",
+    "categories": [
+     "puffs-fryums"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-jungle-masti-1.webp"
+   },
+   {
+    "slug": "puffcorn",
+    "name": "Puffcorn",
+    "categories": [
+     "puffs-fryums"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-puffcorn-official.png"
+   },
+   {
+    "slug": "roll-n-roll",
+    "name": "Roll N Roll",
+    "categories": [
+     "puffs-fryums"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-roll-n-roll-official.png"
+   },
+   {
+    "slug": "chilli-storm",
+    "name": "Chilli Storm",
+    "categories": [
+     "puffs-fryums"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-chilli-storm-official.png"
+   },
+   {
+    "slug": "veg-biryani",
+    "name": "Veg Biryani",
+    "categories": [
+     "puffs-fryums"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-veg-biryani-official.png"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "category-puffs-fryums-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 73232
+   },
+   "mobile": {
+    "file": "category-puffs-fryums-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 76590
+   }
+  },
+  "top": "#feb133",
+  "text": "dark"
+ },
+ "category-ringo-star-rings": {
+  "kind": "category",
+  "category": "ringo-star-rings",
+  "scene": "ringo",
+  "products": [
+   {
+    "slug": "ringo-star-tangy-tomato",
+    "name": "Ringo Star Tangy Tomato",
+    "categories": [
+     "ringo-star-rings"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-ringo-star-tangy-tomato-1.webp"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "category-ringo-star-rings-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 59576
+   },
+   "mobile": {
+    "file": "category-ringo-star-rings-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 55000
+   }
+  },
+  "top": "#feb039",
+  "text": "dark"
+ },
+ "category-rusk": {
+  "kind": "category",
+  "category": "rusk",
+  "scene": "rusk",
+  "products": [
+   {
+    "slug": "rusk",
+    "name": "Rusk",
+    "categories": [
+     "rusk"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-rusk-1.webp"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "category-rusk-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 40082
+   },
+   "mobile": {
+    "file": "category-rusk-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 35436
+   }
+  },
+  "top": "#f8c87f",
+  "text": "dark"
+ },
+ "category-sweets": {
+  "kind": "category",
+  "category": "sweets",
+  "scene": "sweets",
+  "products": [
+   {
+    "slug": "soan-papdi",
+    "name": "Soan Papdi",
+    "categories": [
+     "sweets"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-soan-papdi-1.webp"
+   },
+   {
+    "slug": "besan-ladoo",
+    "name": "Besan Ladoo",
+    "categories": [
+     "sweets"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-besan-ladoo-1.webp"
+   },
+   {
+    "slug": "panjeeri-ladoo",
+    "name": "Panjeeri Ladoo",
+    "categories": [
+     "sweets"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-panjeeri-ladoo-1.webp"
+   },
+   {
+    "slug": "rasgulla",
+    "name": "Rasgulla",
+    "categories": [
+     "sweets"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-rasgulla-1.webp"
+   },
+   {
+    "slug": "gulab-jamun",
+    "name": "Gulab Jamun",
+    "categories": [
+     "sweets"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-gulab-jamun-1.webp"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "category-sweets-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 64462
+   },
+   "mobile": {
+    "file": "category-sweets-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 61942
+   }
+  },
+  "top": "#ed8724",
+  "text": "dark"
+ },
+ "category-cookies": {
+  "kind": "category",
+  "category": "cookies",
+  "scene": "cookies",
+  "products": [
+   {
+    "slug": "badam-cookies",
+    "name": "Badam Cookies",
+    "categories": [
+     "cookies"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-badam-cookies-1.webp"
+   },
+   {
+    "slug": "atta-cookies",
+    "name": "Atta Cookies",
+    "categories": [
+     "cookies"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-atta-cookies-1.webp"
+   },
+   {
+    "slug": "coconut-cookies",
+    "name": "Coconut Cookies",
+    "categories": [
+     "cookies"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-coconut-cookies-1.webp"
+   },
+   {
+    "slug": "kaju-cookies",
+    "name": "Kaju Cookies",
+    "categories": [
+     "cookies"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-kaju-cookies-1.webp"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "category-cookies-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 73314
+   },
+   "mobile": {
+    "file": "category-cookies-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 73772
+   }
+  },
+  "top": "#e9ad61",
+  "text": "dark"
+ },
+ "category-donut-cakes": {
+  "kind": "category",
+  "category": "donut-cakes",
+  "scene": "donut",
+  "products": [
+   {
+    "slug": "choco-vanilla-donut-cake",
+    "name": "Choco Vanilla Donut Cake",
+    "categories": [
+     "donut-cakes"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-choco-vanilla-donut-cake-official.png"
+   },
+   {
+    "slug": "strawberry-vanilla-donut-cake",
+    "name": "Strawberry Vanilla Donut Cake",
+    "categories": [
+     "donut-cakes"
+    ],
+    "image": "https://shop.prinitifoods.com/wp-content/uploads/2026/10/priniti-strawberry-vanilla-donut-cake-official.png"
+   }
+  ],
+  "files": {
+   "desktop": {
+    "file": "category-donut-cakes-desktop.webp",
+    "width": 1600,
+    "height": 700,
+    "bytes": 62110
+   },
+   "mobile": {
+    "file": "category-donut-cakes-mobile.webp",
+    "width": 1000,
+    "height": 700,
+    "bytes": 59916
+   }
+  },
+  "top": "#f695b5",
+  "text": "dark"
+ }
+}
